@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { set, del } from 'object-path-immutable'
 import './index.css'
+import { connect } from '@holochain/hc-web-client'
 
 import { UserHeader } from './components/UserHeader'
 import { UserList } from './components/UserList'
@@ -193,6 +194,7 @@ class View extends React.Component {
   }
 
   componentDidMount() {
+    
   }
 
   render() {
