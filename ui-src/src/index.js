@@ -1,6 +1,5 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { set } from 'object-path-immutable'
 import './index.css'
 import { connect } from '@holochain/hc-web-client'
 
@@ -76,6 +75,7 @@ class View extends React.Component {
         console.log('message posted', result)
         this.actions.getMessages(roomId)
         this.actions.getMessages(roomId) // hack for now
+        this.actions.scrollToEnd()
       })
     },
 
@@ -159,30 +159,31 @@ class View extends React.Component {
     // Cursors
     // --------------------------------------
 
-    setCursor: (roomId, position) =>
-      this.state.user
-        .setReadCursor({ roomId, position: parseInt(position) })
-        .then(x => this.forceUpdate()),
+    setCursor: (roomId, position) => {
+      // this.state.user
+      //   .setReadCursor({ roomId, position: parseInt(position) })
+      //   .then(x => this.forceUpdate())
+    },
 
     // --------------------------------------
     // Messages
     // --------------------------------------
 
-    addMessage: payload => {
-      const roomId = payload.room.id
-      const messageId = payload.id
-      // Update local message cache with new message
-      this.setState(set(this.state, ['messages', roomId, messageId], payload))
-      // Update cursor if the message was read
-      if (roomId === this.state.room.id) {
-        const cursor = this.state.user.readCursor({ roomId }) || {}
-        const cursorPosition = cursor.position || 0
-        cursorPosition < messageId && this.actions.setCursor(roomId, messageId)
-        this.actions.scrollToEnd()
-      }
-      // Send notification
-      this.actions.showNotification(payload)
-    },
+    // addMessage: payload => {
+    //   const roomId = payload.room.id
+    //   const messageId = payload.id
+    //   // Update local message cache with new message
+    //   this.setState(set(this.state, ['messages', roomId, messageId], payload))
+    //   // Update cursor if the message was read
+    //   if (roomId === this.state.room.id) {
+    //     const cursor = this.state.user.readCursor({ roomId }) || {}
+    //     const cursorPosition = cursor.position || 0
+    //     cursorPosition < messageId && this.actions.setCursor(roomId, messageId)
+    //     this.actions.scrollToEnd()
+    //   }
+    //   // Send notification
+    //   this.actions.showNotification(payload)
+    // },
 
     scrollToEnd: e =>
       setTimeout(() => {
