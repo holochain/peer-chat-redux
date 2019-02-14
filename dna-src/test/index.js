@@ -23,9 +23,19 @@ const testMessage = {
   meta: "{}",
 }
 
+
+scenario.runTape('Can register a profile and retrieve', async (t, {alice}) => {
+  const register_result = await alice.callSync('chat', 'register', {name: 'alice', avatar_url: ''})
+  console.log(register_result)
+  t.true(register_result.Ok.includes('alice'))
+
+  const get_profile_result = await alice.callSync('chat', 'get_member_profile', {agent_address: register_result.Ok})
+  console.log(get_profile_result)
+})
+
 scenario.runTape('Can create a public stream with no other members and retrieve it', async (t, {alice}) => {
  
-  const register_result = await alice.callSync('chat', 'register', {})
+  const register_result = await alice.callSync('chat', 'register', {name: 'alice', avatar_url: ''})
   console.log(register_result)
   t.true(register_result.Ok.includes('alice'))
 
@@ -46,7 +56,7 @@ scenario.runTape('Can create a public stream with no other members and retrieve 
 
 scenario.runTape('Can post a message to the stream and retrieve', async (t, {alice}) => {
 
-  const register_result = await alice.callSync('chat', 'register', {})
+  const register_result = await alice.callSync('chat', 'register', {name: 'alice', avatar_url: ''})
   console.log(register_result)
   t.true(register_result.Ok.includes('alice'))
 
@@ -70,7 +80,7 @@ scenario.runTape('Can post a message to the stream and retrieve', async (t, {ali
 
 scenario.runTape('Can create a public stream with some members', async (t, {alice}) => {
 
-  const register_result = await alice.callSync('chat', 'register', {})
+  const register_result = await alice.callSync('chat', 'register', {name: 'alice', avatar_url: ''})
   console.log(register_result)
   t.true(register_result.Ok.includes('alice'))
 

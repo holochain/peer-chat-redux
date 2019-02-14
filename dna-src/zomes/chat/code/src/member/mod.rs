@@ -12,42 +12,29 @@ pub mod handlers;
 #[derive(Serialize, Deserialize, Debug, Clone, DefaultJson)]
 pub struct Member {
     pub address: Address,
-    pub profile: StoreProfile
+    pub profile: Profile
 }
 
 // This is the full profile that can be requested for a member
 #[derive(Serialize, Deserialize, Debug, Clone, DefaultJson)]
 pub struct Profile {
-    handle: String,
-    email: String,
-    avatar: String,
-    timezone: String,
-    name: String,
-    life_force: u32,
-    role: Option<String>
+    pub name: String,
+    pub avatar_url: String,
 }
 
-// This is the personal data that chat stores in the DHT
-#[derive(Serialize, Deserialize, Debug, Clone, DefaultJson)]
-pub struct StoreProfile {
-    pub handle: String,
-    pub email: String,
-    pub avatar: String,
-    pub timezone: String
-}
 
 pub fn profile_definition() -> ValidatingEntryType {
     entry!(
         name: "chat_profile",
         description: "The data that chat has about a particular user",
         sharing: Sharing::Public,
-        native_type: StoreProfile,
+        native_type: Profile,
 
         validation_package: || {
             hdk::ValidationPackageDefinition::Entry
         },
 
-        validation: |_profile: StoreProfile, _ctx: hdk::ValidationData| {
+        validation: |_profile: Profile, _ctx: hdk::ValidationData| {
             Ok(())
         },
 
