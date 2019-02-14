@@ -1,0 +1,80 @@
+.component {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  background: #fff;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  width: 24rem;
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.component > li {
+  flex: none;
+  display: flex;
+  align-items: center;
+  color: rgba(0, 0, 0, 0.38);
+  font-weight: bold;
+  font-size: 1rem;
+  padding: 1rem;
+  cursor: pointer;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.component .hint {
+  border: 0;
+}
+
+.component .hint > div {
+  text-align: center;
+  font-size: .9rem;
+  width: 100%;
+  font-weight: 400;
+}
+
+.component .hint > div > span {
+  background: #F4F5F7;
+  border-radius: 3px;
+  padding: 1px 3px;
+  display: inline-block;
+  box-sizing: border-box;
+}
+
+.component .hint:hover {
+  background: transparent;
+  cursor: default;
+}
+
+.component > li:hover {
+  background: rgba(0, 0, 0, 0.015);
+}
+
+.component li > img {
+  width: 1.38rem;
+  height: 1.38rem;
+  border-radius: 0.1rem;
+  margin-right: 0.62rem;
+}
+
+.online::after {
+  display: block;
+  content: '';
+  width: 0.62rem;
+  height: 0.62rem;
+  background: #42b72a;
+  border-radius: 50%;
+  margin-left: auto;
+}
+
+@media (max-width: 1000px) {
+  .component {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 18rem;
+    box-shadow: 0 0.38rem 0.62rem rgba(0, 0, 0, 0.1);
+    max-height: 62vh;
+  }
+}

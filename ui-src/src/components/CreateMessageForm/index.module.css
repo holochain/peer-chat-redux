@@ -1,0 +1,35 @@
+.component {
+  flex: none;
+  position: relative;
+  display: flex;
+  align-items: center;
+  border-top: 1px solid #e0e0e0;
+  height: 3.6rem;
+  display: flex;
+  width: 100%;
+}
+
+.component input:first-child {
+  flex: 1 1 100%;
+  padding: 1rem;
+  border: 0;
+  font-size: 1rem;
+}
+
+.component button {
+  position: relative;
+  border: 0;
+  background: #fff;
+  padding: 0;
+  cursor: pointer;
+}
+
+.component > * {
+  margin-right: 0.62rem;
+}
+
+.component svg {
+  width: 2rem;
+  height: 2rem;
+  fill: #006eff;
+}

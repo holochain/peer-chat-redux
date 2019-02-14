@@ -1,0 +1,52 @@
+.component {
+  border-bottom: 1px solid #e0e0e0;
+  z-index: 1;
+  flex: none;
+  display: flex;
+  align-items: center;
+  padding: 0.62rem;
+  height: 4.8rem;
+}
+
+.component button {
+  background: transparent;
+  border: 0;
+  padding: 0;
+}
+
+.component h1 {
+  font-size: 1.38rem;
+  color: rgba(0, 0, 0, 0.62);
+  margin: auto;
+}
+
+.component span {
+  color: rgba(0, 0, 0, 0.62);
+}
+
+.component div {
+  display: flex;
+  align-items: center;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  align-self: center;
+  padding: 0.62rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.component div > * + * {
+  margin-left: 0.38rem;
+}
+
+.component svg {
+  width: 1.8rem;
+  height: 1.8rem;
+  fill: rgba(0, 0, 0, 0.38);
+}
+
+@media (min-width: 640px) {
+  .component button {
+    display: none;
+  }
+}
