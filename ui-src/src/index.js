@@ -23,6 +23,7 @@ class View extends React.Component {
     holochainConnection: connect("ws://localhost:3400"),
     user: {},
     room: {},
+    rooms: [],
     messages: {},
     sidebarOpen: false,
     userListOpen: window.innerWidth > 1000,
@@ -68,8 +69,22 @@ class View extends React.Component {
         hooks: { onMessage: this.actions.addMessage },
       }),
 
-    createRoom: options =>
-      this.state.user.createRoom(options).then(this.actions.joinRoom),
+    createRoom: options => {
+      console.log(options)
+      const roomSpec = {
+        name: options.name,
+        description: '',
+        initial_members: [],
+        public: !options.private
+      }
+      this.makeHolochainCall('holo-chat/chat/create_stream', roomSpec, (result) => {
+        console.log(result)
+        this.actions.setRoom({
+          id: result.Ok,
+          name: options.name
+        })
+      })
+    },
 
     createConvo: options => {
       if (options.user.id !== this.state.user.id) {
@@ -149,6 +164,7 @@ class View extends React.Component {
     const {
       user,
       room,
+      rooms,
       messages,
       sidebarOpen,
       userListOpen,
@@ -161,7 +177,7 @@ class View extends React.Component {
           <UserHeader user={user} />
           <RoomList
             user={user}
-            rooms={user.rooms}
+            rooms={rooms}
             messages={messages}
             current={room}
             actions={this.actions}
