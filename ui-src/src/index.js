@@ -54,20 +54,12 @@ class View extends React.Component {
 
     joinRoom: room => {
       this.actions.setRoom(room)
-      this.actions.subscribeToRoom(room)
       this.state.messages[room.id] &&
         this.actions.setCursor(
           room.id,
           Object.keys(this.state.messages[room.id]).pop()
         )
     },
-
-    subscribeToRoom: room =>
-      !this.state.user.roomSubscriptions[room.id] &&
-      this.state.user.subscribeToRoom({
-        roomId: room.id,
-        hooks: { onMessage: this.actions.addMessage },
-      }),
 
     createRoom: options => {
       console.log(options)
@@ -85,20 +77,7 @@ class View extends React.Component {
           users: []
         })
 
-        this.makeHolochainCall('holo-chat/chat/get_all_public_streams', {}, (result) => {
-          console.log(result)
-          let rooms = result.Ok.map(({address, entry}) => {
-            return {
-              id: address,
-              private: !entry.public,
-              name: entry.name,
-              users: []
-            }
-          })
-          this.setState({
-            rooms
-          })
-        })
+        this.actions.getRooms()
 
       })
     },
@@ -124,6 +103,23 @@ class View extends React.Component {
       this.state.user
         .addUserToRoom({ userId, roomId })
         .then(this.actions.setRoom),
+
+    getRooms: () => {
+        this.makeHolochainCall('holo-chat/chat/get_all_public_streams', {}, (result) => {
+          console.log(result)
+          let rooms = result.Ok.map(({address, entry}) => {
+            return {
+              id: address,
+              private: !entry.public,
+              name: entry.name,
+              users: []
+            }
+          })
+          this.setState({
+            rooms
+          })
+        })
+    },
 
 
     // --------------------------------------
@@ -167,6 +163,7 @@ class View extends React.Component {
   componentDidMount() {
     this.makeHolochainCall('holo-chat/chat/register', {}, result => {
       this.actions.setUser({ id: result.Ok })
+      this.actions.getRooms()
       console.log(result)
     })
   }
