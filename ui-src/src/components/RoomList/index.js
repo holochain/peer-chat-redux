@@ -1,6 +1,5 @@
 import React from 'react'
 import style from './index.module.css'
-import { dots } from '../TypingIndicator/index.module.css'
 
 const Icon = id => (
   <svg>
@@ -27,7 +26,6 @@ export const RoomList = ({
   user,
   messages,
   current,
-  typing,
   actions,
 }) => (
   <ul className={style.component}>
@@ -54,15 +52,6 @@ export const RoomList = ({
             <p>{room.name.replace(user.id, '')}</p>
             <span>{latestMessage && latestMessage.text}</span>
           </col->
-          {room.id !== current.id && unreadCount ? (
-            <label>{unreadCount}</label>
-          ) : Object.keys(typing[room.id] || {}).length > 0 ? (
-            <div className={dots}>
-              {[0, 1, 2].map(x => (
-                <div key={x} />
-              ))}
-            </div>
-          ) : null}
         </li>
       )
     })}

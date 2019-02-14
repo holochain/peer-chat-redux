@@ -7,7 +7,6 @@ import { connect } from '@holochain/hc-web-client'
 import { UserHeader } from './components/UserHeader'
 import { UserList } from './components/UserList'
 import { MessageList } from './components/MessageList'
-import { TypingIndicator } from './components/TypingIndicator'
 import { CreateMessageForm } from './components/CreateMessageForm'
 import { RoomList } from './components/RoomList'
 import { RoomHeader } from './components/RoomHeader'
@@ -151,15 +150,6 @@ class View extends React.Component {
         elem && (elem.scrollTop = 100000)
       }, 0),
 
-    // --------------------------------------
-    // Typing Indicators
-    // --------------------------------------
-
-    isTyping: (room, user) =>
-      this.setState(set(this.state, ['typing', room.id, user.id], true)),
-
-    notTyping: (room, user) =>
-      this.setState(del(this.state, ['typing', room.id, user.id])),
 
     // --------------------------------------
     // Presence
@@ -193,8 +183,9 @@ class View extends React.Component {
     },
   }
 
+
   componentDidMount() {
-    
+    'Notification' in window && Notification.requestPermission()
   }
 
   render() {
@@ -202,7 +193,6 @@ class View extends React.Component {
       user,
       room,
       messages,
-      typing,
       sidebarOpen,
       userListOpen,
     } = this.state
@@ -216,7 +206,6 @@ class View extends React.Component {
             user={user}
             rooms={user.rooms}
             messages={messages}
-            typing={typing}
             current={room}
             actions={this.actions}
           />
@@ -230,9 +219,7 @@ class View extends React.Component {
                 <MessageList
                   user={user}
                   messages={messages[room.id]}
-                  createConvo={createConvo}
                 />
-                <TypingIndicator typing={typing[room.id]} />
                 <CreateMessageForm state={this.state} actions={this.actions} />
               </col->
               {userListOpen && (
@@ -240,7 +227,6 @@ class View extends React.Component {
                   room={room}
                   current={user.id}
                   createConvo={createConvo}
-                  removeUser={removeUserFromRoom}
                 />
               )}
             </row->
