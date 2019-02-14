@@ -27,7 +27,7 @@ pub fn get_links_and_load<S: Into<String>>(
 	Ok(get_links_result.addresses()
 	.iter()
 	.map(|address| {
-		hdk::get_entry(address.to_owned())
+		hdk::get_entry(&address.to_owned())
 		.map(|entry: Option<Entry>| {
 			GetLinksLoadElement{
 				address: address.to_owned(),
