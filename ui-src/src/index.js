@@ -49,6 +49,7 @@ class View extends React.Component {
     setRoom: room => {
       this.setState({ room, sidebarOpen: false })
       this.actions.getMessages(room.id)
+      this.actions.getRoomMembers(room.id)
       this.actions.scrollToEnd()
     },
 
@@ -61,10 +62,21 @@ class View extends React.Component {
         )
     },
 
+    getRoomMembers: roomId => {
+      this.makeHolochainCall('holo-chat/chat/get_members', {
+          stream_address: roomId,
+        }, (result) => {
+          console.log(result)
+          this.setState({
+            room: {...this.state.room, users: result.Ok}
+          })
+        })
+    },
+
     sendMessage: ({text, roomId}) => {
       const message = {
         message_type: 'text',
-        timestamp: 0,
+        timestamp: Math.floor(Date.now() / 1000),
         payload: text,
         meta: ''
       }
@@ -111,6 +123,7 @@ class View extends React.Component {
           name: options.name,
           users: []
         })
+        this.actions.getRooms()
         this.actions.getRooms()
       })
     },
