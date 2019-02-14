@@ -3,7 +3,7 @@ import style from './index.module.css'
 
 export const CreateMessageForm = ({
   state: { user = {}, room = {}, message = '' },
-  actions: { runCommand },
+  actions: { sendMessage, runCommand },
 }) =>
   room.id ? (
     <form
@@ -21,7 +21,7 @@ export const CreateMessageForm = ({
 
         message.startsWith('/')
           ? runCommand(message.slice(1))
-          : user.sendMessage({
+          : sendMessage({
               text: message,
               roomId: room.id,
             })
@@ -29,7 +29,6 @@ export const CreateMessageForm = ({
     >
       <input
         placeholder="Type a Message.."
-        onInput={e => user.isTypingIn({ roomId: room.id })}
       />
       <button type="submit">
         <svg>
