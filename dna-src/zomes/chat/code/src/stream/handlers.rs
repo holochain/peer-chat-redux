@@ -76,17 +76,8 @@ pub fn handle_get_my_streams() -> ZomeApiResult<utils::GetLinksLoadResult<Stream
 }
 
 
-pub fn handle_get_members(address: HashString) -> ZomeApiResult<Vec<member::Member>> {
-    let all_member_ids = hdk::get_links(&address, "has_member").map(|links| {
-        links.addresses().iter().map(|addr| {
-            let profile = member::handlers::handle_get_profile(addr.to_owned()).unwrap();
-            member::Member{
-                address: addr.clone(),
-                profile: profile
-            }
-        }).collect()
-    })?;
-
+pub fn handle_get_members(address: HashString) -> ZomeApiResult<Vec<Address>> {
+    let all_member_ids = hdk::get_links(&address, "has_member")?.addresses().to_owned();
     Ok(all_member_ids)
 }
 
