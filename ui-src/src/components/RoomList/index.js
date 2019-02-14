@@ -7,19 +7,6 @@ const Icon = id => (
   </svg>
 )
 
-const unreads = (user, room, messages = {}) => {
-  const read = user.readCursor({ roomId: room.id })
-  return (
-    (read && Object.keys(messages).filter(x => x > read.position).length) ||
-    undefined
-  )
-}
-
-const priority = (user, room, messages = {}) => {
-  const unreadMessages = unreads(user, room, messages) || 0
-  const lastMessage = Object.keys(messages).pop() || 0
-  return (10 * unreadMessages + parseInt(lastMessage)) * -1
-}
 
 export const RoomList = ({
   rooms = [],
@@ -34,13 +21,11 @@ export const RoomList = ({
       const latestMessage =
         messageKeys.length > 0 && messages[room.id][messageKeys.pop()]
       const firstUser = room.users.find(x => x.id !== user.id)
-      const order = priority(user, room, messages[room.id])
       return (
         <li
           key={room.id}
           disabled={room.id === current.id}
           onClick={e => actions.joinRoom(room)}
-          style={{ order }}
         >
           {room.name.match(user.id) && firstUser ? (
             <img src={firstUser.avatarURL} alt={firstUser.id} />

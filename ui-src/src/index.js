@@ -81,8 +81,25 @@ class View extends React.Component {
         console.log(result)
         this.actions.setRoom({
           id: result.Ok,
-          name: options.name
+          name: options.name,
+          users: []
         })
+
+        this.makeHolochainCall('holo-chat/chat/get_all_public_streams', {}, (result) => {
+          console.log(result)
+          let rooms = result.Ok.map(({address, entry}) => {
+            return {
+              id: address,
+              private: !entry.public,
+              name: entry.name,
+              users: []
+            }
+          })
+          this.setState({
+            rooms
+          })
+        })
+
       })
     },
 
