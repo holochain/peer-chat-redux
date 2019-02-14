@@ -3,9 +3,8 @@
   "version": "1.0.0",
   "description": "A Holochain app (hApp) that you can add your own hApps to.",
   "scripts": {
-    "hc:start": "mkdir -p tmp-storage && holochain_container -c ./container-config.toml",
-    "hc:build-chat": "rm -rf tmp-storage && mkdir -p dna && cd dna-src/holo-chat && hc package --output ../../dna/holo-chat.hcpkg --strip-meta",
-    "hc:test-chat": "cd dna-src/holo-chat && hc test"
+    "hc:start": "mkdir -p tmp-storage && holochain -c ./container-config.toml",
+    "hc:build": "rm -rf tmp-storage && mkdir -p dna && cd dna-src && hc package --output ../dna/holo-chat.hcpkg --strip-meta"
   },
   "repository": {
     "type": "git",

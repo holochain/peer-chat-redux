@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { set, del } from 'object-path-immutable'
+import { set } from 'object-path-immutable'
 import './index.css'
 import { connect } from '@holochain/hc-web-client'
 
@@ -20,10 +20,10 @@ import { JoinRoomScreen } from './components/JoinRoomScreen'
 
 class View extends React.Component {
   state = {
+    holochainConnection: connect("ws://localhost:3400"),
     user: {},
     room: {},
     messages: {},
-    typing: {},
     sidebarOpen: false,
     userListOpen: window.innerWidth > 1000,
   }
@@ -50,8 +50,6 @@ class View extends React.Component {
       this.setState({ room, sidebarOpen: false })
       this.actions.scrollToEnd()
     },
-
-    removeRoom: room => this.setState({ room: {} }),
 
     joinRoom: room => {
       this.actions.setRoom(room)
@@ -95,12 +93,6 @@ class View extends React.Component {
         .addUserToRoom({ userId, roomId })
         .then(this.actions.setRoom),
 
-    removeUserFromRoom: ({ userId, roomId = this.state.room.id }) =>
-      userId === this.state.user.id
-        ? this.state.user.leaveRoom({ roomId })
-        : this.state.user
-            .removeUserFromRoom({ userId, roomId })
-            .then(this.actions.setRoom),
 
     // --------------------------------------
     // Cursors
@@ -131,61 +123,26 @@ class View extends React.Component {
       this.actions.showNotification(payload)
     },
 
-    runCommand: command => {
-      const commands = {
-        invite: ([userId]) => this.actions.addUserToRoom({ userId }),
-        remove: ([userId]) => this.actions.removeUserFromRoom({ userId }),
-        leave: ([userId]) =>
-          this.actions.removeUserFromRoom({ userId: this.state.user.id }),
-      }
-      const name = command.split(' ')[0]
-      const args = command.split(' ').slice(1)
-      const exec = commands[name]
-      exec && exec(args).catch(console.log)
-    },
-
     scrollToEnd: e =>
       setTimeout(() => {
         const elem = document.querySelector('#messages')
         elem && (elem.scrollTop = 100000)
       }, 0),
 
-
-    // --------------------------------------
-    // Presence
-    // --------------------------------------
-
-    setUserPresence: () => this.forceUpdate(),
-
-    // --------------------------------------
-    // Notifications
-    // --------------------------------------
-
-    showNotification: message => {
-      if (
-        'Notification' in window &&
-        this.state.user.id &&
-        this.state.user.id !== message.senderId &&
-        document.visibilityState === 'hidden'
-      ) {
-        const notification = new Notification(
-          `New Message from ${message.sender.id}`,
-          {
-            body: message.text,
-            icon: message.sender.avatarURL,
-          }
-        )
-        notification.addEventListener('click', e => {
-          this.actions.joinRoom(message.room)
-          window.focus()
-        })
-      }
-    },
   }
 
 
   componentDidMount() {
-    'Notification' in window && Notification.requestPermission()
+    this.makeHolochainCall('holo-chat/chat/register', {}, result => {
+      this.actions.setUser({ id: result.Ok })
+      console.log(result)
+    })
+  }
+
+  makeHolochainCall(callString, params, callback) {
+    this.state.holochainConnection.then(({call}) => {
+      call(callString)(params).then((result) => callback(JSON.parse(result)))
+    })
   }
 
   render() {
@@ -196,7 +153,7 @@ class View extends React.Component {
       sidebarOpen,
       userListOpen,
     } = this.state
-    const { createRoom, createConvo, removeUserFromRoom } = this.actions
+    const { createRoom, createConvo } = this.actions
 
     return (
       <main>

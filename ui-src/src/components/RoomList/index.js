@@ -35,7 +35,6 @@ export const RoomList = ({
         messageKeys.length > 0 && messages[room.id][messageKeys.pop()]
       const firstUser = room.users.find(x => x.id !== user.id)
       const order = priority(user, room, messages[room.id])
-      const unreadCount = unreads(user, room, messages[room.id])
       return (
         <li
           key={room.id}
