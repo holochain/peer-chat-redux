@@ -9,7 +9,6 @@ use hdk::holochain_core_types::{
 
 use crate::stream::{
     Stream,
-    Subject,
 };
 
 use crate::member::{
@@ -85,11 +84,7 @@ pub fn handle_get_messages(address: HashString) -> ZomeApiResult<utils::GetLinks
     utils::get_links_and_load_type(&address, "message_in")
 }
 
-pub fn handle_get_subjects(address: HashString) -> ZomeApiResult<utils::GetLinksLoadResult<Subject>> {
-    utils::get_links_and_load_type(&address, "stream_subject")
-}
-
-pub fn handle_post_message(stream_address: HashString, message_spec: message::MessageSpec, subjects: Vec<String>) -> ZomeApiResult<()> {
+pub fn handle_post_message(stream_address: HashString, message_spec: message::MessageSpec) -> ZomeApiResult<()> {
 
     let message = message::Message::from_spec(
         &message_spec,
@@ -103,16 +98,6 @@ pub fn handle_post_message(stream_address: HashString, message_spec: message::Me
     let message_addr = hdk::commit_entry(&message_entry)?;
 
     hdk::link_entries(&stream_address, &message_addr, "message_in")?;
-
-    for subject in subjects {
-        let subject_entry = Entry::App(
-            AppEntryType::from("subject"),
-            AppEntryValue::from(Subject{name: subject.to_owned(), stream_address: stream_address.clone()})
-        );
-        let subject_address = hdk::commit_entry(&subject_entry)?;
-        hdk::link_entries(&subject_address, &message_addr, "message_in")?;
-        hdk::link_entries(&stream_address, &subject_address, "stream_subject")?;
-    }
 
     Ok(())
 }

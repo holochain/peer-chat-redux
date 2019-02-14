@@ -32,7 +32,6 @@ define_zome! {
 		message::message_definition(),
     	stream::public_stream_definition(),
     	stream::direct_stream_definition(),
-        stream::subject_anchor_definition(),
         member::profile_definition(),
         anchor::anchor_definition()
 	]
@@ -86,7 +85,7 @@ define_zome! {
 			handler: stream::handlers::handle_join_stream
 		}
 		post_message: {
-			inputs: |stream_address: HashString, message: message::MessageSpec, subjects: Vec<String>|,
+			inputs: |stream_address: HashString, message: message::MessageSpec|,
 			outputs: |result: ZomeApiResult<()>|,
 			handler: stream::handlers::handle_post_message
 		}
@@ -95,11 +94,6 @@ define_zome! {
 			outputs: |result: ZomeApiResult<utils::GetLinksLoadResult<message::Message>>|,
 			handler: stream::handlers::handle_get_messages
 		}
-        get_subjects: {
-            inputs: |stream_address: HashString|,
-            outputs: |result: ZomeApiResult<utils::GetLinksLoadResult<stream::Subject>>|,
-            handler: stream::handlers::handle_get_subjects
-        }
 	]
 
 	 traits: {

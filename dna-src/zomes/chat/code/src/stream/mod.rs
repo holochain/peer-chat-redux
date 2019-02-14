@@ -6,7 +6,6 @@ use hdk::{
 };
 
 use hdk::holochain_core_types::{
-    hash::HashString,
     dna::entry_types::Sharing,
     cas::content::Address,
 };
@@ -21,13 +20,6 @@ pub struct Stream {
     pub description: String,
     pub public: bool
 }
-
-#[derive(Serialize, Deserialize, Debug, Clone, DefaultJson)]
-pub struct Subject {
-    pub name: String,
-    pub stream_address: HashString,
-}
-
 
 
 
@@ -62,18 +54,6 @@ pub fn public_stream_definition() -> ValidatingEntryType {
             from!(
                 "%agent_id",
                 tag: "member_of",
-
-                validation_package: || {
-                    hdk::ValidationPackageDefinition::Entry
-                },
-
-                validation: |_base: Address, _target: Address, _ctx: hdk::ValidationData| {
-                    Ok(())
-                }
-            ),
-            to!(
-                "subject",
-                tag: "stream_subject",
 
                 validation_package: || {
                     hdk::ValidationPackageDefinition::Entry
@@ -139,50 +119,6 @@ pub fn direct_stream_definition() -> ValidatingEntryType {
                     Ok(())
                 }
             ),
-            to!(
-                "subject",
-                tag: "stream_subject",
-
-                validation_package: || {
-                    hdk::ValidationPackageDefinition::Entry
-                },
-
-                validation: |_base: Address, _target: Address, _ctx: hdk::ValidationData| {
-                    Ok(())
-                }
-            ),
-            to!(
-                "message",
-                tag: "message_in",
-
-                validation_package: || {
-                    hdk::ValidationPackageDefinition::Entry
-                },
-
-                validation: |_base: Address, _target: Address, _ctx: hdk::ValidationData| {
-                    Ok(())
-                }
-            )
-        ]
-    )
-}
-
-pub fn subject_anchor_definition() -> ValidatingEntryType {
-    entry!(
-        name: "subject",
-        description: "A way messages within a stream are grouped",
-        sharing: Sharing::Public,
-        native_type: Subject,
-
-        validation_package: || {
-            hdk::ValidationPackageDefinition::Entry
-        },
-
-        validation: |_subject: Subject, _ctx: hdk::ValidationData| {
-            Ok(())
-        },
-
-        links: [
             to!(
                 "message",
                 tag: "message_in",
