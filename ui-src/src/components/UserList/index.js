@@ -1,14 +1,14 @@
 import React from 'react'
 import style from './index.module.css'
 
-export const UserList = ({ room, current, createConvo }) => (
+export const UserList = ({ room, current, users }) => (
   <ul className={style.component}>
     {room.users.map(user => (
       <li
-        key={user.id}
+        key={user}
       >
-        <img src={user.avatarURL} alt={user.name} />
-        <p>{user.name}</p>
+        <img src={users[user] ? users[user].avatar_url : ''} alt={users[user] ? users[user].name : '?'} />
+        <p>{users[user] ? users[user].name : '?'}</p>
       </li>
     ))}
   </ul>

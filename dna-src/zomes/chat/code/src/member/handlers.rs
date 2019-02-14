@@ -17,8 +17,8 @@ use crate::member::Profile;
 use crate::utils;
 
 
-pub fn get_my_member_id() -> Address {
-    Address::from(AGENT_ADDRESS.to_string())
+pub fn handle_get_my_member_id() -> ZomeApiResult<Address> {
+    Ok(Address::from(AGENT_ADDRESS.to_string()))
 }
 
 pub fn handle_register(name: String, avatar_url: String) -> ZomeApiResult<Address> {

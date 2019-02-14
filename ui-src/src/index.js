@@ -21,6 +21,7 @@ class View extends React.Component {
   state = {
     holochainConnection: connect("ws://localhost:3400"),
     user: {},
+    users: {},
     room: {},
     rooms: [],
     messages: {},
@@ -67,8 +68,15 @@ class View extends React.Component {
           stream_address: roomId,
         }, (result) => {
           console.log(result)
+
+          const users = result.Ok
+
+          users.forEach(address => {
+            this.actions.getUserProfile(address)
+          })
+
           this.setState({
-            room: {...this.state.room, users: result.Ok}
+            room: {...this.state.room, users}
           })
         })
     },
@@ -85,8 +93,8 @@ class View extends React.Component {
         message,
       }, (result) => {
         console.log('message posted', result)
-        this.actions.getMessages(roomId)
-        this.actions.getMessages(roomId) // hack for now
+        
+        setTimeout(() => this.actions.getMessages(roomId), 1000); // hack for now
         this.actions.scrollToEnd()
       })
     },
@@ -124,25 +132,16 @@ class View extends React.Component {
           users: []
         })
         this.actions.getRooms()
-        this.actions.getRooms()
       })
     },
 
-    createConvo: options => {
-      if (options.user.id !== this.state.user.id) {
-        const exists = this.state.user.rooms.find(
-          x =>
-            x.name === options.user.id + this.state.user.id ||
-            x.name === this.state.user.id + options.user.id
-        )
-        exists
-          ? this.actions.joinRoom(exists)
-          : this.actions.createRoom({
-              name: this.state.user.id + options.user.id,
-              addUserIds: [options.user.id],
-              private: true,
-            })
-      }
+    getUserProfile: userId => {
+      this.makeHolochainCall('holo-chat/chat/get_member_profile', { agent_address: userId }, (result) => {
+        console.log(result)
+        this.setState({
+          users: {...this.state.users, [userId]: result.Ok}
+        })
+      })
     },
 
     addUserToRoom: ({ userId, roomId = this.state.room.id }) =>
@@ -208,10 +207,20 @@ class View extends React.Component {
 
 
   componentDidMount() {
-    this.makeHolochainCall('holo-chat/chat/register', {}, result => {
-      this.actions.setUser({ id: result.Ok })
-      this.actions.getRooms()
+
+    // this.makeHolochainCall('holo-chat/chat/get_my_member_id', {}, (result) => {
+    //   console.log(result)
+    // })
+
+    const registrationData = {
+      name: "wollum", 
+      avatar_url: "https://avatars3.githubusercontent.com/u/6880154?s=460&v=4.jpeg"
+    }
+
+    this.makeHolochainCall('holo-chat/chat/register', registrationData, result => {
       console.log(result)
+      this.actions.setUser({ id: result.Ok, name: registrationData.name, avatarURL: registrationData.avatar_url })
+      this.actions.getRooms()
     })
   }
 
@@ -224,13 +233,14 @@ class View extends React.Component {
   render() {
     const {
       user,
+      users,
       room,
       rooms,
       messages,
       sidebarOpen,
       userListOpen,
     } = this.state
-    const { createRoom, createConvo } = this.actions
+    const { createRoom } = this.actions
 
     return (
       <main>
@@ -252,6 +262,7 @@ class View extends React.Component {
               <col->
                 <MessageList
                   user={user}
+                  users={users}
                   messages={messages[room.id]}
                 />
                 <CreateMessageForm state={this.state} actions={this.actions} />
@@ -260,7 +271,7 @@ class View extends React.Component {
                 <UserList
                   room={room}
                   current={user.id}
-                  createConvo={createConvo}
+                  users={users}
                 />
               )}
             </row->

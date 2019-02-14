@@ -1,5 +1,6 @@
 
 use hdk::error::ZomeApiResult;
+use hdk::AGENT_ADDRESS;
 use hdk::holochain_core_types::{
     hash::HashString,
     entry::{entry_type::AppEntryType, AppEntryValue, Entry},
@@ -11,12 +12,9 @@ use crate::stream::{
     Stream,
 };
 
-use crate::member::{
-    handlers::get_my_member_id
-};
+
 use crate::utils;
 use crate::message;
-use crate::member;
 
 pub fn handle_create_stream(
     name: String,
@@ -39,7 +37,7 @@ pub fn handle_create_stream(
     };
 
     let stream_address = hdk::commit_entry(&entry)?;
-    utils::link_entries_bidir(&get_my_member_id(), &stream_address, "member_of", "has_member")?;
+    utils::link_entries_bidir(&AGENT_ADDRESS, &stream_address, "member_of", "has_member")?;
     
     for member in initial_members {
         utils::link_entries_bidir(&member, &stream_address, "member_of", "has_member")?;
@@ -66,12 +64,12 @@ pub fn handle_add_members(stream_address: HashString, members: Vec<Address>) -> 
 }
 
 pub fn handle_join_stream(stream_address: HashString) -> ZomeApiResult<()> {
-    utils::link_entries_bidir(&member::handlers::get_my_member_id(), &stream_address, "member_of", "has_member")?;
+    utils::link_entries_bidir(&AGENT_ADDRESS, &stream_address, "member_of", "has_member")?;
     Ok(())
 }
 
 pub fn handle_get_my_streams() -> ZomeApiResult<utils::GetLinksLoadResult<Stream>> {
-    utils::get_links_and_load_type(&get_my_member_id(), "member_of")
+    utils::get_links_and_load_type(&AGENT_ADDRESS, "member_of")
 }
 
 
@@ -88,7 +86,7 @@ pub fn handle_post_message(stream_address: HashString, message_spec: message::Me
 
     let message = message::Message::from_spec(
         &message_spec,
-        &member::handlers::get_my_member_id().to_string());
+        &AGENT_ADDRESS.to_string());
 
     let message_entry = Entry::App(
         AppEntryType::from("message"),
