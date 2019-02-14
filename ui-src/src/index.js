@@ -12,6 +12,7 @@ import { RoomHeader } from './components/RoomHeader'
 import { CreateRoomForm } from './components/CreateRoomForm'
 import { WelcomeScreen } from './components/WelcomeScreen'
 import { JoinRoomScreen } from './components/JoinRoomScreen'
+import { RegisterScreen } from './components/RegisterScreen'
 
 // --------------------------------------
 // Application
@@ -276,7 +277,7 @@ class View extends React.Component {
               )}
             </row->
           ) : user.id ? (
-            <JoinRoomScreen />
+            <RegisterScreen />
           ) : (
             <WelcomeScreen message="Connecting to Holochain..." />
           )}

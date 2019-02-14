@@ -1,7 +1,7 @@
 import React from 'react'
 import style from './index.module.css'
 
-export const JoinRoomScreen = () => (
+export const RegisterScreen = ({ message }) => (
   <section>
     <div className={style.component}>
       <span role="img" aria-label="post">
@@ -14,8 +14,18 @@ export const JoinRoomScreen = () => (
         </svg>
       </span>
       <p>
-        Join a room from the left or create a new room using the field on the bottom left
+        It looks like this is the first time using chat with this agent.
+        Register a handle and avatar for this agent ID.
       </p>
+      <form>
+        <input placeholder="input @handle"/>
+        <br/>
+        <input placeholder="paste url for avatar image"/>
+        <br/>
+        <button type="submit">
+          Register!
+        </button>
+      </form>
     </div>
   </section>
 )

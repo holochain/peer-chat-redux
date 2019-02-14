@@ -9,7 +9,7 @@ export const UserHeader = ({ user = {} }) => (
     <img src={user.avatarURL || placeholder} alt={user.name} />
     <div>
       <h3>{user.name}</h3>
-      <h5>{user.id && `@${user.id}`}</h5>
+      <h5>{user.id && `@${user.id.substring(0,15)}`}</h5>
     </div>
   </header>
 )
