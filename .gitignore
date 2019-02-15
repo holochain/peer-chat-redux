@@ -3,7 +3,6 @@
 # dependencies
 
 ui-src/build
-ui
 
 # testing
 /coverage
@@ -11,7 +10,6 @@ ui-src/coverage
 
 # production
 /build
-/dna
 foo
 tmp-storage/cas
 tmp-storage/eav
