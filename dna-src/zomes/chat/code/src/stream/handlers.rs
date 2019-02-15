@@ -46,6 +46,11 @@ pub fn handle_create_stream(
     Ok(stream_address)
 }
 
+pub fn handle_join_stream(stream_address: HashString) -> ZomeApiResult<()> {
+    utils::link_entries_bidir(&AGENT_ADDRESS, &stream_address, "member_of", "has_member")?;
+    Ok(())
+}
+
 pub fn handle_get_members(address: HashString) -> ZomeApiResult<Vec<Address>> {
     let all_member_ids = hdk::get_links(&address, "has_member")?.addresses().to_owned();
     Ok(all_member_ids)

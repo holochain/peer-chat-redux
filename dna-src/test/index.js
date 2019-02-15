@@ -48,7 +48,7 @@ scenario.runTape('Can create a public stream with no other members and retrieve 
   let allMembers = get_all_members_result.Ok
   t.true(allMembers.length > 0, 'gets at least one member')
   
-  const get_result = await alice.callSync('chat', 'get_my_streams', {})
+  const get_result = await alice.callSync('chat', 'get_all_public_streams', {})
   console.log(get_result)
   t.deepEqual(get_result.Ok.length, 1)
 
@@ -65,7 +65,7 @@ scenario.runTape('Can post a message to the stream and retrieve', async (t, {ali
   const stream_addr = create_result.Ok
   t.deepEqual(stream_addr.length, 46)
 
-  const get_result = await alice.callSync('chat', 'get_my_streams', {})
+  const get_result = await alice.callSync('chat', 'get_all_public_streams', {})
   console.log(get_result)
   t.deepEqual(get_result.Ok.length, 1)
 

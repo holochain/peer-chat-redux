@@ -66,6 +66,7 @@ class View extends React.Component {
           room.id,
           Object.keys(this.state.messages[room.id]).pop()
         )
+      this.makeHolochainCall('holo-chat/chat/join_stream', {stream_address: room.id}, () => {})
     },
 
     getRoomMembers: roomId => {
