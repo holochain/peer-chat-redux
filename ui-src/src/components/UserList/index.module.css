@@ -58,6 +58,14 @@
   margin-right: 0.62rem;
 }
 
+.component h5 {
+  font-size: 0.8rem;
+  margin: 0;
+  margin-top: 0.2rem;
+  font-weight: normal;
+  color: rgba(0, 0, 0, 0.38);
+}
+
 .online::after {
   display: block;
   content: '';

@@ -9,6 +9,7 @@ export const UserList = ({ room, current, users }) => (
       >
         <img src={users[user] ? users[user].avatar_url : ''} />
         <p>{users[user] ? users[user].name : '?'}</p>
+        <h5>&nbsp;| {user && `@${user.substring(0,15)}`}</h5>
       </li>
     ))}
   </ul>
