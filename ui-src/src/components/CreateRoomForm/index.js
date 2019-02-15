@@ -15,7 +15,6 @@ export const CreateRoomForm = ({ submit }) => (
 
       submit({
         name,
-        private: false,
       })
       e.target[0].value = ''
     }}

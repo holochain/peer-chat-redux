@@ -126,8 +126,7 @@ class View extends React.Component {
       const roomSpec = {
         name: options.name,
         description: '',
-        initial_members: [],
-        public: !options.private
+        initial_members: []
       }
       this.makeHolochainCall('holo-chat/chat/create_stream', roomSpec, (result) => {
         console.log(result)
@@ -291,7 +290,7 @@ class View extends React.Component {
           ) : connected ? (
             user.id ? <JoinRoomScreen /> : <RegisterScreen registerUser={registerUser}/>
           ) : (
-            <WelcomeScreen message="Connecting to Holochain..." />
+            <WelcomeScreen message="Connecting to Holochain... Make sure the conductor is running and try refreshing the page" />
           )}
         </section>
       </main>

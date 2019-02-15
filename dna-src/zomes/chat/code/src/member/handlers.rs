@@ -4,7 +4,7 @@ use hdk::{
     holochain_core_types::{
         entry::Entry,
         json::{RawString},
-        cas::content::{Address, AddressableContent},
+        cas::content::Address,
 
     },
     error::{
@@ -15,11 +15,6 @@ use hdk::{
 
 use crate::member::Profile;
 use crate::utils;
-
-
-pub fn handle_get_my_member_id() -> ZomeApiResult<Address> {
-    Ok(Address::from(AGENT_ADDRESS.to_string()))
-}
 
 pub fn handle_register(name: String, avatar_url: String) -> ZomeApiResult<Address> {
     let anchor_entry = Entry::App(
@@ -56,13 +51,4 @@ pub fn handle_get_member_profile(agent_address: Address) -> ZomeApiResult<Profil
 
 pub fn handle_get_my_member_profile() -> ZomeApiResult<Profile> {
     handle_get_member_profile(AGENT_ADDRESS.to_string().into())
-}
-
-pub fn handle_get_all_members() -> ZomeApiResult<Vec<Address>> {
-    let anchor = Entry::App(
-        "anchor".into(),
-        RawString::from("member_directory").into(),
-    );
-
-    Ok(hdk::get_links(&anchor.address(), "member_tag")?.addresses().to_owned())
 }

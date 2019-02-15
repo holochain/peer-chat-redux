@@ -39,15 +39,15 @@ scenario.runTape('Can create a public stream with no other members and retrieve 
   console.log(register_result)
   t.true(register_result.Ok.includes('alice'))
 
-  const get_all_members_result = await alice.callSync('chat', 'get_all_members', {})
-  console.log('all members:', get_all_members_result)
-  let allMembers = get_all_members_result.Ok
-  t.true(allMembers.length > 0, 'gets at least one member')
-
   const create_result = await alice.callSync('chat', 'create_stream', testNewChannelParams)
   console.log(create_result)
   t.deepEqual(create_result.Ok.length, 46)
 
+  const get_all_members_result = await alice.callSync('chat', 'get_members', {stream_address: create_result.Ok})
+  console.log('all members:', get_all_members_result)
+  let allMembers = get_all_members_result.Ok
+  t.true(allMembers.length > 0, 'gets at least one member')
+  
   const get_result = await alice.callSync('chat', 'get_my_streams', {})
   console.log(get_result)
   t.deepEqual(get_result.Ok.length, 1)
@@ -84,14 +84,14 @@ scenario.runTape('Can create a public stream with some members', async (t, {alic
   console.log(register_result)
   t.true(register_result.Ok.includes('alice'))
 
-  const get_all_members_result = await alice.callSync('chat', 'get_all_members', {})
-  console.log('all members:', get_all_members_result)
-  let allMemberAddrs = get_all_members_result.Ok
-  t.true(allMemberAddrs.length > 0, 'gets at least one member')
-
   const create_result = await alice.callSync('chat', 'create_stream', {...testNewChannelParams, public: false, initial_members: allMemberAddrs})
   console.log(create_result)
   t.deepEqual(create_result.Ok.length, 46)
+
+  const get_all_members_result = await alice.callSync('chat', 'get_members', {stream_address: create_result.Ok})
+  console.log('all members:', get_all_members_result)
+  let allMemberAddrs = get_all_members_result.Ok
+  t.true(allMemberAddrs.length > 0, 'gets at least one member')
 })
 
 
