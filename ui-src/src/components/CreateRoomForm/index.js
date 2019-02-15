@@ -9,20 +9,20 @@ export const CreateRoomForm = ({ submit }) => (
 
       const name = e.target[0].value
 
-        if (name.length === 0) {
-          return
-        }
+      if (name.length === 0) {
+        return
+      }
 
       submit({
-        name,
+        name
       })
       e.target[0].value = ''
     }}
   >
-    <input placeholder="Create a Room" />
-    <button type="submit">
+    <input placeholder='Create a Room' />
+    <button type='submit'>
       <svg>
-        <use xlinkHref="index.svg#add" />
+        <use xlinkHref='index.svg#add' />
       </svg>
     </button>
   </form>

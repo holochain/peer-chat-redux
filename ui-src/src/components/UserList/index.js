@@ -7,9 +7,9 @@ export const UserList = ({ room, current, users }) => (
       <li
         key={user}
       >
-        <img src={users[user] ? users[user].avatar_url : ''} alt=''/>
+        <img src={users[user] ? users[user].avatar_url : ''} alt='' />
         <p>{users[user] ? users[user].name : '?'}</p>
-        <h5>&nbsp;| {user && `@${user.substring(0,15)}`}</h5>
+        <h5>&nbsp;| {user && `@${user.substring(0, 15)}`}</h5>
       </li>
     ))}
   </ul>

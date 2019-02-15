@@ -7,13 +7,12 @@ const Icon = id => (
   </svg>
 )
 
-
 export const RoomList = ({
   rooms = [],
   user,
   messages,
   current,
-  actions,
+  actions
 }) => (
   <ul className={style.component}>
     {rooms.map(room => {

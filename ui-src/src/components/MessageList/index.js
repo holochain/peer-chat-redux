@@ -4,7 +4,7 @@ import { Message } from '../Message'
 
 const emptyList = (
   <div className={style.empty}>
-    <span role="img" aria-label="post">
+    <span role='img' aria-label='post'>
       📝
     </span>
     <h2>No Messages Yet</h2>
@@ -13,7 +13,7 @@ const emptyList = (
 )
 
 export const MessageList = ({ messages = {}, user, users, createConvo }) => (
-  <ul id="messages" className={style.component}>
+  <ul id='messages' className={style.component}>
     {Object.keys(messages).length > 0 ? (
       <wrapper->
         {Object.keys(messages)
