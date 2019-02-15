@@ -13,7 +13,9 @@ ui-src/coverage
 /build
 /dna
 foo
-tmp-storage
+tmp-storage/cas
+tmp-storage/eav
+
 
 # misc
 .DS_Store
