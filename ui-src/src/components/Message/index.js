@@ -2,8 +2,8 @@ import React from 'react'
 import style from './index.module.css'
 import Linkify from 'react-linkify'
 
-const time = string => {
-  const date = new Date(string)
+const time = timestamp => {
+  const date = new Date(timestamp*1000)
   const minutes = date.getMinutes()
   return `${date.getHours()}:${minutes < 10 ? '0' + minutes : minutes}`
 }
