@@ -20,6 +20,7 @@ pub struct Member {
 pub struct Profile {
     pub name: String,
     pub avatar_url: String,
+    pub address: Address,
 }
 
 

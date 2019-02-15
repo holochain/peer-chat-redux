@@ -1,7 +1,7 @@
 import React from 'react'
 import style from './index.module.css'
 
-export const RegisterScreen = ({ message }) => (
+export const RegisterScreen = ({ registerUser }) => (
   <section>
     <div className={style.component}>
       <span role="img" aria-label="post">
@@ -17,7 +17,22 @@ export const RegisterScreen = ({ message }) => (
         It looks like this is the first time using chat with this agent.
         Register a handle and avatar for this agent ID.
       </p>
-      <form>
+      <form
+      onSubmit={e => {
+        e.preventDefault()
+
+        const name = e.target[0].value
+        const avatarURL = e.target[0].value
+
+        if (name.length === 0) {
+          return
+        }
+        registerUser({
+          name,
+          avatarURL,
+        })
+       }}
+      >
         <input placeholder="input @handle"/>
         <br/>
         <input placeholder="paste url for avatar image"/>

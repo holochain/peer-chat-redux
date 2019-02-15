@@ -35,6 +35,7 @@ pub fn handle_register(name: String, avatar_url: String) -> ZomeApiResult<Addres
         Profile {
             name,
             avatar_url,
+            address: AGENT_ADDRESS.to_string().into()
         }.into()
     );
     let profile_addr = hdk::commit_entry(&profile_entry)?;
@@ -51,6 +52,10 @@ pub fn handle_get_member_profile(agent_address: Address) -> ZomeApiResult<Profil
         .map(|elem: &utils::GetLinksLoadElement<Profile>| {
             elem.entry.clone()
         })
+}
+
+pub fn handle_get_my_member_profile() -> ZomeApiResult<Profile> {
+    handle_get_member_profile(AGENT_ADDRESS.to_string().into())
 }
 
 pub fn handle_get_all_members() -> ZomeApiResult<Vec<Address>> {

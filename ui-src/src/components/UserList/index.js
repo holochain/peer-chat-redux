@@ -7,7 +7,7 @@ export const UserList = ({ room, current, users }) => (
       <li
         key={user}
       >
-        <img src={users[user] ? users[user].avatar_url : ''} alt={users[user] ? users[user].name : '?'} />
+        <img src={users[user] ? users[user].avatar_url : ''} />
         <p>{users[user] ? users[user].name : '?'}</p>
       </li>
     ))}

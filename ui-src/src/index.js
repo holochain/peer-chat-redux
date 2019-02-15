@@ -21,6 +21,7 @@ import { RegisterScreen } from './components/RegisterScreen'
 class View extends React.Component {
   state = {
     holochainConnection: connect("ws://localhost:3400"),
+    connected: false,
     user: {},
     users: {},
     room: {},
@@ -42,7 +43,10 @@ class View extends React.Component {
     // User
     // --------------------------------------
 
-    setUser: user => this.setState({ user }),
+    setUser: user => {
+      this.setState({ user })
+      this.actions.getRooms()
+    },
 
     // --------------------------------------
     // Room
@@ -167,6 +171,13 @@ class View extends React.Component {
         })
     },
 
+    registerUser: ({name, avatarURL}) => {
+      this.makeHolochainCall('holo-chat/chat/register', {name, avatar_url: avatarURL}, result => {
+        console.log(result)
+        this.actions.setUser({id: result.Ok, name, avatarURL})
+      })
+    },
+
 
     // --------------------------------------
     // Cursors
@@ -208,21 +219,19 @@ class View extends React.Component {
 
 
   componentDidMount() {
-
-    // this.makeHolochainCall('holo-chat/chat/get_my_member_id', {}, (result) => {
-    //   console.log(result)
-    // })
-
-    const registrationData = {
-      name: "wollum", 
-      avatar_url: "https://avatars3.githubusercontent.com/u/6880154?s=460&v=4.jpeg"
-    }
-
-    this.makeHolochainCall('holo-chat/chat/register', registrationData, result => {
-      console.log(result)
-      this.actions.setUser({ id: result.Ok, name: registrationData.name, avatarURL: registrationData.avatar_url })
-      this.actions.getRooms()
+    this.state.holochainConnection.then(({call}) => {
+      call('holo-chat/chat/get_my_member_profile')({}).then((result) => {
+        const profile = JSON.parse(result).Ok
+        if (profile) {
+          console.log('registration user found with profile:', profile)
+          this.actions.setUser({ id: profile.address, name: profile.name, avatarURL: profile.avatar_url })
+        } else {
+          console.log('User has not registered a profile. Complete the form to proceed')
+        }
+        this.setState({connected: true})
+      })
     })
+
   }
 
   makeHolochainCall(callString, params, callback) {
@@ -240,8 +249,11 @@ class View extends React.Component {
       messages,
       sidebarOpen,
       userListOpen,
+      connected,
     } = this.state
-    const { createRoom } = this.actions
+    const { createRoom, registerUser } = this.actions
+
+
 
     return (
       <main>
@@ -276,8 +288,8 @@ class View extends React.Component {
                 />
               )}
             </row->
-          ) : user.id ? (
-            <RegisterScreen />
+          ) : connected ? (
+            user.id ? <JoinRoomScreen /> : <RegisterScreen registerUser={registerUser}/>
           ) : (
             <WelcomeScreen message="Connecting to Holochain..." />
           )}

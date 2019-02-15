@@ -81,6 +81,11 @@ define_zome! {
 			outputs: |result: ZomeApiResult<member::Profile>|,
 			handler: member::handlers::handle_get_member_profile			
 		}
+		get_my_member_profile: {
+			inputs: | |,
+			outputs: |result: ZomeApiResult<member::Profile>|,
+			handler: member::handlers::handle_get_my_member_profile			
+		}
 		add_members: {
 			inputs: |stream_address: HashString, members: Vec<Address>|,
 			outputs: |result: ZomeApiResult<()>|,
@@ -104,7 +109,7 @@ define_zome! {
 	]
 
 	 traits: {
-	        hc_public [register, get_my_member_id, create_stream, get_my_streams, get_all_public_streams, get_all_members, get_member_profile, get_members, add_members, join_stream, post_message, get_messages, get_subjects, get_profile]
+	        hc_public [register, get_my_member_id, create_stream, get_my_streams, get_all_public_streams, get_all_members, get_member_profile, get_my_member_profile, get_members, add_members, join_stream, post_message, get_messages, get_subjects, get_profile]
 	}
  }
 
