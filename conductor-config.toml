@@ -60,3 +60,26 @@ id = "ui-interface"
 bundle = "main"
 port = 3000
 dna_interface = "websocket_interface"
+
+# -----------  Networking  -----------
+
+# [network]
+# n3h_path = "/path/to/n3h"
+# n3h_persistence_path = "/tmp"
+# # example only
+# bootstrap_nodes = ["/ip4/192.168.1.60/tcp/34033/ipfs/QmYhZrV6rKAQwHegKU4hTu66XxEqT6ohsz8ur524JwYKdB"]
+
+# -----------  Networking instructions  -----------
+
+# To get networking running requires the following steps:
+
+# - Clone the repo for the holochain networking library n3h (https://github.com/holochain/n3h)
+# - run `npm install && npm run boostrap` in the n3h directory
+# - change the n3h_path below to point to the location where you cloned the repo
+
+# - If you are the first node then start the conductor and take careful note of the line that
+#	begins with `READY! tcp://127.0.0.1:43859 [...]
+#	You will need to copy the contents of the array and send it to the nodes you plan to network with.
+# - If you are a joining node then paste the contents from the first node in to the bootstrap_nodes field above
+# - Make sure that you all have different agents for your instances (uncomment new agent and change the instances agent field)
+# - Uncomment the network section and you should be ready do go!
