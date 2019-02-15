@@ -62,11 +62,6 @@ class View extends React.Component {
     joinRoom: room => {
       console.log('joining room')
       this.actions.setRoom(room)
-      this.state.messages[room.id] &&
-        this.actions.setCursor(
-          room.id,
-          Object.keys(this.state.messages[room.id]).pop()
-        )
       this.makeHolochainCall('holo-chat/chat/join_stream', {stream_address: room.id}, (result) => {
         console.log('joined room', result)
       })
@@ -152,11 +147,6 @@ class View extends React.Component {
       })
     },
 
-    addUserToRoom: ({ userId, roomId = this.state.room.id }) =>
-      this.state.user
-        .addUserToRoom({ userId, roomId })
-        .then(this.actions.setRoom),
-
     getRooms: () => {
         this.makeHolochainCall('holo-chat/chat/get_all_public_streams', {}, (result) => {
           console.log('retrieved public rooms', result)
@@ -180,37 +170,6 @@ class View extends React.Component {
         this.actions.setUser({id: result.Ok, name, avatarURL})
       })
     },
-
-
-    // --------------------------------------
-    // Cursors
-    // --------------------------------------
-
-    setCursor: (roomId, position) => {
-      // this.state.user
-      //   .setReadCursor({ roomId, position: parseInt(position) })
-      //   .then(x => this.forceUpdate())
-    },
-
-    // --------------------------------------
-    // Messages
-    // --------------------------------------
-
-    // addMessage: payload => {
-    //   const roomId = payload.room.id
-    //   const messageId = payload.id
-    //   // Update local message cache with new message
-    //   this.setState(set(this.state, ['messages', roomId, messageId], payload))
-    //   // Update cursor if the message was read
-    //   if (roomId === this.state.room.id) {
-    //     const cursor = this.state.user.readCursor({ roomId }) || {}
-    //     const cursorPosition = cursor.position || 0
-    //     cursorPosition < messageId && this.actions.setCursor(roomId, messageId)
-    //     this.actions.scrollToEnd()
-    //   }
-    //   // Send notification
-    //   this.actions.showNotification(payload)
-    // },
 
     scrollToEnd: e =>
       setTimeout(() => {
