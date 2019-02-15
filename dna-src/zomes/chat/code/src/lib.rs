@@ -91,6 +91,7 @@ define_zome! {
 	        hc_public [
 	        	register,
 	        	create_stream,
+	        	join_stream,
 	        	get_all_public_streams,
 	        	get_members,
 	        	get_member_profile,

@@ -60,20 +60,23 @@ class View extends React.Component {
     },
 
     joinRoom: room => {
+      console.log('joining room')
       this.actions.setRoom(room)
       this.state.messages[room.id] &&
         this.actions.setCursor(
           room.id,
           Object.keys(this.state.messages[room.id]).pop()
         )
-      this.makeHolochainCall('holo-chat/chat/join_stream', {stream_address: room.id}, () => {})
+      this.makeHolochainCall('holo-chat/chat/join_stream', {stream_address: room.id}, (result) => {
+        console.log('joined room', result)
+      })
     },
 
     getRoomMembers: roomId => {
       this.makeHolochainCall('holo-chat/chat/get_members', {
           stream_address: roomId,
         }, (result) => {
-          console.log(result)
+          console.log('retrieved members', result)
 
           const users = result.Ok
 
@@ -107,7 +110,7 @@ class View extends React.Component {
 
     getMessages: (roomId) => {
       this.makeHolochainCall('holo-chat/chat/get_messages', { address: roomId }, (result) => {
-        console.log(result)
+        console.log('retrieved messages', result)
 
         const roomMessages = result.Ok.map(({address, entry}) => ({
           text: entry.payload,
@@ -130,7 +133,7 @@ class View extends React.Component {
         initial_members: []
       }
       this.makeHolochainCall('holo-chat/chat/create_stream', roomSpec, (result) => {
-        console.log(result)
+        console.log('created room', result)
         this.actions.setRoom({
           id: result.Ok,
           name: options.name,
@@ -142,7 +145,7 @@ class View extends React.Component {
 
     getUserProfile: userId => {
       this.makeHolochainCall('holo-chat/chat/get_member_profile', { agent_address: userId }, (result) => {
-        console.log(result)
+        console.log('retrieved profile', result)
         this.setState({
           users: {...this.state.users, [userId]: result.Ok}
         })
@@ -156,7 +159,7 @@ class View extends React.Component {
 
     getRooms: () => {
         this.makeHolochainCall('holo-chat/chat/get_all_public_streams', {}, (result) => {
-          console.log(result)
+          console.log('retrieved public rooms', result)
           let rooms = result.Ok.map(({address, entry}) => {
             return {
               id: address,
@@ -173,7 +176,7 @@ class View extends React.Component {
 
     registerUser: ({name, avatarURL}) => {
       this.makeHolochainCall('holo-chat/chat/register', {name, avatar_url: avatarURL}, result => {
-        console.log(result)
+        console.log('registered user', result)
         this.actions.setUser({id: result.Ok, name, avatarURL})
       })
     },
