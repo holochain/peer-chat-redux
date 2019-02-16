@@ -66,14 +66,14 @@ dna_interface = "websocket_interface"
 # [network]
 # n3h_path = "/path/to/n3h"
 # n3h_persistence_path = "/tmp"
-# # example only
-# bootstrap_nodes = ["/ip4/192.168.1.60/tcp/34033/ipfs/QmYhZrV6rKAQwHegKU4hTu66XxEqT6ohsz8ur524JwYKdB"]
+# bootstrap_nodes = []
 
 # -----------  Networking instructions  -----------
 
 # To get networking running requires the following steps:
 
 # - Clone the repo for the holochain networking library n3h (https://github.com/holochain/n3h)
+# - Checkout the tag in n3h for holochain v0.0.4-alpha (git fetch --tags && git checkout v0.0.4-alpga)
 # - run `npm install && npm run boostrap` in the n3h directory
 # - change the n3h_path below to point to the location where you cloned the repo
 
