@@ -73,7 +73,7 @@ dna_interface = "websocket_interface"
 # To get networking running requires the following steps:
 
 # - Clone the repo for the holochain networking library n3h (https://github.com/holochain/n3h)
-# - Checkout the tag in n3h for holochain v0.0.4-alpha (git fetch --tags && git checkout v0.0.4-alpga)
+# - Checkout the tag in n3h for holochain v0.0.4-alpha (git fetch --tags && git checkout v0.0.4-alpha)
 # - run `npm install && npm run boostrap` in the n3h directory
 # - change the n3h_path below to point to the location where you cloned the repo
 
