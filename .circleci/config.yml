@@ -12,7 +12,7 @@ jobs:
    - run: cp $HOME/project/conductor-v0.0.4-alpha-x86_64-apple-darwin/holochain $HOME/project/holochain
    - run: "`. $HOME/project/run.sh` &"
    - run: sleep 10
-   - run: curl -I
+   - run: curl -I http://127.0.0.1:3000
    - run: curl -Is http://127.0.0.1:3000 | grep -q '200 OK'
 
  ubuntu:
