@@ -6,4 +6,4 @@ jobs:
    xcode: "9.3.0"
   steps:
    - checkout
-   - wget https://github.com/holochain/holochain-rust/releases/download/v0.0.4-alpha/conductor-v0.0.4-alpha-x86_64-apple-darwin.tar.gz
+   - run: wget https://github.com/holochain/holochain-rust/releases/download/v0.0.4-alpha/conductor-v0.0.4-alpha-x86_64-apple-darwin.tar.gz
