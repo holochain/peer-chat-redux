@@ -1,7 +1,7 @@
 version: 2
 
 jobs:
- build:
+ mac:
   macos:
    xcode: "9.3.0"
   steps:
@@ -26,3 +26,13 @@ jobs:
    - run: "`. $HOME/project/run.sh` &"
    - run: sleep 10
    - run: curl -Is http://127.0.0.1:3000 | grep -q '200 OK'
+
+workflows:
+ version: 2
+ mac:
+  jobs:
+   - mac
+
+ ubuntu:
+  jobs:
+   - ubuntu
