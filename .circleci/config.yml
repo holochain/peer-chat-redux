@@ -10,7 +10,7 @@ jobs:
    - run: wget https://github.com/holochain/holochain-rust/releases/download/v0.0.4-alpha/conductor-v0.0.4-alpha-x86_64-apple-darwin.tar.gz
    - run: tar -xvf $HOME/project/conductor-v0.0.4-alpha-x86_64-apple-darwin.tar.gz
    - run: cp $HOME/project/conductor-v0.0.4-alpha-x86_64-apple-darwin/holochain $HOME/project/holochain
-   - run: `. $HOME/project/run.sh` &
+   - run: "`. $HOME/project/run.sh` &"
    - run: sleep 10
    - run: curl -Is http://127.0.0.1:3000 | grep -q '200 OK'
 
@@ -23,6 +23,6 @@ jobs:
    - run: wget https://github.com/holochain/holochain-rust/releases/download/v0.0.4-alpha/conductor-v0.0.4-alpha-x86_64-ubuntu.tar.gz
    - run: tar -xvf $HOME/project/conductor-v0.0.4-alpha-x86_64-ubuntu.tar.gz
    - run: cp $HOME/project/conductor-v0.0.4-alpha-x86_64-ubuntu.tar.gz $HOME/project/holochain
-   - run: `. $HOME/project/run.sh` &
+   - run: "`. $HOME/project/run.sh` &"
    - run: sleep 10
    - run: curl -Is http://127.0.0.1:3000 | grep -q '200 OK'
