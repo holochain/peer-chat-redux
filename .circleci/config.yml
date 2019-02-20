@@ -20,7 +20,7 @@ jobs:
   steps:
    - checkout
    - run: apt-get update
-   - run: apt-get install wget zmq
+   - run: apt-get install wget libzmq3-dev
    - run: wget https://github.com/holochain/holochain-rust/releases/download/v0.0.4-alpha/conductor-v0.0.4-alpha-x86_64-ubuntu.tar.gz
    - run: tar -xvf $HOME/project/conductor-v0.0.4-alpha-x86_64-ubuntu.tar.gz
    - run: cp $HOME/project/conductor-v0.0.4-alpha-x86_64-ubuntu.tar.gz $HOME/project/holochain
