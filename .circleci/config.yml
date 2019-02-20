@@ -29,6 +29,7 @@ jobs:
    - run: tar -xvf $HOME/project/conductor-v0.0.4-alpha-x86_64-ubuntu.tar.gz
    - run: cp $HOME/project/conductor-v0.0.4-alpha-x86_64-ubuntu.tar.gz $HOME/project/holochain
    - run: chmod +x ./holochain
+   - run: file ./holochain
    - run:
       name: run conductor
       command: . $HOME/project/run.sh
