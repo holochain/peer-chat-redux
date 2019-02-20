@@ -27,7 +27,7 @@ jobs:
    - run: apt-get install -y wget libzmq3-dev curl file
    - run: wget https://github.com/holochain/holochain-rust/releases/download/v0.0.4-alpha/conductor-v0.0.4-alpha-x86_64-ubuntu.tar.gz
    - run: tar -xvf $HOME/project/conductor-v0.0.4-alpha-x86_64-ubuntu.tar.gz
-   - run: cp $HOME/project/conductor-v0.0.4-alpha-x86_64-ubuntu.tar.gz $HOME/project/holochain
+   - run: cp $HOME/project/conductor-v0.0.4-alpha-x86_64-ubuntu $HOME/project/holochain
    - run: chmod +x ./holochain
    - run: file ./holochain
    - run:
