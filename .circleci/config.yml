@@ -16,7 +16,7 @@ jobs:
 
  ubuntu:
   docker:
-   image: ubuntu
+   - image: ubuntu
   steps:
    - checkout
    - run: apt-get install wget zmq
