@@ -1,7 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import './index.css'
-import { connect } from '@holochain/hc-web-client'
+import * as holochainclient from '@holochain/hc-web-client'
+import * as hClient from '@holo-host/hclient'
 
 import { UserHeader } from './components/UserHeader'
 import { UserList } from './components/UserList'
@@ -18,11 +19,22 @@ import { RegisterScreen } from './components/RegisterScreen'
 // Application
 // --------------------------------------
 
+// where to look for the conductor
+const PORT = 3000
+const URL = 'ws://localhost:'+PORT+"/"
+// hardcoded app DNA
+const DNA = 'Qm328wyq38924y'
+
 class View extends React.Component {
   constructor (props) {
     super(props)
+
+    // hClient.installLoginDialog()
+    const holochainConnection = hClient.makeWebClient(holochainclient, URL, DNA)
+      .then(holoClient => holoClient.connect())
+
     this.state = {
-      holochainConnection: connect(),
+      holochainConnection: holochainConnection,
       connected: false,
       user: {},
       users: {},
