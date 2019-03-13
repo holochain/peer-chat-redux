@@ -29,7 +29,7 @@ class View extends React.Component {
   constructor (props) {
     super(props)
 
-    // hClient.installLoginDialog()
+    hClient.installLoginDialog()
     const holochainConnection = hClient.makeWebClient(holochainclient, URL, DNA)
       .then(holoClient => holoClient.connect())
 
@@ -188,6 +188,9 @@ class View extends React.Component {
         }, 0)
 
     }
+
+    hClient.triggerLoginPrompt()
+
   }
 
   componentDidMount () {
