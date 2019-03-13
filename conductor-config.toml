@@ -5,8 +5,8 @@
 [[agents]]
 id = "test_agent1"
 name = "HoloTester1"
-public_address = "sandwich--------------------------------------------------------------------------AAAEqzh28L"
-key_file = "holo_tester.key"
+public_address = "HcScIxNpyVQrfbe6v75KgIrnRwftywuk3e6GkbxytTufworeYHtTo6OXX7i4q4a"
+key_file = "./keyfile.txt"
 
 # [[agents]]
 # id = "test_agent2"
