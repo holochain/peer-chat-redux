@@ -23,14 +23,14 @@ import { RegisterScreen } from './components/RegisterScreen'
 const PORT = 3000
 const URL = 'ws://localhost:'+PORT+"/"
 // hardcoded app DNA
-const DNA = 'Qm328wyq38924y'
+const DNA = 'Qmd3zeMA5S5YWQ4QAZ6JTBPEEAEJwGmoSxkYn6y2Pm4PNV'
 
 class View extends React.Component {
   constructor (props) {
     super(props)
 
     hClient.installLoginDialog()
-    const holochainConnection = hClient.makeWebClient(holochainclient, URL, DNA)
+    const holochainConnection = hClient.makeWebClient(holochainclient, 'basic-chat', { url:URL, dnaHash:DNA })
       .then(holoClient => holoClient.connect())
 
     this.state = {
@@ -46,6 +46,26 @@ class View extends React.Component {
     }
 
     this.actions = {
+
+      // --------------------------------------
+      // Holochain
+      // --------------------------------------  
+
+      initializeHolochain: () => {
+        this.state.holochainConnection.then(({ call }) => {
+          call('holo-chat/chat/get_my_member_profile')({}).then((result) => {
+            const profile = JSON.parse(result).Ok
+            if (profile) {
+              console.log('registration user found with profile:', profile)
+              this.actions.setUser({ id: profile.address, name: profile.name, avatarURL: profile.avatar_url })
+            } else {
+              console.log('User has not registered a profile. Complete the form to proceed')
+            }
+            this.setState({ connected: true })
+          })
+        })
+      },
+
       // --------------------------------------
       // UI
       // --------------------------------------
@@ -189,24 +209,13 @@ class View extends React.Component {
 
     }
 
-    hClient.triggerLoginPrompt()
-
-  }
-
-  componentDidMount () {
-    this.state.holochainConnection.then(({ call }) => {
-      call('holo-chat/chat/get_my_member_profile')({}).then((result) => {
-        const profile = JSON.parse(result).Ok
-        if (profile) {
-          console.log('registration user found with profile:', profile)
-          this.actions.setUser({ id: profile.address, name: profile.name, avatarURL: profile.avatar_url })
-        } else {
-          console.log('User has not registered a profile. Complete the form to proceed')
-        }
-        this.setState({ connected: true })
-      })
+    hClient.triggerLoginPrompt().then(() => {
+      console.log('Holo login complete')
+      this.actions.initializeHolochain()
     })
+
   }
+
 
   makeHolochainCall (callString, params, callback) {
     this.state.holochainConnection.then(({ call }) => {
