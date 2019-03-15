@@ -21,7 +21,8 @@ import { RegisterScreen } from './components/RegisterScreen'
 
 // where to look for the conductor
 const PORT = 3000
-const URL = 'ws://localhost:'+PORT+"/"
+// const URL = 'ws://localhost:'+PORT+"/" // include this in the makeWebClient optionals if not using intrceptr ui server
+const URL = document.getElementsByTagName('base')[0].href.replace('http', 'ws') // use this for intrceptr server
 // hardcoded app DNA
 const DNA = 'Qmd3zeMA5S5YWQ4QAZ6JTBPEEAEJwGmoSxkYn6y2Pm4PNV'
 
