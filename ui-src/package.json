@@ -2,7 +2,7 @@
   "name": "holochain-basic-chat",
   "version": "0.0.1",
   "dependencies": {
-    "@holo-host/hclient": "^0.2.6",
+    "@holo-host/hclient": "^0.2.7",
     "@holochain/hc-web-client": "^0.1.0",
     "object-path-immutable": "^1.0.1",
     "react": "^16.2.0",
@@ -13,7 +13,8 @@
   },
   "scripts": {
     "start": "PORT=3006 react-scripts start",
-    "build": "react-scripts build && mv ./build ../ui",
+    "build": "react-scripts build && mkdir -p ../ui && mv ./build/* ../ui",
+    "clean": "rm -rf ../ui",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "lint": "standard"
