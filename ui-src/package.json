@@ -1,6 +1,7 @@
 {
   "name": "holochain-basic-chat",
   "version": "0.0.1",
+  "homepage": "/basic-chat/",
   "dependencies": {
     "@holo-host/hclient": "^0.2.7",
     "@holochain/hc-web-client": "^0.1.0",
