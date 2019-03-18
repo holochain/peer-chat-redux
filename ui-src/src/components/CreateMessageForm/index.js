@@ -3,7 +3,7 @@ import style from './index.module.css'
 
 export const CreateMessageForm = ({
   state: { user = {}, room = {}, message = '' },
-  actions: { sendMessage, runCommand }
+  actions: { sendMessage, runCommand, getMessages }
 }) =>
   room.id ? (
     <form
@@ -34,6 +34,9 @@ export const CreateMessageForm = ({
         <svg>
           <use xlinkHref='index.svg#send' />
         </svg>
+      </button>
+      <button type='submit' onClick={() => getMessages(room.id)}>
+        <img src='refresh.svg' />
       </button>
     </form>
   ) : null
