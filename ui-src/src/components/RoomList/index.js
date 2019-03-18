@@ -38,5 +38,8 @@ export const RoomList = ({
         </li>
       )
     })}
+    <li onClick={actions.getRooms}>
+      <input type='image' alt='refresh' src={`refresh.svg`} />
+    </li>
   </ul>
 )

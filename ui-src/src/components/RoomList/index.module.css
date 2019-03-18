@@ -12,6 +12,7 @@
   flex: none;
   display: flex;
   align-items: center;
+  text-align:center;
   padding: 1rem;
   list-style: none;
   cursor: pointer;
@@ -89,4 +90,10 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.component input {
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
 }

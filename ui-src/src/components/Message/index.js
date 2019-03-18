@@ -14,7 +14,7 @@ export const Message = ({ user, users }) => message => {
     <li key={message.id} className={style.component}>
       <img
         src={profile.avatar_url}
-        alt=''
+        alt={profile.name[0]}
       />
       <div>
         <span>
