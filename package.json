@@ -8,8 +8,5 @@
     "hc:start": "holochain -c ./conductor-config.toml"
   },
   "author": "",
-  "license": "GPL-3",
-  "dependencies": {
-    "@holo-host/hclient": "^0.2.8"
-  }
+  "license": "GPL-3"
 }

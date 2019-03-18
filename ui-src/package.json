@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "homepage": "/basic-chat/",
   "dependencies": {
-    "@holo-host/hclient": "^0.2.7",
+    "@holo-host/hclient": "^0.2.8",
     "@holochain/hc-web-client": "^0.1.0",
     "object-path-immutable": "^1.0.1",
     "react": "^16.2.0",
