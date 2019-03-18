@@ -12,16 +12,20 @@ const emptyList = (
   </div>
 )
 
-export const MessageList = ({ messages = {}, user, users, createConvo }) => (
+export const MessageList = ({ messages = [], user, users, createConvo }) => (
   <ul id='messages' className={style.component}>
-    {Object.keys(messages).length > 0 ? (
-      <wrapper->
-        {Object.keys(messages)
-          .reverse()
-          .map(k => Message({ user, createConvo, users })(messages[k]))}
-      </wrapper->
-    ) : (
-      emptyList
-    )}
+    {
+      messages.length > 0 ? (
+        <wrapper->
+          {
+            messages
+              .sort((a, b) => { return b.createdAt - a.createdAt })
+              .map(message => Message({ user, createConvo, users })(message))
+          }
+        </wrapper->
+      ) : (
+        emptyList
+      )
+    }
   </ul>
 )
