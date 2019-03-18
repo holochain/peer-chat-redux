@@ -34,3 +34,10 @@
   line-height: 150%;
   max-width: 40ex;
 }
+
+.component input {
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+}
+
