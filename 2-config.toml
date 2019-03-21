@@ -1,0 +1,93 @@
+[logger]
+type = "debug"
+[[logger.rules.rules]]
+exclude = true
+pattern = "^debug"
+
+
+# -----------  Agents  -----------
+
+
+[[agents]]
+id = "test_agent2"
+name = "HoloTester2"
+public_address = "HcScI7ykRgyOhwrrqbmUXGXGxG9tyvpweUSe6Ay8xOt5g9fsP5tkyPzPFikcv3r"
+key_file = "/Users/connor/Library/Preferences/org.holochain.holochain/keys/HcScI7ykRgyOhwrrqbmUXGXGxG9tyvpweUSe6Ay8xOt5g9fsP5tkyPzPFikcv3r"
+
+# [[agents]]
+# id = "test_agent2"
+# name = "HoloTester2"
+# public_address = "bagel-----------------------------------------------------------------------------AAADAq0mCu"
+# key_file = "holo_tester.key"
+
+# [[agents]]
+# id = "test_agent3"
+# name = "HoloTester3"
+# public_address = "croissant-------------------------------------------------------------------------AAAEuHzxV4"
+# key_file = "holo_tester.key"
+
+# -----------  DNA  -----------
+
+
+[[dnas]]
+id = "chat_dna"
+file = "dna/holo-chat.hcpkg"
+hash = "Qm328wyq38924y"
+
+[[instances]]
+id = "holo-chat"
+dna = "chat_dna"
+agent = "test_agent2"
+[instances.logger]
+type = "simple"
+file = "app_spec.log"
+[instances.storage]
+type = "file"
+path = "tmp-storage.1"
+
+
+[[interfaces]]
+id = "websocket_interface"
+[interfaces.driver]
+type = "websocket"
+port = 3401
+[[interfaces.instances]]
+id = "holo-chat"
+
+# -----------  UI  -----------
+
+[[ui_bundles]]
+id = "main"
+root_dir = "./ui"
+hash = "Qm000"
+
+[[ui_interfaces]]
+id = "ui-interface"
+bundle = "main"
+port = 3001
+dna_interface = "websocket_interface"
+
+# -----------  Networking  -----------
+
+[network]
+n3h_path = "/Users/connor/code/holochain/n3h"
+n3h_log_level = "i"
+n3h_persistence_path = "/tmp"
+bootstrap_nodes = ["wss://127.0.0.1:5000/?a=HcScjBGFRPoh8nfj3rz8IvFYXMoyrp3jogIpDxOH9WkjmgiqaZXQMOYwnusyuja"]
+# networking_config_file = "./network_config.json"
+
+# -----------  Networking instructions  -----------
+
+# To get networking running requires the following steps:
+
+# - Clone the repo for the holochain networking library n3h (https://github.com/holochain/n3h)
+# - Checkout the tag in n3h for holochain v0.0.4-alpha (git fetch --tags && git checkout v0.0.4-alpha)
+# - run `npm install && npm run boostrap` in the n3h directory
+# - change the n3h_path below to point to the location where you cloned the repo
+
+# - If you are the first node then start the conductor and take careful note of the line that
+#	begins with `READY! tcp://127.0.0.1:43859 [...]
+#	You will need to copy the contents of the array and send it to the nodes you plan to network with.
+# - If you are a joining node then paste the contents from the first node in to the bootstrap_nodes field above
+# - Make sure that you all have different agents for your instances (uncomment new agent and change the instances agent field)
+# - Uncomment the network section and you should be ready do go!

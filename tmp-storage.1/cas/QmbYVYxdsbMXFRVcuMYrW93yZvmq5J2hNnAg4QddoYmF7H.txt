@@ -1,0 +1,1 @@
+{"App":["chat_profile","{\"name\":\"@friend\",\"avatar_url\":\"\",\"address\":\"HcSCi3kn9pBWtgt4cpc3eXEKZSzw5x83bZMgxyPSxky36czhpAwcJt6I9ebg5gz\"}"]}
