@@ -3,7 +3,7 @@
         "connection": {
             "rsaBits": 1024,
             "bind": [
-                "wss://localhost:5000/"
+                "wss://0.0.0.0:5000/"
             ]
         },
         "wssRelayPeers": null
