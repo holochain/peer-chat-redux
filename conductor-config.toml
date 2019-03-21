@@ -1,12 +1,18 @@
 
+[logger]
+type = "debug"
+[[logger.rules.rules]]
+exclude = true
+pattern = "^debug"
+
 # -----------  Agents  -----------
 
 
 [[agents]]
 id = "test_agent1"
 name = "HoloTester1"
-public_address = "HcScIxNpyVQrfbe6v75KgIrnRwftywuk3e6GkbxytTufworeYHtTo6OXX7i4q4a"
-key_file = "./keyfile.txt"
+public_address = "HcScI7ykRgyOhwrrqbmUXGXGxG9tyvpweUSe6Ay8xOt5g9fsP5tkyPzPFikcv3r"
+key_file = "/Users/connor/Library/Preferences/org.holochain.holochain/keys/HcScI7ykRgyOhwrrqbmUXGXGxG9tyvpweUSe6Ay8xOt5g9fsP5tkyPzPFikcv3r"
 
 # [[agents]]
 # id = "test_agent2"
@@ -63,10 +69,13 @@ dna_interface = "websocket_interface"
 
 # -----------  Networking  -----------
 
-# [network]
-# n3h_path = "/path/to/n3h"
-# n3h_persistence_path = "/tmp"
-# bootstrap_nodes = []
+[network]
+n3h_path = "/Users/connor/code/holochain/n3h"
+n3h_log_level = "i"
+n3h_persistence_path = "/tmp"
+bootstrap_nodes = []
+networking_config_file = "./network_config.json"
+
 
 # -----------  Networking instructions  -----------
 

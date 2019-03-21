@@ -1,0 +1,1 @@
+{"CapTokenGrant":{"assignees":null,"functions":{"chat":["register","create_stream","join_stream","get_all_public_streams","get_members","get_member_profile","get_my_member_profile","post_message","get_messages"]}}}
