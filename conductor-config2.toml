@@ -5,8 +5,8 @@
 [[agents]]
 id = "test_agent1"
 name = "HoloTester1"
-public_address = "HcScIxNpyVQrfbe6v75KgIrnRwftywuk3e6GkbxytTufworeYHtTo6OXX7i4q4a"
-key_file = "./keyfile.txt"
+public_address = "HcScIn5BH4E7odxp3bZcU9qDUf573wpzqM5OmSMUcOa4aqjo8KjYH66J4BXGq5z"
+key_file = "./keyfile2.txt"
 
 # [[agents]]
 # id = "test_agent2"
@@ -36,15 +36,15 @@ agent = "test_agent1"
 type = "simple"
 file = "app_spec.log"
 [instances.storage]
-type = "file"
-path = "tmp-storage"
+type = "memory"
+path = "tmp-storage2"
 
 
 [[interfaces]]
 id = "websocket_interface"
 [interfaces.driver]
 type = "websocket"
-port = 3400
+port = 3401
 [[interfaces.instances]]
 id = "holo-chat"
 
@@ -58,7 +58,7 @@ hash = "Qm000"
 [[ui_interfaces]]
 id = "ui-interface"
 bundle = "main"
-port = 3000
+port = 3001
 dna_interface = "websocket_interface"
 
 # -----------  Networking  -----------
