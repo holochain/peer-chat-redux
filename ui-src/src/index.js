@@ -1,8 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import './index.css'
-import * as holochainclient from '@holochain/hc-web-client'
-import * as hClient from '@holo-host/hclient'
+import { connect } from '@holochain/hc-web-client'
 
 import { UserHeader } from './components/UserHeader'
 import { UserList } from './components/UserList'
@@ -19,23 +18,11 @@ import { RegisterScreen } from './components/RegisterScreen'
 // Application
 // --------------------------------------
 
-// where to look for the conductor
-// const PORT = 3000
-// const URL = 'ws://localhost:'+PORT+"/" // include this in the makeWebClient optionals if not using intrceptr ui server
-const URL = 'ws://' + window.location.host // use this for intrceptr server
-// hardcoded app DNA
-const DNA = 'Qmd3zeMA5S5YWQ4QAZ6JTBPEEAEJwGmoSxkYn6y2Pm4PNV'
-
 class View extends React.Component {
   constructor (props) {
     super(props)
-
-    hClient.installLoginDialog()
-    const holochainConnection = hClient.makeWebClient(holochainclient, 'basic-chat', { url:URL, dnaHash:DNA })
-      .then(holoClient => holoClient.connect())
-
     this.state = {
-      holochainConnection: holochainConnection,
+      holochainConnection: connect('ws://localhost:3400'),
       connected: false,
       user: {},
       users: {},
@@ -47,26 +34,6 @@ class View extends React.Component {
     }
 
     this.actions = {
-
-      // --------------------------------------
-      // Holochain
-      // --------------------------------------  
-
-      initializeHolochain: () => {
-        this.state.holochainConnection.then(({ call }) => {
-          call('holo-chat/chat/get_my_member_profile')({}).then((result) => {
-            const profile = JSON.parse(result).Ok
-            if (profile) {
-              console.log('registration user found with profile:', profile)
-              this.actions.setUser({ id: profile.address, name: profile.name, avatarURL: profile.avatar_url })
-            } else {
-              console.log('User has not registered a profile. Complete the form to proceed')
-            }
-            this.setState({ connected: true })
-          })
-        })
-      },
-
       // --------------------------------------
       // UI
       // --------------------------------------
@@ -209,14 +176,22 @@ class View extends React.Component {
         }, 0)
 
     }
-
-    hClient.triggerLoginPrompt().then(() => {
-      console.log('Holo login complete')
-      this.actions.initializeHolochain()
-    })
-
   }
 
+  componentDidMount () {
+    this.state.holochainConnection.then(({ call }) => {
+      call('holo-chat/chat/get_my_member_profile')({}).then((result) => {
+        const profile = JSON.parse(result).Ok
+        if (profile) {
+          console.log('registration user found with profile:', profile)
+          this.actions.setUser({ id: profile.address, name: profile.name, avatarURL: profile.avatar_url })
+        } else {
+          console.log('User has not registered a profile. Complete the form to proceed')
+        }
+        this.setState({ connected: true })
+      })
+    })
+  }
 
   makeHolochainCall (callString, params, callback) {
     this.state.holochainConnection.then(({ call }) => {
