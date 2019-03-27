@@ -1,1 +1,0 @@
-{"App":["public_stream","{\"name\":\"test2\",\"description\":\"\"}"]}

@@ -1,7 +1,6 @@
 [logger]
 type = "debug"
 [[logger.rules.rules]]
-exclude = true
 pattern = "^debug"
 
 
@@ -11,8 +10,8 @@ pattern = "^debug"
 [[agents]]
 id = "test_agent2"
 name = "HoloTester2"
-public_address = "HcScI7ykRgyOhwrrqbmUXGXGxG9tyvpweUSe6Ay8xOt5g9fsP5tkyPzPFikcv3r"
-key_file = "/Users/connor/Library/Preferences/org.holochain.holochain/keys/HcScI7ykRgyOhwrrqbmUXGXGxG9tyvpweUSe6Ay8xOt5g9fsP5tkyPzPFikcv3r"
+public_address = "HcSCifQmKs398H6qz3Qy8fe8JHbOxfuo4QegMJEkTbbugver7g7gcaQqNoxhqkr"
+key_file = "/Users/connor/Library/Preferences/org.holochain.holochain/keys/HcSCifQmKs398H6qz3Qy8fe8JHbOxfuo4QegMJEkTbbugver7g7gcaQqNoxhqkr"
 
 # [[agents]]
 # id = "test_agent2"
@@ -73,7 +72,7 @@ dna_interface = "websocket_interface"
 n3h_path = "/Users/connor/code/holochain/n3h"
 n3h_log_level = "i"
 n3h_persistence_path = "/tmp"
-bootstrap_nodes = ["wss://127.0.0.1:5000/?a=HcScjBGFRPoh8nfj3rz8IvFYXMoyrp3jogIpDxOH9WkjmgiqaZXQMOYwnusyuja"]
+bootstrap_nodes = ["wss://127.0.0.1:5000/?a=HcSCjO8QMnrCsu8qhfAzk7d53wNmMgocwVKr57jt37x6Y3YkdezuGyHXd8q3sca"]
 # networking_config_file = "./network_config.json"
 
 # -----------  Networking instructions  -----------
