@@ -24,13 +24,12 @@ pub fn public_stream_definition() -> ValidatingEntryType {
         name: "public_stream",
         description: "A stream of which anyone can become a member and post",
         sharing: Sharing::Public,
-        native_type: Stream,
 
         validation_package: || {
             hdk::ValidationPackageDefinition::Entry
         },
 
-        validation: |_stream: Stream, _ctx: hdk::ValidationData| {
+        validation: |validation_data: hdk::EntryValidationData<Stream>| {
             Ok(())
         },
 
@@ -43,7 +42,7 @@ pub fn public_stream_definition() -> ValidatingEntryType {
                     hdk::ValidationPackageDefinition::Entry
                 },
 
-                validation: |_base: Address, _target: Address, _ctx: hdk::ValidationData| {
+                validation: |_validation_data: hdk::LinkValidationData| {
                     Ok(())
                 }
             ),
@@ -55,7 +54,7 @@ pub fn public_stream_definition() -> ValidatingEntryType {
                     hdk::ValidationPackageDefinition::Entry
                 },
 
-                validation: |_base: Address, _target: Address, _ctx: hdk::ValidationData| {
+                validation: |_validation_data: hdk::LinkValidationData| {
                     Ok(())
                 }
             ),
@@ -67,7 +66,7 @@ pub fn public_stream_definition() -> ValidatingEntryType {
                     hdk::ValidationPackageDefinition::Entry
                 },
 
-                validation: |_base: Address, _target: Address, _ctx: hdk::ValidationData| {
+                validation: |_validation_data: hdk::LinkValidationData| {
                     Ok(())
                 }
             )

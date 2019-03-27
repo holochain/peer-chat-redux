@@ -4,7 +4,7 @@
   "description": "A chat demo for holochain",
   "main": "index.js",
   "scripts": {
-    "hc:build": "mkdir -p dna && cd dna-src && hc package --strip-meta -o ../dna/holo-chat.hcpkg",
+    "hc:build": "mkdir -p dna && cd dna-src && RUST_BACKTRACE=1 hc package --strip-meta -o ../dna/holo-chat.hcpkg",
     "hc:start": "holochain -c ./conductor-config.toml"
   },
   "author": "",

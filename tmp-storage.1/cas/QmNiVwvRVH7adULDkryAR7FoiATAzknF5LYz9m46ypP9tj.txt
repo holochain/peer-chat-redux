@@ -1,1 +1,0 @@
-{"App":["message","{\"timestamp\":1552689980,\"author\":\"HcScI7ykRgyOhwrrqbmUXGXGxG9tyvpweUSe6Ay8xOt5g9fsP5tkyPzPFikcv3r\",\"message_type\":\"text\",\"payload\":\"message\",\"meta\":\"\"}"]}
