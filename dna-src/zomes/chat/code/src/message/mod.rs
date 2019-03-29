@@ -44,13 +44,12 @@ pub fn message_definition() -> ValidatingEntryType {
         name: "message",
         description: "A generic message entry",
         sharing: Sharing::Public,
-        native_type: Message,
 
         validation_package: || {
             hdk::ValidationPackageDefinition::Entry
         },
 
-        validation: |_message: Message, _ctx: hdk::ValidationData| {
+        validation: |validation_data: hdk::EntryValidationData<Message>| {
             Ok(())
         }
     )
