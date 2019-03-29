@@ -12,13 +12,12 @@ pub fn anchor_definition() -> ValidatingEntryType {
         name: "anchor",
         description: "",
         sharing: Sharing::Public,
-        native_type: RawString,
 
         validation_package: || {
             hdk::ValidationPackageDefinition::Entry
         },
 
-        validation: |_name: RawString, _ctx: hdk::ValidationData| {
+        validation: |validation_data: hdk::EntryValidationData<RawString>| {
             Ok(())
         },
 
@@ -31,7 +30,7 @@ pub fn anchor_definition() -> ValidatingEntryType {
                     hdk::ValidationPackageDefinition::Entry
                 },
 
-                validation: |_base: Address, _target: Address, _ctx: hdk::ValidationData| {
+                validation: |_validation_data: hdk::LinkValidationData| {
                     Ok(())
                 }
             ),
@@ -43,7 +42,7 @@ pub fn anchor_definition() -> ValidatingEntryType {
                     hdk::ValidationPackageDefinition::Entry
                 },
 
-                validation: |_base: Address, _target: Address, _ctx: hdk::ValidationData| {
+                validation: |_validation_data: hdk::LinkValidationData| {
                     Ok(())
                 }
             )

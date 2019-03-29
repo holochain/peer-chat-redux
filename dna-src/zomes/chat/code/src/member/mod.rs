@@ -29,13 +29,12 @@ pub fn profile_definition() -> ValidatingEntryType {
         name: "chat_profile",
         description: "The data that chat has about a particular user",
         sharing: Sharing::Public,
-        native_type: Profile,
 
         validation_package: || {
             hdk::ValidationPackageDefinition::Entry
         },
 
-        validation: |_profile: Profile, _ctx: hdk::ValidationData| {
+        validation: |validation_data: hdk::EntryValidationData<Profile>| {
             Ok(())
         },
 
@@ -48,7 +47,7 @@ pub fn profile_definition() -> ValidatingEntryType {
                     hdk::ValidationPackageDefinition::Entry
                 },
 
-                validation: |_base: Address, _target: Address, _ctx: hdk::ValidationData| {
+                validation: |_validation_data: hdk::LinkValidationData| {
                     Ok(())
                 }
             )
