@@ -10,7 +10,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 At a minimum you will need to have the binaries for the holochain conductor installed on your system. See [the official installation instructions](https://developer.holochain.org/start.html).
 
-Be sure to use the 0.0.6 release.
+**Be sure to use the 0.0.8-alpha release for the CLI and Conductor.**
 
 ### Running
 
