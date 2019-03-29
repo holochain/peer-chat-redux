@@ -36,7 +36,7 @@ agent = "test_agent1"
 type = "simple"
 file = "app_spec.log"
 [instances.storage]
-type = "file"
+type = "memory"
 path = "tmp-storage"
 
 
@@ -63,10 +63,10 @@ dna_interface = "websocket_interface"
 
 # -----------  Networking  -----------
 
-# [network]
-# n3h_path = "/path/to/n3h"
-# n3h_persistence_path = "/tmp"
-# bootstrap_nodes = []
+[network]
+n3h_path = "/home/willem/repos/n3h"
+n3h_persistence_path = "/tmp"
+bootstrap_nodes = []
 
 # -----------  Networking instructions  -----------
 
