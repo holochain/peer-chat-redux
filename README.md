@@ -25,6 +25,8 @@ or alternatively to call the conductor directly
 holochain -c ./conductor-config.toml
 ```
 
+This will run the DNA as well serve the user interface. To load the app, just browse to [http://localhost:3000](http://localhost:3000).
+
 
 ### Networking
 
