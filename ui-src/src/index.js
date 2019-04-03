@@ -64,13 +64,13 @@ class View extends React.Component {
       joinRoom: room => {
         console.log('joining room')
         this.actions.setRoom(room)
-        this.makeHolochainCall('holo-chat/chat/join_stream', { stream_address: room.id }, (result) => {
+        this.makeHolochainCall('holo-chat', 'chat', 'join_stream', { stream_address: room.id }, (result) => {
           console.log('joined room', result)
         })
       },
 
       getRoomMembers: roomId => {
-        this.makeHolochainCall('holo-chat/chat/get_members', {
+        this.makeHolochainCall('holo-chat', 'chat', 'get_members', {
           stream_address: roomId
         }, (result) => {
           console.log('retrieved members', result)
@@ -91,7 +91,7 @@ class View extends React.Component {
           payload: text,
           meta: ''
         }
-        this.makeHolochainCall('holo-chat/chat/post_message', {
+        this.makeHolochainCall('holo-chat', 'chat', 'post_message', {
           stream_address: roomId,
           message
         }, (result) => {
@@ -102,7 +102,7 @@ class View extends React.Component {
       },
 
       getMessages: (roomId) => {
-        this.makeHolochainCall('holo-chat/chat/get_messages', { address: roomId }, (result) => {
+        this.makeHolochainCall('holo-chat', 'chat', 'get_messages', { address: roomId }, (result) => {
           console.log('retrieved messages', result)
 
           const roomMessages = result.Ok.map(({ address, entry }) => ({
@@ -125,7 +125,7 @@ class View extends React.Component {
           description: '',
           initial_members: []
         }
-        this.makeHolochainCall('holo-chat/chat/create_stream', roomSpec, (result) => {
+        this.makeHolochainCall('holo-chat', 'chat', 'create_stream', roomSpec, (result) => {
           console.log('created room', result)
           this.actions.setRoom({
             id: result.Ok,
@@ -137,7 +137,7 @@ class View extends React.Component {
       },
 
       getUserProfile: userId => {
-        this.makeHolochainCall('holo-chat/chat/get_member_profile', { agent_address: userId }, (result) => {
+        this.makeHolochainCall('holo-chat', 'chat', 'get_member_profile', { agent_address: userId }, (result) => {
           console.log('retrieved profile', result)
           this.setState({
             users: { ...this.state.users, [userId]: result.Ok }
@@ -146,7 +146,7 @@ class View extends React.Component {
       },
 
       getRooms: () => {
-        this.makeHolochainCall('holo-chat/chat/get_all_public_streams', {}, (result) => {
+        this.makeHolochainCall('holo-chat', 'chat', 'get_all_public_streams', {}, (result) => {
           console.log('retrieved public rooms', result)
           let rooms = result.Ok.map(({ address, entry }) => {
             return {
@@ -163,7 +163,7 @@ class View extends React.Component {
       },
 
       registerUser: ({ name, avatarURL }) => {
-        this.makeHolochainCall('holo-chat/chat/register', { name, avatar_url: avatarURL }, result => {
+        this.makeHolochainCall('holo-chat', 'chat', 'register', { name, avatar_url: avatarURL }, result => {
           console.log('registered user', result)
           this.actions.setUser({ id: result.Ok, name, avatarURL })
         })
@@ -179,8 +179,8 @@ class View extends React.Component {
   }
 
   componentDidMount () {
-    this.state.holochainConnection.then(({ call }) => {
-      call('holo-chat/chat/get_my_member_profile')({}).then((result) => {
+    this.state.holochainConnection.then(({ callZome }) => {
+      callZome('holo-chat', 'chat', 'get_my_member_profile')({}).then((result) => {
         const profile = JSON.parse(result).Ok
         if (profile) {
           console.log('registration user found with profile:', profile)
@@ -193,9 +193,9 @@ class View extends React.Component {
     })
   }
 
-  makeHolochainCall (callString, params, callback) {
-    this.state.holochainConnection.then(({ call }) => {
-      call(callString)(params).then((result) => callback(JSON.parse(result)))
+  makeHolochainCall (instanceId, zome, fn, params, callback) {
+    this.state.holochainConnection.then(({ callZome }) => {
+      callZome(instanceId, zome, fn)(params).then((result) => callback(JSON.parse(result)))
     })
   }
 
