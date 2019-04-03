@@ -5,8 +5,8 @@
 [[agents]]
 id = "test_agent1"
 name = "HoloTester1"
-public_address = "HcScIxNpyVQrfbe6v75KgIrnRwftywuk3e6GkbxytTufworeYHtTo6OXX7i4q4a"
-key_file = "./keyfile.txt"
+public_address = "HcSCjZcbDbs4czxnffW7Fud38ZDja9j8n6Qd693pDmiahs8zE9csN8PXXNk6tra"
+keystore_file = "./keyfile.txt"
 
 # [[agents]]
 # id = "test_agent2"
@@ -64,7 +64,7 @@ dna_interface = "websocket_interface"
 # -----------  Networking  -----------
 
 [network]
-n3h_path = "/home/willem/repos/n3h"
+n3h_path = "path/to/n3h"
 n3h_persistence_path = "/tmp"
 bootstrap_nodes = []
 

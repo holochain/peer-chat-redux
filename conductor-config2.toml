@@ -5,7 +5,7 @@
 [[agents]]
 id = "test_agent1"
 name = "HoloTester1"
-public_address = "HcScIn5BH4E7odxp3bZcU9qDUf573wpzqM5OmSMUcOa4aqjo8KjYH66J4BXGq5z"
+public_address = "HcSCJXSDofntb53xtgMS6XWzfJZ3h9ef5HUe47YPocRaj7omMBUkv39hSax54qz"
 key_file = "./keyfile2.txt"
 
 # [[agents]]
