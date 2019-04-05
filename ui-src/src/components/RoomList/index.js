@@ -13,8 +13,20 @@ export const RoomList = ({
   messages,
   current,
   actions
-}) => (
-  <ul className={style.component}>
+}) => {
+
+  let refresh
+
+  if(user.id) {
+    refresh = (
+    <li onClick={actions.getRooms}>
+      <input type='image' alt='refresh' src={`refresh.svg`} />
+    </li>)
+  } else {
+    refresh = <li></li>
+  }
+
+  return (<ul className={style.component}>
     {rooms.map(room => {
       const messageKeys = Object.keys(messages[room.id] || {})
       const latestMessage =
@@ -38,8 +50,6 @@ export const RoomList = ({
         </li>
       )
     })}
-    <li onClick={actions.getRooms}>
-      <input type='image' alt='refresh' src={`refresh.svg`} />
-    </li>
-  </ul>
-)
+    {refresh}
+  </ul>)
+}
