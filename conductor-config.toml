@@ -5,20 +5,8 @@
 [[agents]]
 id = "test_agent1"
 name = "HoloTester1"
-public_address = "HcScIxNpyVQrfbe6v75KgIrnRwftywuk3e6GkbxytTufworeYHtTo6OXX7i4q4a"
-key_file = "./keyfile.txt"
-
-# [[agents]]
-# id = "test_agent2"
-# name = "HoloTester2"
-# public_address = "bagel-----------------------------------------------------------------------------AAADAq0mCu"
-# key_file = "holo_tester.key"
-
-# [[agents]]
-# id = "test_agent3"
-# name = "HoloTester3"
-# public_address = "croissant-------------------------------------------------------------------------AAAEuHzxV4"
-# key_file = "holo_tester.key"
+public_address = "HcSCjyo9EomQdn3vedAw8Pcdb65TR6ven5c3i9u5iw3DgY7h8kmJ9d9uogWqinr"
+keystore_file = "./keystore.key"
 
 # -----------  DNA  -----------
 
@@ -36,7 +24,7 @@ agent = "test_agent1"
 type = "simple"
 file = "app_spec.log"
 [instances.storage]
-type = "memory"
+type = "file"
 path = "tmp-storage"
 
 

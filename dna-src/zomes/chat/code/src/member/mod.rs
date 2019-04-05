@@ -34,7 +34,7 @@ pub fn profile_definition() -> ValidatingEntryType {
             hdk::ValidationPackageDefinition::Entry
         },
 
-        validation: |validation_data: hdk::EntryValidationData<Profile>| {
+        validation: |_validation_data: hdk::EntryValidationData<Profile>| {
             Ok(())
         },
 
