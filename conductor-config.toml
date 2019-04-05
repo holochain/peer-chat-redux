@@ -5,8 +5,8 @@
 [[agents]]
 id = "test_agent1"
 name = "HoloTester1"
-public_address = "HcScIxNpyVQrfbe6v75KgIrnRwftywuk3e6GkbxytTufworeYHtTo6OXX7i4q4a"
-key_file = "./keystore.key"
+public_address = "HcSCjyo9EomQdn3vedAw8Pcdb65TR6ven5c3i9u5iw3DgY7h8kmJ9d9uogWqinr"
+keystore_file = "./keystore.key"
 
 # -----------  DNA  -----------
 
@@ -24,7 +24,7 @@ agent = "test_agent1"
 type = "simple"
 file = "app_spec.log"
 [instances.storage]
-type = "memory"
+type = "file"
 path = "tmp-storage"
 
 

@@ -15,7 +15,8 @@
     "build": "react-scripts build && mv ./build ../ui",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "lint": "standard"
+    "lint": "standard",
+    "clean": "rm -rf ../ui"
   },
   "browserslist": [
     ">0.2%",
