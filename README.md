@@ -10,18 +10,20 @@ These instructions will get you a copy of the project up and running on your loc
 
 At a minimum you will need to have the binaries for the holochain conductor installed on your system. See [the official installation instructions](https://developer.holochain.org/start.html).
 
-**Be sure to use the 0.0.8-alpha release for the CLI and Conductor.**
+**Be sure to use the 0.0.9-alpha release for the CLI and Conductor.**
 
 ### Running
 
-From the project root run the helper script
+From the project root, run the script to download the DNA/UI and then start the conductor
 ```
+npm run fetch
 npm run hc:start
 ```
 
 or alternatively to call the conductor directly
 
 ```
+npm run fetch
 holochain -c ./conductor-config.toml
 ```
 
@@ -51,6 +53,8 @@ mkdir -p dna
 cd dna-src
 hc package --strip-meta -o ../dna/holo-chat.hcpkg
 ```
+
+*Be careful!* If you are trying to network with other agents it is best to use a pre-built DNA. Any differences in compiler configuration may lead to the DNA hash being different and the nodes will not be able to communicate. 
 
 ### UI
 

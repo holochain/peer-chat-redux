@@ -7,10 +7,11 @@
     "./ui/"
   ],
   "scripts": {
-    "hc:build": "mkdir -p dna && cd dna-src && RUST_BACKTRACE=1 hc package --strip-meta -o ../dna/holo-chat.hcpkg",
+    "fetch": "fetch-github-release holochain holochain-basic-chat .",
+    "hc:build": "cd dna-src && RUST_BACKTRACE=1 hc package --strip-meta -o ../holo-chat.dna.json",
     "hc:start": "holochain -c ./conductor-config.toml",
     "hc:test": "cd dna-src && hc test",
-    "prerelease": "cd ui-src && npm run clean && npm run build && cd .. && npm run hc:test && npm run hc:build",
+    "prerelease": "cd ui-src && npm run clean && npm run build && cd .. && npm run hc:test && npm run hc:build"
   },
   "author": "",
   "license": "GPL-3",
