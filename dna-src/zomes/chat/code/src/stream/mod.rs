@@ -7,7 +7,6 @@ use hdk::{
 
 use hdk::holochain_core_types::{
     dna::entry_types::Sharing,
-    cas::content::Address,
 };
 
 pub mod handlers;
@@ -29,7 +28,7 @@ pub fn public_stream_definition() -> ValidatingEntryType {
             hdk::ValidationPackageDefinition::Entry
         },
 
-        validation: |validation_data: hdk::EntryValidationData<Stream>| {
+        validation: |_validation_data: hdk::EntryValidationData<Stream>| {
             Ok(())
         },
 

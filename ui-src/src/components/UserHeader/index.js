@@ -6,7 +6,7 @@ const placeholder =
 
 export const UserHeader = ({ user = {} }) => (
   <header className={style.component}>
-    <img src={(user.avatarURL && user.avatarURL.length > 0) || placeholder} />
+    <img src={user.avatarURL ? user.avatarURL : placeholder} alt={user.name ? user.name[0] : ''} />
     <div>
       <h3>{user.name}</h3>
       <h5>{user.id && `@${user.id.substring(0, 15)}`}</h5>

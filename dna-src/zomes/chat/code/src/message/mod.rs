@@ -49,7 +49,7 @@ pub fn message_definition() -> ValidatingEntryType {
             hdk::ValidationPackageDefinition::Entry
         },
 
-        validation: |validation_data: hdk::EntryValidationData<Message>| {
+        validation: |_validation_data: hdk::EntryValidationData<Message>| {
             Ok(())
         }
     )
