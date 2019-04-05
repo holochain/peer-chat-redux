@@ -29,3 +29,7 @@ yarn-error.log*
 foo
 bundle.json
 node_modules
+
+ui
+dna
+dna-src/dist
