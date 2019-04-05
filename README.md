@@ -16,6 +16,7 @@ At a minimum you will need to have the binaries for the holochain conductor inst
 
 From the project root, run the script to download the DNA/UI and then start the conductor
 ```
+npm install
 npm run fetch
 npm run hc:start
 ```
@@ -23,6 +24,7 @@ npm run hc:start
 or alternatively to call the conductor directly
 
 ```
+npm install
 npm run fetch
 holochain -c ./conductor-config.toml
 ```
