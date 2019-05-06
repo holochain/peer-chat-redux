@@ -1,4 +1,3 @@
-
 # -----------  Agents  -----------
 
 
@@ -8,6 +7,11 @@ name = "Agent 1"
 public_address = "HcSCJbpm8CZparb6f5iEKKRv4Te4op93q6ESMRuDtwp9abbzV8zYTF7EKqqw9ei"
 keystore_file = "./agent1.keystore"
 
+# [[agents]]
+# id = "AgentID update the agent property in [[instances]]" 
+# name = "Your agent name here"
+# public_address = "public addess"
+# keystore_file = "path/to/keystore"
 # -----------  DNA  -----------
 
 
