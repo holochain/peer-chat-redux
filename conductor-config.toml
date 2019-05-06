@@ -4,16 +4,16 @@
 
 [[agents]]
 id = "test_agent1"
-name = "HoloTester1"
-public_address = "HcSCjyo9EomQdn3vedAw8Pcdb65TR6ven5c3i9u5iw3DgY7h8kmJ9d9uogWqinr"
-keystore_file = "./keystore.key"
+name = "Agent 1"
+public_address = "HcSCJbpm8CZparb6f5iEKKRv4Te4op93q6ESMRuDtwp9abbzV8zYTF7EKqqw9ei"
+keystore_file = "./agent1.keystore"
 
 # -----------  DNA  -----------
 
 
 [[dnas]]
 id = "chat_dna"
-file = "holo-chat.dna.json"
+file = "./dna/holochain-basic-chat.dna.json"
 hash = "Qm328wyq38924y"
 
 [[instances]]
