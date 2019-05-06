@@ -7,7 +7,7 @@
     "hc:build": "rm -rf tmp-storage && mkdir -p ./dna && cd dna-src && hc package --strip-meta -o ../dna/holochain-basic-chat.dna.json",
     "hc:start": "holochain -c ./conductor-config.toml",
     "hc:test": "cd dna-src && hc test",
-    "prerelease": "cd ui-src && npm run clean && npm run build && cd .. && npm run hc:test && npm run hc:build && mkdir -p ./release && mv ./ui ./release/ui && mv ./dna ./release/dna"
+    "prerelease": "rm -rf ./release && cd ui-src && npm run clean && npm run build && cd .. && npm run hc:test && npm run hc:build && mkdir -p ./release && mv ./ui ./release/ui && mv ./dna ./release/dna && cp ./conductor-config.toml ./release/conductor-config.toml"
   },
   "author": "",
   "license": "GPL-3",
