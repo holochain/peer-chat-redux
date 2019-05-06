@@ -4,11 +4,12 @@
 # copy the public_address and path to the keystore into the [[agents]] section
 # Give yourself an alpha-numeric id with no spaces (_ is ok)
 # Enter your name
-[[agents]]
-id = "philip"
-name = "Philip"
-public_address = "HcScjdnxMF3Stafva7bpiFhst7Sywx9c3ip7AnuaFfhjeerdyIdWBOiVn6udsar"
-keystore_file = "/Users/philipbeadle/Library/Preferences/org.holochain.holochain/keys/HcScjdnxMF3Stafva7bpiFhst7Sywx9c3ip7AnuaFfhjeerdyIdWBOiVn6udsar"
+# [[agents]]
+id = "AgentID update the agent property in [[instances]]"
+name = "Your agent name here"
+public_address = "public addess"
+keystore_file = "path/to/keystore"
+
 # -----------  DNA  -----------
 
 [[dnas]]
@@ -19,7 +20,7 @@ hash = "Qm328wyq38924y"
 [[instances]]
 id = "holo-chat"
 dna = "chat_dna"
-agent = "philip"
+agent = "same as id in [[agents]] section above"
 [instances.logger]
 type = "simple"
 file = "app_spec.log"
