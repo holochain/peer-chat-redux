@@ -4,6 +4,58 @@ A simple chat app designed to get new users up, running and developing on Holoch
 
 ![Alt text](doc/screen.png?raw=true)
 
+# Get chatting using nix & the latest released basic-chat
+- Install nix tooling on mac/linux
+```
+  curl https://nixos.org/nix/install | sh
+```
+
+- Clone the holochain-rust repo to access the nix commands
+```
+  git clone https://github.com/holochain/holochain-rust.git
+```
+
+- Start a new nix-shell that has everything we need
+```
+  nix-shell ./holochain-rust/default.nix
+```
+
+- Get the latest released basic-chat
+```
+  wget --header='Accept:application/octet-stream' https://api.github.com/repos/holochain/holochain-basic-chat/releases/assets/12405253 -O basic-chat.zip
+  unzip basic-chat.zip
+```
+
+- Open the my-conductor-config.toml file in your favourite editor
+- Create yourself an Agent Keystore and update the [[agents]] section of the my-conductor-config.toml following the steps at the top of the [[agents]] section
+```
+  hc keygen
+
+  This will create a new agent keystore and populate it with an agent keybundle
+  containing a public and a private key, for signing and encryption by the agent.
+  This keybundle will be stored encrypted by passphrase within the keystore file.
+  The passphrase is securing the keys and will be needed, together with the file,
+  in order to use the key.
+  Please enter a secret passphrase below. You will have to enter it again
+  when unlocking the keybundle to use within a Holochain conductor.
+  Passphrase:
+  Re-enter passphrase:
+  Generating keystore (this will take a few moments)...
+
+  Succesfully created new agent keystore.
+
+  Public address: HcScjdnxMF3Stafva7bpiFhst7Sywx9c3ip7AnuaFfhjeerdyIdWBOiVn6udsar
+  Keystore written to: /Users/philipbeadle/Library/Preferences/org.holochain.holochain/keys/HcScjdnxMF3Stafva7bpiFhst7Sywx9c3ip7AnuaFfhjeerdyIdWBOiVn6udsar
+
+  You can set this file in a conductor config as keystore_file for an agent.
+```
+- Run basic-chat on holochain
+```
+  holochain -c ./my-conductor-config.toml
+```
+
+
+
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
@@ -58,7 +110,7 @@ cd dna-src
 hc package --strip-meta -o ../dna/holo-chat.hcpkg
 ```
 
-*Be careful!* If you are trying to network with other agents it is best to use a pre-built DNA. Any differences in compiler configuration may lead to the DNA hash being different and the nodes will not be able to communicate. 
+*Be careful!* If you are trying to network with other agents it is best to use a pre-built DNA. Any differences in compiler configuration may lead to the DNA hash being different and the nodes will not be able to communicate.
 
 ### UI
 
@@ -82,4 +134,3 @@ A huge acknowledgement to Pusher for providing an open source React chat UI (htt
 ## License
 
 This project is licensed under the GPL-3 License - see the [LICENSE.md](LICENSE.md) file for details
-
