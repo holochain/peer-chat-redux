@@ -1,0 +1,20 @@
+dist: trusty
+language: nix
+script:
+- git clone https://github.com/holochain/holochain-rust.git
+- ls
+- nix-shell --run 'cd ui-src && npm install && cd .. && npm run prerelease' ./holochain-rust/default.nix
+- PACKAGE_NAME=$(node -p -e "require('./package.json').name")
+- PACKAGE_VERSION=$(node -p -e "require('./package.json').version")
+- cd release
+- ls
+- zip -r $PACKAGE_NAME-$PACKAGE_VERSION.zip *
+deploy:
+  provider: releases
+  api-key:
+    secure: GV6cwtLvh2TNbp5rY/DqGqRD91Yoq0CSpA2yQTW7zrRcV1Z0Y//IlhcMO3EvO0jvUGGDWPDSNiY09K7f+InFkzqm3gAyRXc+O6v4ugS3VS2OnwM086lMonB3Qi3fcnktpWjaG9/ryd+p9EoG4vLeJ4Q/3/d5/IwWdRNP0Wy5asdNIUrjdENSEvVyokMmFbZVzcureZ8oYXwIh1haREyfi29+oa6r8teYNLT6xS3YyEFvZw7teIH4lMX9ARG3HoeuuR4j9r4MpOrxViAE6zG7QoB26f6EJB7EWmWnIgsu9hCVI6ZrVVQvE4Pu5EfiDjz5zy6fm/hAQQrdZM6c83/9IPYTFkWUEzQcrjaJUyZ6RdfUqUpn9K3IX0lFMy0cvGlJJf9ruQOOKgjPctgpe6fgwnT3+g6OSl7urZX4xNjoCwDHIU7Sm9K4yrU6BHEir1eDhOaOsESTFtCMb8telvsMjfor5ZNtuYq5y32HHqW6LLCtGDRpyWnFCT0/wvMvaO+Mp2r1PxM4aGjZwyOIReD1LOFgxtLdpGq/ttLVV2uAYu3BEW04XUXMkJk6PeCpr85EoTZ1AUq+6jtph/5BHVu4Zy2KR5qkVYsCkT5mGIpM+nbEeGODMb6b8+uQSK4ASzpWtJgdC6f/FgVz2uiRnBP9ep3+YluUVl73U+rbUDyEjx4=
+  file: "$PACKAGE_NAME-$PACKAGE_VERSION.zip"
+  skip_cleanup: true
+  on:
+    tags: true
+    branch: master
