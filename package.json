@@ -1,11 +1,13 @@
 {
   "name": "holochain-basic-chat",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A chat demo for holochain",
   "scripts": {
     "fetch": "download-github-release holochain holochain-basic-chat",
     "hc:build": "rm -rf tmp-storage && mkdir -p ./dna && cd dna-src && hc package --strip-meta -o ../dna/holochain-basic-chat.dna.json",
     "hc:start": "holochain -c ./conductor-config.toml",
+    "hc:start:agent1": "holochain -c ./conductor-config-agent1.toml",
+    "hc:start:agent2": "holochain -c ./conductor-config-agent2.toml",
     "hc:test": "cd dna-src && hc test",
     "prerelease": "rm -rf ./release && cd ui-src && npm run clean && npm run build && cd .. && npm run hc:test && npm run hc:build && mkdir -p ./release && mv ./ui ./release/ui && mv ./dna ./release/dna && cp ./my-conductor-config.toml ./release/my-conductor-config.toml"
   },
