@@ -13,8 +13,6 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build && mv ./build ../ui",
-    "build:agent1": "react-scripts build && mv ./build ../agent1",
-    "build:agent2": "react-scripts build && mv ./build ../agent2",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "lint": "standard",

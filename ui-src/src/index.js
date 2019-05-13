@@ -22,7 +22,7 @@ class View extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      holochainConnection: connect('ws://localhost:3402'), // Use for debug
+      holochainConnection: connect(), // Use for debug
       // holochainConnection: connect(), // use when letting the conductor auto-select. Allows for multiple agents
       connected: false,
       user: {},
@@ -180,8 +180,8 @@ class View extends React.Component {
   }
 
   componentDidMount () {
-    this.state.holochainConnection.then(({ call }) => {
-      call('holo-chat/chat/get_my_member_profile')({}).then((result) => {
+    this.state.holochainConnection.then(({ callZome }) => {
+      callZome('holo-chat', 'chat', 'get_my_member_profile')({}).then((result) => {
         const profile = JSON.parse(result).Ok
         if (profile) {
           console.log('registration user found with profile:', profile)
@@ -195,8 +195,9 @@ class View extends React.Component {
   }
 
   makeHolochainCall (callString, params, callback) {
-    this.state.holochainConnection.then(({ call }) => {
-      call(callString)(params).then((result) => callback(JSON.parse(result)))
+    const [instanceId, zome, func] = callString.split('/')
+    this.state.holochainConnection.then(({ callZome }) => {
+      callZome(instanceId, zome, func)(params).then((result) => callback(JSON.parse(result)))
     })
   }
 
