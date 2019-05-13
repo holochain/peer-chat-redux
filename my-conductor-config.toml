@@ -57,18 +57,3 @@ n3h_path = ""
 n3h_persistence_path = "/tmp"
 bootstrap_nodes = []
 n3h_log_level = "t"
-# -----------  Networking instructions  -----------
-
-# To get networking running requires the following steps:
-
-# - Clone the repo for the holochain networking library n3h (https://github.com/holochain/n3h)
-# - Checkout the tag in n3h for holochain v0.0.4-alpha (git fetch --tags && git checkout v0.0.4-alpha)
-# - run `npm install && npm run boostrap` in the n3h directory
-# - change the n3h_path below to point to the location where you cloned the repo
-
-# - If you are the first node then start the conductor and take careful note of the line that
-#	begins with `READY! tcp://127.0.0.1:43859 [...]
-#	You will need to copy the contents of the array and send it to the nodes you plan to network with.
-# - If you are a joining node then paste the contents from the first node in to the bootstrap_nodes field above
-# - Make sure that you all have different agents for your instances (uncomment new agent and change the instances agent field)
-# - Uncomment the network section and you should be ready do go!
