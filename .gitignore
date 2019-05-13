@@ -11,8 +11,8 @@ ui-src/coverage
 # production
 /build
 foo
-tmp-storage/cas
-tmp-storage/eav
+tmp-storage-agent1
+tmp-storage-agent2
 
 
 # misc

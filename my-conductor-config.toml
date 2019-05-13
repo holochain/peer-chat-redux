@@ -56,7 +56,7 @@ dna_interface = "websocket_interface"
 n3h_path = ""
 n3h_persistence_path = "/tmp"
 bootstrap_nodes = []
-
+n3h_log_level = "t"
 # -----------  Networking instructions  -----------
 
 # To get networking running requires the following steps:

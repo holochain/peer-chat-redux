@@ -1,0 +1,61 @@
+# -----------  Agents  -----------
+
+
+[[agents]]
+id = "test_agent1"
+name = "Agent 1"
+public_address = "HcSCJbpm8CZparb6f5iEKKRv4Te4op93q6ESMRuDtwp9abbzV8zYTF7EKqqw9ei"
+keystore_file = "./agent1.keystore"
+
+# [[agents]]
+# id = "AgentID update the agent property in [[instances]]"
+# name = "Your agent name here"
+# public_address = "public addess"
+# keystore_file = "path/to/keystore"
+# -----------  DNA  -----------
+
+
+[[dnas]]
+id = "chat_dna"
+file = "./dna/holochain-basic-chat.dna.json"
+hash = "Qm328wyq38924y"
+
+[[instances]]
+id = "holo-chat"
+dna = "chat_dna"
+agent = "test_agent1"
+[instances.logger]
+type = "simple"
+file = "app_spec.log"
+[instances.storage]
+type = "file"
+path = "tmp-storage-agent1"
+
+
+[[interfaces]]
+id = "websocket_interface"
+[interfaces.driver]
+type = "websocket"
+port = 3401
+[[interfaces.instances]]
+id = "holo-chat"
+
+# -----------  UI  -----------
+
+[[ui_bundles]]
+id = "main"
+root_dir = "./ui"
+hash = "Qm000"
+
+[[ui_interfaces]]
+id = "ui-interface"
+bundle = "main"
+port = 3001
+dna_interface = "websocket_interface"
+
+# -----------  Networking  -----------
+
+[network]
+n3h_persistence_path = "/Users/philipbeadle/holochain/Holochain/n3h-agent1"
+n3h_log_level = "i"
+bootstrap_nodes = []
