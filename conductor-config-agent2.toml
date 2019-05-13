@@ -1,16 +1,19 @@
 # -----------  Agents  -----------
 
-# generate a new keystore using hc keygen or use an existing keystore
-# copy the public_address and path to the keystore into the [[agents]] section
-# Give yourself an alpha-numeric id with no spaces (_ is ok)
-# Enter your name
-# [[agents]]
-id = "AgentID update the agent property in [[instances]]"
-name = "Your agent name here"
-public_address = "public addess"
-keystore_file = "path/to/keystore"
 
+[[agents]]
+id = "test_agent2"
+name = "Agent 2"
+public_address = "HcSCIUKodbWktcbmwyAaVrYnsbadi6b9sOV9D4ZoE8i333ZtcGw38Jn3U6u63qi"
+keystore_file = "./agent2.keystore"
+
+# [[agents]]
+# id = "AgentID update the agent property in [[instances]]"
+# name = "Your agent name here"
+# public_address = "public addess"
+# keystore_file = "path/to/keystore"
 # -----------  DNA  -----------
+
 
 [[dnas]]
 id = "chat_dna"
@@ -20,20 +23,20 @@ hash = "Qm328wyq38924y"
 [[instances]]
 id = "holo-chat"
 dna = "chat_dna"
-agent = "same as id in [[agents]] section above"
+agent = "test_agent2"
 [instances.logger]
 type = "simple"
 file = "app_spec.log"
 [instances.storage]
 type = "file"
-path = "tmp-storage"
+path = "tmp-storage-agent2"
 
 
 [[interfaces]]
 id = "websocket_interface"
 [interfaces.driver]
 type = "websocket"
-port = 3400
+port = 3402
 [[interfaces.instances]]
 id = "holo-chat"
 
@@ -47,13 +50,12 @@ hash = "Qm000"
 [[ui_interfaces]]
 id = "ui-interface"
 bundle = "main"
-port = 3000
+port = 3002
 dna_interface = "websocket_interface"
 
 # -----------  Networking  -----------
 
 [network]
-n3h_path = ""
-n3h_persistence_path = "/tmp"
-bootstrap_nodes = []
-n3h_log_level = "t"
+n3h_persistence_path = "/Users/philipbeadle/holochain/Holochain/n3h-agent2"
+n3h_log_level = "i"
+bootstrap_nodes = ["wss://10.1.1.202:54319/?a=HcScJt6BhmWdistpwqm4dMxOPNE6gb5ks8AuyTXyrcduemqgmP7wxcoCKccba4a"]
