@@ -29,7 +29,7 @@ type = "simple"
 file = "app_spec.log"
 [instances.storage]
 type = "file"
-path = "tmp-storage"
+path = "tmp-storage-agent2"
 
 
 [[interfaces]]
@@ -44,7 +44,7 @@ id = "holo-chat"
 
 [[ui_bundles]]
 id = "main"
-root_dir = "./agent2"
+root_dir = "./ui"
 hash = "Qm000"
 
 [[ui_interfaces]]
@@ -56,5 +56,6 @@ dna_interface = "websocket_interface"
 # -----------  Networking  -----------
 
 [network]
-n3h_persistence_path = "/tmp"
-bootstrap_nodes = []
+n3h_persistence_path = "/Users/philipbeadle/holochain/Holochain/n3h-agent2"
+n3h_log_level = "i"
+bootstrap_nodes = ["wss://10.1.1.202:54319/?a=HcScJt6BhmWdistpwqm4dMxOPNE6gb5ks8AuyTXyrcduemqgmP7wxcoCKccba4a"]
