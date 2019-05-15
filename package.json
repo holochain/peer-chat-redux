@@ -8,6 +8,7 @@
     "hc:start": "holochain -c ./conductor-config.toml",
     "hc:start:agent1": "holochain -c ./conductor-config-agent1.toml",
     "hc:start:agent2": "holochain -c ./conductor-config-agent2.toml",
+    "hc:start:bridge": "holochain -c ./conductor-config-bridge-p_p.toml",
     "hc:test": "cd dna-src && hc test",
     "prerelease": "rm -rf ./release && cd ui-src && npm run clean && npm run build && cd .. && npm run hc:test && npm run hc:build && mkdir -p ./release && mv ./ui ./release/ui && mv ./dna ./release/dna && cp ./my-conductor-config.toml ./release/my-conductor-config.toml"
   },

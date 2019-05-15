@@ -8,8 +8,11 @@ extern crate serde_json;
 #[macro_use]
 extern crate holochain_core_types_derive;
 use hdk::{
+    // PUBLIC_TOKEN,
     error::ZomeApiResult,
 };
+
+// use serde_json::json;
 
 use hdk::holochain_core_types::{
     hash::HashString,
@@ -35,7 +38,25 @@ define_zome! {
 
     genesis: || {
         {
-    		Ok(())
+            // hdk::debug("genesis start")?;
+            // let result = hdk::call("holochat-p-p-bridge", "profiles", Address::from(PUBLIC_TOKEN.to_string()), // never mind this for now
+            //     "register_app",
+            //     json!({"spec": {
+            //       "name": "holochain-basic-chat",
+            //       "source_dna": "xxx",
+            //       "fields": [{
+            //             "name": "handle",
+            //             "display_name": "Handle",
+            //             "required": true,
+            //             "description": "",
+            //             "usage": "STORE",
+            //             "schema": ""
+            //         }]
+            //     }}).into()
+            // );
+            // hdk::debug(format!("{:?}", result)).unwrap();
+            // hdk::debug("genesis end")?;
+            Ok(())
         }
     }
 
@@ -68,12 +89,12 @@ define_zome! {
 		get_member_profile: {
 			inputs: |agent_address: HashString|,
 			outputs: |result: ZomeApiResult<member::Profile>|,
-			handler: member::handlers::handle_get_member_profile			
+			handler: member::handlers::handle_get_member_profile
 		}
 		get_my_member_profile: {
 			inputs: | |,
 			outputs: |result: ZomeApiResult<member::Profile>|,
-			handler: member::handlers::handle_get_my_member_profile			
+			handler: member::handlers::handle_get_my_member_profile
 		}
 		post_message: {
 			inputs: |stream_address: HashString, message: message::MessageSpec|,
@@ -101,5 +122,3 @@ define_zome! {
 	        ]
 	}
  }
-
-
