@@ -1,5 +1,6 @@
 
 use hdk::{
+    PUBLIC_TOKEN,
     AGENT_ADDRESS,
     holochain_core_types::{
         entry::Entry,
@@ -15,6 +16,8 @@ use hdk::{
 
 use crate::member::Profile;
 use crate::utils;
+
+use serde_json::json;
 
 pub fn handle_register(name: String, avatar_url: String) -> ZomeApiResult<Address> {
     let anchor_entry = Entry::App(
@@ -35,6 +38,26 @@ pub fn handle_register(name: String, avatar_url: String) -> ZomeApiResult<Addres
     );
     let profile_addr = hdk::commit_entry(&profile_entry)?;
     hdk::link_entries(&AGENT_ADDRESS, &profile_addr, "profile")?;
+
+
+    hdk::debug("register spec start")?;
+    let result = hdk::call("holochat-p-p-bridge", "profiles", Address::from(PUBLIC_TOKEN.to_string()), // never mind this for now
+        "register_app",
+        json!({"spec": {
+          "name": "holochain-basic-chat",
+          "source_dna": "xxx",
+          "fields": [{
+                "name": "handle",
+                "display_name": "Handle",
+                "required": true,
+                "description": "",
+                "usage": "STORE",
+                "schema": ""
+            }]
+        }}).into()
+    );
+    hdk::debug(format!("{:?}", result)).unwrap();
+    hdk::debug("register spec end")?;
 
     Ok(AGENT_ADDRESS.to_string().into())
 }

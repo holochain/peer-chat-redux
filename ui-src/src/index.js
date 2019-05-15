@@ -22,8 +22,8 @@ class View extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      holochainConnection: connect('ws://localhost:3401'), // Use for debug
-      // holochainConnection: connect(), // use when letting the conductor auto-select. Allows for multiple agents
+      // holochainConnection: connect('ws://localhost:3401'), // Use for debug
+      holochainConnection: connect(), // use when letting the conductor auto-select. Allows for multiple agents
       connected: false,
       user: {},
       users: {},
