@@ -64,8 +64,8 @@ dna_interface = "websocket_interface"
 # -----------  Networking  -----------
 
 [network]
-n3h_path = "/Users/philipbeadle/holochain/Holochain/n3h/bin/n3h"
-n3h_mode = "REAL"
+# n3h_path = "/Users/philipbeadle/holochain/Holochain/n3h/bin/n3h"
+# n3h_mode = "REAL"
 n3h_persistence_path = "/Users/philipbeadle/holochain/Holochain/n3h-agent2"
 n3h_log_level = "i"
-bootstrap_nodes = []
+bootstrap_nodes = ["wss://10.1.1.202:58762/?a=HcScJHjODX9ep99qnw5MExEtQz5ru5zqyZQn4ZN64tnxxpajhQSnHa53OZe53pr"]

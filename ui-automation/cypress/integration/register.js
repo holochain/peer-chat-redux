@@ -15,6 +15,7 @@ describe('Register 2 agents in 2 instances', function() {
     cy.request('POST', 'http://localhost:4001', message)
     cy.visit('http://localhost:3000/')
     cy.contains('philip')
+    cy.wait(5000)
   })
 
   it('Register the second agents handle with the API', function() {
@@ -30,5 +31,6 @@ describe('Register 2 agents in 2 instances', function() {
       }
     }
     cy.request('POST', 'http://localhost:4002', message)
+    cy.wait(5000)
   })
 })
