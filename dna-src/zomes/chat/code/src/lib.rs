@@ -8,11 +8,11 @@ extern crate serde_json;
 #[macro_use]
 extern crate holochain_core_types_derive;
 use hdk::{
-    // PUBLIC_TOKEN,
+    PUBLIC_TOKEN,
     error::ZomeApiResult,
 };
 
-// use serde_json::json;
+use serde_json::json;
 
 use hdk::holochain_core_types::{
     hash::HashString,
@@ -38,24 +38,24 @@ define_zome! {
 
     genesis: || {
         {
-            // hdk::debug("genesis start")?;
-            // let result = hdk::call("holochat-p-p-bridge", "profiles", Address::from(PUBLIC_TOKEN.to_string()), // never mind this for now
-            //     "register_app",
-            //     json!({"spec": {
-            //       "name": "holochain-basic-chat",
-            //       "source_dna": "xxx",
-            //       "fields": [{
-            //             "name": "handle",
-            //             "display_name": "Handle",
-            //             "required": true,
-            //             "description": "",
-            //             "usage": "STORE",
-            //             "schema": ""
-            //         }]
-            //     }}).into()
-            // );
-            // hdk::debug(format!("{:?}", result)).unwrap();
-            // hdk::debug("genesis end")?;
+            hdk::debug("genesis start")?;
+            let result = hdk::call("holochat-p-p-bridge", "profiles", Address::from(PUBLIC_TOKEN.to_string()), // never mind this for now
+                "register_app",
+                json!({"spec": {
+                  "name": "holochain-basic-chat",
+                  "source_dna": "xxx",
+                  "fields": [{
+                        "name": "handle",
+                        "display_name": "Handle",
+                        "required": true,
+                        "description": "",
+                        "usage": "STORE",
+                        "schema": ""
+                    }]
+                }}).into()
+            );
+            hdk::debug(format!("{:?}", result)).unwrap();
+            hdk::debug("genesis end")?;
             Ok(())
         }
     }

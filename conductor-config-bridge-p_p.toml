@@ -9,15 +9,22 @@ keystore_file = "./agent1.keystore"
 
 # -----------  DNA  -----------
 
+[[dnas]]
+id = "personas_profiles"
+file = "/Users/philipbeadle/holochain/hApps/personas-profiles/dna/personas-profiles.dna.json"
+hash = "Qm328wyq38924y"
+
+[[instances]]
+id = "personas-profiles"
+dna = "personas_profiles"
+agent = "test_agent1"
+[instances.storage]
+type = "memory"
+path = "tmp-storage"
 
 [[dnas]]
 id = "chat_dna"
 file = "./dna/holochain-basic-chat.dna.json"
-hash = "Qm328wyq38924y"
-
-[[dnas]]
-id = "personas_profiles"
-file = "/Users/philipbeadle/holochain/hApps/personas-profiles/dna/personas-profiles.dna.json"
 hash = "Qm328wyq38924y"
 
 [[instances]]
@@ -30,14 +37,6 @@ file = "app_spec.log"
 [instances.storage]
 type = "memory"
 path = "tmp-storage-agent1"
-
-[[instances]]
-id = "personas-profiles"
-dna = "personas_profiles"
-agent = "test_agent1"
-[instances.storage]
-type = "memory"
-path = "tmp-storage"
 
 [[bridges]]
 caller_id = "holo-chat"

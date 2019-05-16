@@ -8,6 +8,7 @@ describe('Create a room via UI and API', function() {
     cy.get('#submit').click()
 
     cy.contains('philip')
+    cy.wait(5000)
   })
 
   it('Agent 2 reate a room with the API check Agent 1 UI can see it', function() {
@@ -27,5 +28,6 @@ describe('Create a room via UI and API', function() {
     cy.visit('http://localhost:3000/')
     cy.get('#refresh').click()
     cy.contains('Room 3 Created by Agent 2')
+    cy.wait(5000)
   })
 })
