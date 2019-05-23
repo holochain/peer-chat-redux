@@ -41,7 +41,7 @@ pub fn profile_definition() -> ValidatingEntryType {
         links: [
             from!(
                 "%agent_id",
-                tag: "profile",
+                link_type: "profile",
 
                 validation_package: || {
                     hdk::ValidationPackageDefinition::Entry
