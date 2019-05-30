@@ -23,18 +23,18 @@ pub fn handle_register(name: String, avatar_url: String) -> ZomeApiResult<Addres
     );
 
     let anchor_address = hdk::commit_entry(&anchor_entry)?;
-    hdk::link_entries(&anchor_address, &AGENT_ADDRESS, "member_tag")?;
+    hdk::link_entries(&anchor_address, &AGENT_ADDRESS, "member_tag", "")?;
 
     let profile_entry = Entry::App(
         "chat_profile".into(),
         Profile {
-            name,
-            avatar_url,
-            address: AGENT_ADDRESS.to_string().into()
-        }.into()
+        name,
+        avatar_url,
+        address: AGENT_ADDRESS.to_string().into()
+    }.into()
     );
     let profile_addr = hdk::commit_entry(&profile_entry)?;
-    hdk::link_entries(&AGENT_ADDRESS, &profile_addr, "profile")?;
+    hdk::link_entries(&AGENT_ADDRESS, &profile_addr, "profile", "")?;
 
     Ok(AGENT_ADDRESS.to_string().into())
 }
