@@ -80,34 +80,35 @@ fn register_spec() -> ZomeApiResult<()> {
     Ok(())
 }
 
-fn retrieve_profile(field_name: String) -> ZomeApiResult<String> {
-    hdk::debug("retrieve_profile start")?;
-    let result = hdk::call("p-p-bridge", "profiles", Address::from(PUBLIC_TOKEN.to_string()), // never mind this for now
-        "retrieve",
-        json!({"retriever_dna": Address::from(DNA_ADDRESS.to_string(), "profile_field": field_name}).into()
-    );
-    hdk::debug(format!("{:?}", result)).unwrap();
-    hdk::debug("retrieve_profile end")?;
-    match
-    Err(())
-    Ok((result))
-}
+// fn retrieve_profile(field_name: String) -> ZomeApiResult<String> {
+//     hdk::debug("retrieve_profile start")?;
+//     let result = hdk::call("p-p-bridge", "profiles", Address::from(PUBLIC_TOKEN.to_string()), // never mind this for now
+//         "retrieve",
+//         json!({"retriever_dna": Address::from(DNA_ADDRESS.to_string(), "profile_field": field_name}).into()
+//     );
+//     hdk::debug(format!("{:?}", result)).unwrap();
+//     hdk::debug("retrieve_profile end")?;
+//     match
+//     Err(())
+//     Ok((result))
+// }
 
 pub fn handle_get_member_profile(agent_address: Address) -> ZomeApiResult<Profile> {
     utils::get_links_and_load_type(&agent_address, "profile")?
         .iter()
         .next()
         .ok_or_else(|| {
-            let handle = retrieve_profile("handle".to_string()).unwrap();
-            if handle is an err {
+            // let handle = retrieve_profile("handle".to_string()).unwrap();
+            // if handle is an err {
                 register_spec().unwrap();
-                ZomeApiError::Internal(Address::from(DNA_ADDRESS.to_string())
-            } else {
-                // register the profile
-                let avatar = retrieve_profile("avatar".to_string()).unwrap();
-                handle_register(handle, avatar);
-                ZomeApiError::Internal(Address::from(DNA_ADDRESS.to_string())
-            }
+                ZomeApiError::Internal(DNA_ADDRESS.to_string())
+            // }
+            // else {
+            //     // register the profile
+            //     let avatar = retrieve_profile("avatar".to_string()).unwrap();
+            //     handle_register(handle, avatar);
+            //     ZomeApiError::Internal(Address::from(DNA_ADDRESS.to_string())
+            // }
         })
         .map(|elem: &utils::GetLinksLoadElement<Profile>| {
             elem.entry.clone()
