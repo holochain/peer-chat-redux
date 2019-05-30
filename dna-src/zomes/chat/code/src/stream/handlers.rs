@@ -41,7 +41,7 @@ pub fn handle_create_stream(
         RawString::from("public_streams").into(),
     );
     let anchor_address = hdk::commit_entry(&anchor_entry)?;
-    hdk::link_entries(&anchor_address, &stream_address, "public_stream")?;
+    hdk::link_entries(&anchor_address, &stream_address, "public_stream", "")?;
 
     Ok(stream_address)
 }
@@ -52,7 +52,7 @@ pub fn handle_join_stream(stream_address: HashString) -> ZomeApiResult<()> {
 }
 
 pub fn handle_get_members(address: HashString) -> ZomeApiResult<Vec<Address>> {
-    let all_member_ids = hdk::get_links(&address, "has_member")?.addresses().to_owned();
+    let all_member_ids = hdk::get_links(&address, Some("has_member".into()), None)?.addresses().to_owned();
     Ok(all_member_ids)
 }
 
@@ -73,7 +73,7 @@ pub fn handle_post_message(stream_address: HashString, message_spec: message::Me
 
     let message_addr = hdk::commit_entry(&message_entry)?;
 
-    hdk::link_entries(&stream_address, &message_addr, "message_in")?;
+    hdk::link_entries(&stream_address, &message_addr, "message_in", "")?;
 
     Ok(())
 }
