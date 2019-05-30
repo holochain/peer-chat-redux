@@ -4,8 +4,11 @@ const dnaPath = "./dist/dna-src.dna.json"
 const dna = Config.dna(dnaPath, 'happs')
 const agentAlice = Config.agent("alice")
 const instanceAlice = Config.instance(agentAlice, dna)
+const agentBob = Config.agent("bob")
+const instanceBob = Config.instance(agentBob, dna)
 const scenario = new Scenario([instanceAlice])
-
+const testBridge = Config.bridge('p-p-bridge', instanceAlice, instanceBob)
+const scenarioBridge = new Scenario([instanceAlice, instanceBob], { bridges: [testBridge], debugLog: true })
 /*----------  Chat  ----------*/
 
 
@@ -23,8 +26,7 @@ const testMessage = {
   meta: "{}",
 }
 
-
-scenario.runTape('Can register a profile and retrieve', async (t, {alice}) => {
+scenarioBridge.runTape('Can register a profile and retrieve', async (t, {alice}) => {
   const register_result = await alice.callSync('chat', 'register', {name: 'alice', avatar_url: ''})
   console.log(register_result)
   t.equal(register_result.Ok.length, 63)
@@ -33,8 +35,8 @@ scenario.runTape('Can register a profile and retrieve', async (t, {alice}) => {
   console.log(get_profile_result)
 })
 
-scenario.runTape('Can create a public stream with no other members and retrieve it', async (t, {alice}) => {
- 
+scenarioBridge.runTape('Can create a public stream with no other members and retrieve it', async (t, {alice}) => {
+
   const register_result = await alice.callSync('chat', 'register', {name: 'alice', avatar_url: ''})
   console.log(register_result)
   t.equal(register_result.Ok.length, 63)
@@ -47,14 +49,14 @@ scenario.runTape('Can create a public stream with no other members and retrieve 
   console.log('all members:', get_all_members_result)
   let allMembers = get_all_members_result.Ok
   t.true(allMembers.length > 0, 'gets at least one member')
-  
+
   const get_result = await alice.callSync('chat', 'get_all_public_streams', {})
   console.log(get_result)
   t.deepEqual(get_result.Ok.length, 1)
 
 })
 
-scenario.runTape('Can post a message to the stream and retrieve', async (t, {alice}) => {
+scenarioBridge.runTape('Can post a message to the stream and retrieve', async (t, {alice}) => {
 
   const register_result = await alice.callSync('chat', 'register', {name: 'alice', avatar_url: ''})
   console.log(register_result)
@@ -78,7 +80,7 @@ scenario.runTape('Can post a message to the stream and retrieve', async (t, {ali
   t.deepEqual(get_message_result.Ok[0].entry.payload, testMessage.payload, 'expected to receive the message back')
 })
 
-scenario.runTape('Can create a public stream with some members', async (t, {alice}) => {
+scenarioBridge.runTape('Can create a public stream with some members', async (t, {alice}) => {
 
   const register_result = await alice.callSync('chat', 'register', {name: 'alice', avatar_url: ''})
   console.log(register_result)
@@ -93,5 +95,3 @@ scenario.runTape('Can create a public stream with some members', async (t, {alic
   let allMemberAddrs = get_all_members_result.Ok
   t.true(allMemberAddrs.length > 0, 'gets at least one member')
 })
-
-

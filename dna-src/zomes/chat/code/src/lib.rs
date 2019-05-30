@@ -35,7 +35,7 @@ define_zome! {
 
     genesis: || {
         {
-    		Ok(())
+            Ok(())
         }
     }
 
@@ -68,12 +68,12 @@ define_zome! {
 		get_member_profile: {
 			inputs: |agent_address: HashString|,
 			outputs: |result: ZomeApiResult<member::Profile>|,
-			handler: member::handlers::handle_get_member_profile			
+			handler: member::handlers::handle_get_member_profile
 		}
 		get_my_member_profile: {
 			inputs: | |,
 			outputs: |result: ZomeApiResult<member::Profile>|,
-			handler: member::handlers::handle_get_my_member_profile			
+			handler: member::handlers::handle_get_my_member_profile
 		}
 		post_message: {
 			inputs: |stream_address: HashString, message: message::MessageSpec|,
@@ -101,5 +101,3 @@ define_zome! {
 	        ]
 	}
  }
-
-

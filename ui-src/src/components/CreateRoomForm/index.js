@@ -19,8 +19,8 @@ export const CreateRoomForm = ({ submit }) => (
       e.target[0].value = ''
     }}
   >
-    <input placeholder='Create a Room' />
-    <button type='submit'>
+    <input id='room' placeholder='Create a Room' />
+    <button id='submit' type='submit'>
       <svg>
         <use xlinkHref='index.svg#add' />
       </svg>
