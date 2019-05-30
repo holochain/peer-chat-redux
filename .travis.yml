@@ -3,7 +3,7 @@ language: nix
 script:
 - git clone https://github.com/holochain/holochain-rust.git
 - ls
-- nix-shell --run 'hc -V && cd ui-src && npm install && cd .. && npm run prerelease' https://github.com/holochain/holochain-rust/archive/3b42375dc31442b62855cff8c339a6422c447176.tar.gz
+- nix-shell --run 'hc -V && cd ui-src && npm install && cd .. && npm run prerelease' https://holochain.love
 - PACKAGE_NAME=$(node -p -e "require('./package.json').name")
 - PACKAGE_VERSION=$(node -p -e "require('./package.json').version")
 - cd release/ui

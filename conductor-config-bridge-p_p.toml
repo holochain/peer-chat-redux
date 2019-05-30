@@ -41,7 +41,7 @@ path = "tmp-storage-agent1"
 [[bridges]]
 caller_id = "holo-chat"
 callee_id = "personas-profiles"
-handle = "holochat-p-p-bridge"
+handle = "p-p-bridge"
 
 [[interfaces]]
 id = "chat_websocket_interface"

@@ -2,6 +2,7 @@
 use hdk::{
     PUBLIC_TOKEN,
     AGENT_ADDRESS,
+    DNA_ADDRESS,
     holochain_core_types::{
         entry::Entry,
         json::{RawString},
@@ -39,34 +40,75 @@ pub fn handle_register(name: String, avatar_url: String) -> ZomeApiResult<Addres
     let profile_addr = hdk::commit_entry(&profile_entry)?;
     hdk::link_entries(&AGENT_ADDRESS, &profile_addr, "profile")?;
 
+    Ok(AGENT_ADDRESS.to_string().into())
+}
 
+fn register_spec() -> ZomeApiResult<()> {
     hdk::debug("register spec start")?;
-    let result = hdk::call("holochat-p-p-bridge", "profiles", Address::from(PUBLIC_TOKEN.to_string()), // never mind this for now
+    let result = hdk::call("p-p-bridge", "profiles", Address::from(PUBLIC_TOKEN.to_string()), // never mind this for now
         "register_app",
         json!({"spec": {
           "name": "holochain-basic-chat",
-          "source_dna": "xxx",
+          "sourceDna": Address::from(DNA_ADDRESS.to_string()),
           "fields": [{
-                "name": "handle",
-                "display_name": "Handle",
-                "required": true,
-                "description": "",
-                "usage": "STORE",
-                "schema": ""
-            }]
-        }}).into()
+                    "name": "handle",
+                    "displayName": "Handle",
+                    "required": true,
+                    "description": "This is the name other people you cha to will see. ",
+                    "usage": "STORE",
+                    "schema": ""
+                },
+                {
+                    "name": "avatar",
+                    "displayName": "Avatar",
+                    "required": true,
+                    "description": "",
+                    "usage": "STORE",
+                    "schema": ""
+                },
+                {
+                    "name": "first_name",
+                    "displayName": "First Name",
+                    "required": true,
+                    "description": "Your name will show when someone clicks it in the members list if you are online",
+                    "usage": "DISPLAY",
+                    "schema": ""
+                }]}}).into()
     );
     hdk::debug(format!("{:?}", result)).unwrap();
     hdk::debug("register spec end")?;
+    Ok(())
+}
 
-    Ok(AGENT_ADDRESS.to_string().into())
+fn retrieve_profile(field_name: String) -> ZomeApiResult<String> {
+    hdk::debug("retrieve_profile start")?;
+    let result = hdk::call("p-p-bridge", "profiles", Address::from(PUBLIC_TOKEN.to_string()), // never mind this for now
+        "retrieve",
+        json!({"retriever_dna": Address::from(DNA_ADDRESS.to_string(), "profile_field": field_name}).into()
+    );
+    hdk::debug(format!("{:?}", result)).unwrap();
+    hdk::debug("retrieve_profile end")?;
+    match
+    Err(())
+    Ok((result))
 }
 
 pub fn handle_get_member_profile(agent_address: Address) -> ZomeApiResult<Profile> {
     utils::get_links_and_load_type(&agent_address, "profile")?
         .iter()
         .next()
-        .ok_or(ZomeApiError::Internal("Agent does not have a profile registered".into()))
+        .ok_or_else(|| {
+            let handle = retrieve_profile("handle".to_string()).unwrap();
+            if handle is an err {
+                register_spec().unwrap();
+                ZomeApiError::Internal(Address::from(DNA_ADDRESS.to_string())
+            } else {
+                // register the profile
+                let avatar = retrieve_profile("avatar".to_string()).unwrap();
+                handle_register(handle, avatar);
+                ZomeApiError::Internal(Address::from(DNA_ADDRESS.to_string())
+            }
+        })
         .map(|elem: &utils::GetLinksLoadElement<Profile>| {
             elem.entry.clone()
         })

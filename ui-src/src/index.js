@@ -188,6 +188,8 @@ class View extends React.Component {
           this.actions.setUser({ id: profile.address, name: profile.name, avatarURL: profile.avatar_url })
         } else {
           console.log('User has not registered a profile. Complete the form to proceed')
+          const address = JSON.parse(result).Err
+          window.location.replace("http://localhost:3000/profile/" + address + "/returnUrl/http://localhost:3001");
         }
         this.setState({ connected: true })
       })
