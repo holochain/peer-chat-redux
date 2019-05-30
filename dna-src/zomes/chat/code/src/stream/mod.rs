@@ -35,7 +35,7 @@ pub fn public_stream_definition() -> ValidatingEntryType {
         links: [
             to!(
                 "%agent_id",
-                tag: "has_member",
+                link_type: "has_member",
 
                 validation_package: || {
                     hdk::ValidationPackageDefinition::Entry
@@ -47,7 +47,7 @@ pub fn public_stream_definition() -> ValidatingEntryType {
             ),
             from!(
                 "%agent_id",
-                tag: "member_of",
+                link_type: "member_of",
 
                 validation_package: || {
                     hdk::ValidationPackageDefinition::Entry
@@ -59,7 +59,7 @@ pub fn public_stream_definition() -> ValidatingEntryType {
             ),
             to!(
                 "message",
-                tag: "message_in",
+                link_type: "message_in",
 
                 validation_package: || {
                     hdk::ValidationPackageDefinition::Entry

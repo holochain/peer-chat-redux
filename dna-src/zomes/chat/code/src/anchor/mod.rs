@@ -23,7 +23,7 @@ pub fn anchor_definition() -> ValidatingEntryType {
         links: [
             to!(
                 "%agent_id",
-                tag: "member_tag",
+                link_type: "member_tag",
 
                 validation_package: || {
                     hdk::ValidationPackageDefinition::Entry
@@ -35,7 +35,7 @@ pub fn anchor_definition() -> ValidatingEntryType {
             ),
             to!(
                 "public_stream",
-                tag: "public_stream",
+                link_type: "public_stream",
 
                 validation_package: || {
                     hdk::ValidationPackageDefinition::Entry
