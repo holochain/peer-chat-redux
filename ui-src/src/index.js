@@ -22,7 +22,7 @@ class View extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      holochainConnection: connect(), // Use for debug
+      holochainConnection: connect('ws://localhost:3401'), // Use for debug
       // holochainConnection: connect(), // use when letting the conductor auto-select. Allows for multiple agents
       connected: false,
       user: {},
@@ -188,6 +188,8 @@ class View extends React.Component {
           this.actions.setUser({ id: profile.address, name: profile.name, avatarURL: profile.avatar_url })
         } else {
           console.log('User has not registered a profile. Complete the form to proceed')
+          const address = JSON.parse(result).Err
+          window.location.replace("http://localhost:3000/profile/" + address + "/returnUrl/http://localhost:3001");
         }
         this.setState({ connected: true })
       })

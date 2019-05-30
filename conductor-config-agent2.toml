@@ -28,7 +28,7 @@ agent = "test_agent2"
 type = "simple"
 file = "app_spec.log"
 [instances.storage]
-type = "file"
+type = "memory"
 path = "tmp-storage-agent2"
 
 
@@ -37,6 +37,14 @@ id = "websocket_interface"
 [interfaces.driver]
 type = "websocket"
 port = 3402
+[[interfaces.instances]]
+id = "holo-chat"
+
+[[interfaces]]
+id = "http_interface"
+[interfaces.driver]
+type = "http"
+port = 4002
 [[interfaces.instances]]
 id = "holo-chat"
 
@@ -56,6 +64,8 @@ dna_interface = "websocket_interface"
 # -----------  Networking  -----------
 
 [network]
+# n3h_path = "/Users/philipbeadle/holochain/Holochain/n3h/bin/n3h"
+n3h_mode = "REAL"
 n3h_persistence_path = "/Users/philipbeadle/holochain/Holochain/n3h-agent2"
 n3h_log_level = "i"
-bootstrap_nodes = ["wss://10.1.1.202:54319/?a=HcScJt6BhmWdistpwqm4dMxOPNE6gb5ks8AuyTXyrcduemqgmP7wxcoCKccba4a"]
+bootstrap_nodes = []

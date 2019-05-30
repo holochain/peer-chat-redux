@@ -20,7 +20,7 @@ export const RoomList = ({
   if(user.id) {
     refresh = (
     <li onClick={actions.getRooms}>
-      <input type='image' alt='refresh' src={`refresh.svg`} />
+      <input id='refresh' type='image' alt='refresh' src={`refresh.svg`} />
     </li>)
   } else {
     refresh = <li></li>
