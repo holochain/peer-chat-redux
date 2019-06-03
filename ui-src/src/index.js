@@ -31,7 +31,8 @@ class View extends React.Component {
       rooms: [],
       messages: {},
       sidebarOpen: false,
-      userListOpen: window.innerWidth > 1000
+      userListOpen: window.innerWidth > 1000,
+      profileSpecSourceDna: ''
     }
 
     this.actions = {
@@ -187,9 +188,9 @@ class View extends React.Component {
           console.log('registration user found with profile:', profile)
           this.actions.setUser({ id: profile.address, name: profile.name, avatarURL: profile.avatar_url })
         } else {
-          console.log('User has not registered a profile. Complete the form to proceed')
-          const address = JSON.parse(result).Err
-          window.location.replace("http://localhost:3000/profile/" + address + "/returnUrl/http://localhost:3001");
+          const profileSpecSourceDna = JSON.parse(result).Err.Internal
+          console.log('User has not registered a profile. Complete the form to proceed ' + JSON.stringify(profileSpecSourceDna))
+          this.setState({ profileSpecSourceDna: profileSpecSourceDna })
         }
         this.setState({ connected: true })
       })
@@ -215,6 +216,10 @@ class View extends React.Component {
       connected
     } = this.state
     const { createRoom, registerUser } = this.actions
+
+    if (connected && !user.id) {
+      window.location.replace("http://localhost:3000/profile/" + this.state.profileSpecSourceDna + "/http%3A%2F%2Flocalhost%3A3002")
+    }
 
     return (
       <main>
