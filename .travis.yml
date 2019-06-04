@@ -3,8 +3,14 @@ language: nix
 script:
 - ls
 - mkdir holochain-basic-chat
-- shopt -s extglob dotglob
+- shopt -s extglob
 - mv !(holochain-basic-chat) holochain-basic-chat
 - ls
 - cd holochain-basic-chat
+- ls
+- git clone https://github.com/holochain/personas-profiles.git
+- cd personas-profiles
+- nix-shell --run 'npm run hc:build' https://holochain.love
+- cd dna
+- pwd
 - ls
