@@ -3,7 +3,8 @@ language: nix
 script:
 - ls
 - mkdir holochain-basic-chat
-- mv ./* holochain-basic-chat
+- shopt -s extglob dotglob
+- mv !(holochain-basic-chat) holochain-basic-chat
 - ls
 - cd holochain-basic-chat
 - ls
