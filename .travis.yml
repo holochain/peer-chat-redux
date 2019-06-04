@@ -2,3 +2,8 @@ dist: trusty
 language: nix
 script:
 - ls
+- mkdir holochain-basic-chat
+- mv ./* holochain-basic-chat
+- ls
+- cd holochain-basic-chat
+- ls
