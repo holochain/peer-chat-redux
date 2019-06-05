@@ -2,7 +2,7 @@ const { Config, Container, Scenario } = require('@holochain/holochain-nodejs')
 Scenario.setTape(require('tape'))
 const chat_dnaPath = "./dist/dna-src.dna.json"
 const chat_dna = Config.dna(chat_dnaPath, 'chat')
-const personas_dnaPath = "/Users/philipbeadle/holochain/hApps/personas-profiles/dna/personas-profiles.dna.json"
+const personas_dnaPath = "../../personas-profiles/dna/personas-profiles.dna.json"
 const personas_dna = Config.dna(personas_dnaPath, 'personas')
 const agentAlice = Config.agent("alice")
 const instanceAliceChat = Config.instance(agentAlice, chat_dna, 'chat_instance')
@@ -98,12 +98,17 @@ const testMessage = {
 // })
 
 scenarioBridge.runTape('Registers the Profile Spec when there is no existing profile', async (t, {chat_instance, personas_instance}) => {
-  const get_profile_result = await chat_instance.callSync('chat', 'get_member_profile', {agent_address: 'HcScjwO9ji9633ZYxa6IYubHJHW6ctfoufv5eq4F7ZOxay8wR76FP4xeG9pY3ui'})
-  const sourceDna = get_profile_result.Err.Internal
-  // await new Promise(resolve => setTimeout(resolve, 3000))
-  // const get_result = await personas_instance.callSync("profiles", "get_profiles", {})
-  // console.log(get_result)
-  // t.deepEqual(get_result.Ok.length, 1)
+  // const get_profile_result_1 = await chat_instance.callSync('chat', 'get_member_profile', {agent_address: 'HcScjwO9ji9633ZYxa6IYubHJHW6ctfoufv5eq4F7ZOxay8wR76FP4xeG9pY3ui'})
+  // let sourceDna = get_profile_result_1.Err.Internal
+  // console.log('sourceDna ' + sourceDna)
+  //
+  // const get_profile_result_2 = await chat_instance.callSync('chat', 'get_member_profile', {agent_address: 'HcScjwO9ji9633ZYxa6IYubHJHW6ctfoufv5eq4F7ZOxay8wR76FP4xeG9pY3ui'})
+  // sourceDna = get_profile_result_2.Err.Internal
+  // console.log('sourceDna ' + sourceDna)
+
+  const get_result = await personas_instance.callSync("profiles", "get_profiles", {})
+  console.log("Profiles" + get_result)
+  t.deepEqual(get_result.Ok.length, 1)
 
   console.log(sourceDna)
 

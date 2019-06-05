@@ -6,8 +6,8 @@ use hdk::{
     holochain_core_types::{
         entry::Entry,
         json::{RawString},
+        json::{JsonString},
         cas::content::Address,
-        error::HolochainError,
     },
     error::{
         ZomeApiResult,
@@ -16,7 +16,7 @@ use hdk::{
 };
 
 use crate::member::Profile;
-use crate::utils;
+use hdk::utils::GetLinksLoadResult;
 
 use serde_json::json;
 
@@ -88,46 +88,50 @@ fn register_spec() -> ZomeApiResult<()> {
     Ok(())
 }
 
-fn retrieve_profile(field_name: String) -> ZomeApiResult<RawString> {
+fn retrieve_profile(field_name: String) -> ZomeApiResult<JsonString> {
     hdk::debug("retrieve_profile start")?;
     let result_json = hdk::call("p-p-bridge", "profiles", Address::from(PUBLIC_TOKEN.to_string()), // never mind this for now
         "retrieve",
         json!({"retriever_dna": Address::from(DNA_ADDRESS.to_string()), "profile_field": field_name}).into()
-    )?;
+    );
     hdk::debug(format!("{:?}", &result_json))?;
-
-    let entry: Result<RawString, HolochainError> = result_json.try_into();
-
-    // let result: ZomeApiResult<RawString> = result_json.try_into()?;
-    // let result_serde_json: serde_json::Value = serde_json::from_str(result_json.to_string().as_ref()).unwrap();
-    // let entry: RawString = result_serde_json["Ok"].as_str().unwrap().into();
-
-    // let entry = result_json.try_into()?;
-    hdk::debug(format!("********DEBUG******** BRIDGING ACTUAL response from retrieve_field {:?}", entry))?;
+    hdk::debug(format!("********DEBUG******** BRIDGING ACTUAL response from retrieve_field {:?}", &result_json)).ok();
     hdk::debug("retrieve_profile end")?;
-    Ok(entry.unwrap())
+    result_json
 }
 
 pub fn handle_get_member_profile(agent_address: Address) -> ZomeApiResult<Profile> {
-    utils::get_links_and_load_type(&agent_address, "profile")?
-        .iter()
+    hdk::utils::get_links_and_load_type(&agent_address, Some("profile".into()), None)?
+        .into_iter()
         .next()
         .ok_or_else(|| {
             let maybe_handle = retrieve_profile("handle".to_string());
             let maybe_avatar = retrieve_profile("avatar".to_string());
-            // hdk::debug(format!("handle {:?}", handle));
+            hdk::debug(format!("saved handle {:?}", maybe_handle)).ok();
+            hdk::debug(format!("saved avatar {:?}", maybe_avatar)).ok();
             match (maybe_handle, maybe_avatar) {
                 (Ok(handle), Ok(avatar)) => {
-                    handle_register(handle.into(), avatar.into()).unwrap();
-                    ZomeApiError::Internal(DNA_ADDRESS.to_string())
+                    let inner_handle: ZomeApiResult<String> = handle.clone().try_into().unwrap();
+                    let inner_avatar: ZomeApiResult<String> = avatar.clone().try_into().unwrap();
+                    match (inner_handle, inner_avatar) {
+                        (Ok(saved_handle), Ok(saved_avatar)) => {
+                            hdk::debug(format!("saved_handle {:?}", saved_handle)).ok();
+                            hdk::debug(format!("saved_avatar {:?}", saved_avatar)).ok();
+                            handle_register(saved_handle.try_into().unwrap(), saved_avatar.try_into().unwrap()).unwrap();
+                            hdk::debug("Profile details registered").ok();
+                            ZomeApiError::Internal(DNA_ADDRESS.to_string())
+                        }
+                        _ => {
+                            register_spec().unwrap();
+                            hdk::debug("Spec registered").ok();
+                            ZomeApiError::Internal(DNA_ADDRESS.to_string())
+                        }
+                    }
                 }
-                _ => {
-                    register_spec().unwrap();
-                    ZomeApiError::Internal(DNA_ADDRESS.to_string())
-                }
+                _ => unreachable!()
             }
         })
-        .map(|elem: &utils::GetLinksLoadElement<Profile>| {
+        .map(|elem: GetLinksLoadResult<Profile>| {
             elem.entry.clone()
         })
 }

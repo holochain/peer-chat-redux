@@ -10,7 +10,7 @@ extern crate holochain_core_types_derive;
 use hdk::{
     error::ZomeApiResult,
 };
-
+use hdk::utils::GetLinksLoadResult;
 use hdk::holochain_core_types::{
     hash::HashString,
     cas::content::Address,
@@ -22,7 +22,6 @@ mod anchor;
 mod message;
 mod stream;
 mod member;
-mod utils;
 
 define_zome! {
 
@@ -57,7 +56,7 @@ define_zome! {
 		}
 		get_all_public_streams: {
 			inputs: | |,
-			outputs: |result: ZomeApiResult<utils::GetLinksLoadResult<stream::Stream>>|,
+			outputs: |result: ZomeApiResult<Vec<GetLinksLoadResult<stream::Stream>>>|,
 			handler: stream::handlers::handle_get_all_public_streams
 		}
 		get_members: {
@@ -82,7 +81,7 @@ define_zome! {
 		}
 		get_messages: {
 			inputs: |address: HashString|,
-			outputs: |result: ZomeApiResult<utils::GetLinksLoadResult<message::Message>>|,
+			outputs: |result: ZomeApiResult<Vec<GetLinksLoadResult<message::Message>>>|,
 			handler: stream::handlers::handle_get_messages
 		}
 	]
