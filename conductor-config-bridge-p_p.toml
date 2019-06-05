@@ -11,7 +11,7 @@ keystore_file = "./agent1.keystore"
 
 [[dnas]]
 id = "personas_profiles"
-file = "/Users/philipbeadle/holochain/hApps/personas-profiles/dna/personas-profiles.dna.json"
+file = "../personas-profiles/dna/personas-profiles.dna.json"
 hash = "Qm328wyq38924y"
 
 [[instances]]

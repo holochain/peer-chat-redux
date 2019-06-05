@@ -9,9 +9,14 @@
   serde_derive = "=1.0.89"
   juniper = "0.11.1"
   derive_more = "0.9.0"
-  hdk = { git = "https://github.com/holochain/holochain-rust" , tag = "v0.0.18-alpha1" }
-  holochain_wasm_utils = { git = "https://github.com/holochain/holochain-rust" , tag = "v0.0.18-alpha1" }
-  holochain_core_types_derive = { git = "https://github.com/holochain/holochain-rust" , tag = "v0.0.18-alpha1" }
+
+  # hdk = { git = "https://github.com/holochain/holochain-rust" , tag = "v0.0.18-alpha1" }
+  # holochain_wasm_utils = { git = "https://github.com/holochain/holochain-rust" , tag = "v0.0.18-alpha1" }
+  # holochain_core_types_derive = { git = "https://github.com/holochain/holochain-rust" , tag = "v0.0.18-alpha1" }
+
+  hdk = { git = "https://github.com/holochain/holochain-rust" , branch = "utils-add-get-links-addre" }
+  holochain_wasm_utils = { git = "https://github.com/holochain/holochain-rust" , branch = "utils-add-get-links-addre" }
+  holochain_core_types_derive = { git = "https://github.com/holochain/holochain-rust" , branch = "utils-add-get-links-addre" }
 
 [lib]
   path = "src/lib.rs"

@@ -13,7 +13,7 @@ use crate::stream::{
 };
 
 
-use crate::utils;
+use hdk::utils::GetLinksLoadResult;
 use crate::message;
 
 pub fn handle_create_stream(
@@ -30,10 +30,10 @@ pub fn handle_create_stream(
     );
 
     let stream_address = hdk::commit_entry(&entry)?;
-    utils::link_entries_bidir(&AGENT_ADDRESS, &stream_address, "member_of", "has_member")?;
-    
+    hdk::utils::link_entries_bidir(&AGENT_ADDRESS, &stream_address, "member_of", "has_member", "", "")?;
+
     for member in initial_members {
-        utils::link_entries_bidir(&member, &stream_address, "member_of", "has_member")?;
+        hdk::utils::link_entries_bidir(&member, &stream_address, "member_of", "has_member", "", "")?;
     }
 
     let anchor_entry = Entry::App(
@@ -47,7 +47,7 @@ pub fn handle_create_stream(
 }
 
 pub fn handle_join_stream(stream_address: HashString) -> ZomeApiResult<()> {
-    utils::link_entries_bidir(&AGENT_ADDRESS, &stream_address, "member_of", "has_member")?;
+    hdk::utils::link_entries_bidir(&AGENT_ADDRESS, &stream_address, "member_of", "has_member", "", "")?;
     Ok(())
 }
 
@@ -56,8 +56,8 @@ pub fn handle_get_members(address: HashString) -> ZomeApiResult<Vec<Address>> {
     Ok(all_member_ids)
 }
 
-pub fn handle_get_messages(address: HashString) -> ZomeApiResult<utils::GetLinksLoadResult<message::Message>> {
-    utils::get_links_and_load_type(&address, "message_in")
+pub fn handle_get_messages(address: HashString) -> ZomeApiResult<Vec<GetLinksLoadResult<message::Message>>> {
+    hdk::utils::get_links_and_load_type(&address, Some("message_in".into()), None)
 }
 
 pub fn handle_post_message(stream_address: HashString, message_spec: message::MessageSpec) -> ZomeApiResult<()> {
@@ -78,11 +78,11 @@ pub fn handle_post_message(stream_address: HashString, message_spec: message::Me
     Ok(())
 }
 
-pub fn handle_get_all_public_streams() -> ZomeApiResult<utils::GetLinksLoadResult<Stream>> {
+pub fn handle_get_all_public_streams() -> ZomeApiResult<Vec<GetLinksLoadResult<Stream>>> {
     let anchor_entry = Entry::App(
         "anchor".into(),
         RawString::from("public_streams").into(),
     );
     let anchor_address = hdk::entry_address(&anchor_entry)?;
-    utils::get_links_and_load_type(&anchor_address, "public_stream")
+    hdk::utils::get_links_and_load_type(&anchor_address, Some("public_stream".into()), None)
 }
