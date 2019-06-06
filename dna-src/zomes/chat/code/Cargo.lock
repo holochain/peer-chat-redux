@@ -239,7 +239,7 @@ dependencies = [
 [[package]]
 name = "hdk"
 version = "0.0.18-alpha1"
-source = "git+https://github.com/holochain/holochain-rust?branch=utils-add-get-links-addre#767f312291ac358b623fb3174c29dd95c4123a64"
+source = "git+https://github.com/holochain/holochain-rust?branch=utils-add-get-links-addre#ed16718a20fe5df47f6c0d2851378cb2701a51b0"
 dependencies = [
  "bitflags 1.0.4 (registry+https://github.com/rust-lang/crates.io-index)",
  "holochain_core_types 0.0.18-alpha1 (git+https://github.com/holochain/holochain-rust?branch=utils-add-get-links-addre)",
@@ -269,7 +269,7 @@ dependencies = [
 [[package]]
 name = "holochain_core_types"
 version = "0.0.18-alpha1"
-source = "git+https://github.com/holochain/holochain-rust?branch=utils-add-get-links-addre#767f312291ac358b623fb3174c29dd95c4123a64"
+source = "git+https://github.com/holochain/holochain-rust?branch=utils-add-get-links-addre#ed16718a20fe5df47f6c0d2851378cb2701a51b0"
 dependencies = [
  "arrayref 0.3.5 (registry+https://github.com/rust-lang/crates.io-index)",
  "base64 0.10.1 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -300,7 +300,7 @@ dependencies = [
 [[package]]
 name = "holochain_core_types_derive"
 version = "0.0.18-alpha1"
-source = "git+https://github.com/holochain/holochain-rust?branch=utils-add-get-links-addre#767f312291ac358b623fb3174c29dd95c4123a64"
+source = "git+https://github.com/holochain/holochain-rust?branch=utils-add-get-links-addre#ed16718a20fe5df47f6c0d2851378cb2701a51b0"
 dependencies = [
  "quote 0.6.11 (registry+https://github.com/rust-lang/crates.io-index)",
  "serde 1.0.89 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -311,7 +311,7 @@ dependencies = [
 [[package]]
 name = "holochain_wasm_utils"
 version = "0.0.18-alpha1"
-source = "git+https://github.com/holochain/holochain-rust?branch=utils-add-get-links-addre#767f312291ac358b623fb3174c29dd95c4123a64"
+source = "git+https://github.com/holochain/holochain-rust?branch=utils-add-get-links-addre#ed16718a20fe5df47f6c0d2851378cb2701a51b0"
 dependencies = [
  "holochain_core_types 0.0.18-alpha1 (git+https://github.com/holochain/holochain-rust?branch=utils-add-get-links-addre)",
  "holochain_core_types_derive 0.0.18-alpha1 (git+https://github.com/holochain/holochain-rust?branch=utils-add-get-links-addre)",
