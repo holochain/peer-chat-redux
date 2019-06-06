@@ -107,39 +107,73 @@ fn retrieve_profile(field_name: String) -> ZomeApiResult<String> {
     result_json.try_into()?
 }
 
+// pub fn handle_get_member_profile(agent_address: Address) -> ZomeApiResult<Profile> {
+//     match hdk::utils::get_links_and_load_type::<Profile>(&agent_address, Some("profile".into()), None)?
+//         .into_iter()
+//         .next() {
+//             None => {
+//                 match (retrieve_profile("handle".to_string()), retrieve_profile("avatar".to_string())) {
+//                     (Ok(handle), Ok(avatar)) => {
+//                         // handle and avatar both successfully retrieved from P&P
+//                         // register them then return the profile
+//                         handle_register(handle.clone(), avatar.clone())?;
+//                         hdk::debug("Profile details registered").ok();
+//                         Ok(Profile {
+//                             name: handle,
+//                             avatar_url: avatar,
+//                             address: AGENT_ADDRESS.to_string().into(),
+//                         })
+//                     }
+//                     _ => {
+//                         // no handle or avatar in P&P
+//                         // register the spec then trigger redirect
+//                         register_spec().unwrap();
+//                         hdk::debug("Spec registered").ok();
+//                         Err(ZomeApiError::Internal(DNA_ADDRESS.to_string()))
+//                     }
+//                 }
+//             },
+//             Some(result) => {
+//                 // the profile already existed. Return it with no redirect
+//                 Ok(result.entry.clone())
+//             }
+//         }
+// }
+
 pub fn handle_get_member_profile(agent_address: Address) -> ZomeApiResult<Profile> {
-    match hdk::utils::get_links_and_load_type::<Profile>(&agent_address, Some("profile".into()), None)?
-        .into_iter()
-        .next() {
-            None => {
-                match (retrieve_profile("handle".to_string()), retrieve_profile("avatar".to_string())) {
-                    (Ok(handle), Ok(avatar)) => {
-                        // handle and avatar both successfully retrieved from P&P
-                        // register them then return the profile
-                        handle_register(handle.clone(), avatar.clone())?;
-                        hdk::debug("Profile details registered").ok();
-                        Ok(Profile {
-                            name: handle,
-                            avatar_url: avatar,
-                            address: AGENT_ADDRESS.to_string().into(),
-                        })
-                    }
-                    _ => {
-                        // no handle or avatar in P&P
-                        // register the spec then trigger redirect
-                        register_spec().unwrap();
-                        hdk::debug("Spec registered").ok();
-                        Err(ZomeApiError::Internal(DNA_ADDRESS.to_string()))
-                    }
-                }
-            },
-            Some(result) => {
-                // the profile already existed. Return it with no redirect
-                Ok(result.entry.clone())
-            }
-        }
+    hdk::utils::get_links_and_load_type(&agent_address, Some("profile".into()), None)?
+        .iter()
+        .next()
+        .ok_or(ZomeApiError::Internal("Agent does not have a profile registered".into()))
+        .map(|elem: &hdk::utils::GetLinksLoadResult<Profile>| {
+            elem.entry.clone()
+        })
 }
 
 pub fn handle_get_my_member_profile() -> ZomeApiResult<Profile> {
-    handle_get_member_profile(AGENT_ADDRESS.to_string().into())
+    match handle_get_member_profile(AGENT_ADDRESS.to_string().into()) {
+        Ok(profile) => Ok(profile),
+        Err(_) => {
+            match (retrieve_profile("handle".to_string()), retrieve_profile("avatar".to_string())) {
+                (Ok(handle), Ok(avatar)) => {
+                    // handle and avatar both successfully retrieved from P&P
+                    // register them then return the profile
+                    handle_register(handle.clone(), avatar.clone())?;
+                    hdk::debug("Profile details registered").ok();
+                    Ok(Profile {
+                        name: handle,
+                        avatar_url: avatar,
+                        address: AGENT_ADDRESS.to_string().into(),
+                    })
+                }
+                _ => {
+                    // no handle or avatar in P&P
+                    // register the spec then trigger redirect
+                    register_spec().unwrap();
+                    hdk::debug("Spec registered").ok();
+                    Err(ZomeApiError::Internal(DNA_ADDRESS.to_string()))
+                }
+            }
+        },
+    }
 }
