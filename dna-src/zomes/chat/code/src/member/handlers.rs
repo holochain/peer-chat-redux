@@ -15,7 +15,7 @@ use hdk::{
 };
 
 use crate::member::Profile;
-
+use crate::profile_spec;
 use serde_json::json;
 
 pub fn handle_register(name: String, avatar_url: String) -> ZomeApiResult<Address> {
@@ -45,41 +45,7 @@ fn register_spec() -> ZomeApiResult<()> {
     hdk::debug("register spec start")?;
     let result = hdk::call("p-p-bridge", "profiles", Address::from(PUBLIC_TOKEN.to_string()), // never mind this for now
         "register_app",
-        json!({"spec": {
-          "name": "holochain-basic-chat",
-          "sourceDna": DNA_ADDRESS.to_string(),
-          "fields": [{
-                    "name": "handle",
-                    "displayName": "Handle",
-                    "required": true,
-                    "description": "This is the name other people you cha to will see. ",
-                    "usage": "STORE",
-                    "schema": ""
-                },
-                {
-                    "name": "avatar",
-                    "displayName": "Avatar",
-                    "required": true,
-                    "description": "",
-                    "usage": "STORE",
-                    "schema": ""
-                },
-                {
-                    "name": "first_name",
-                    "displayName": "First Name",
-                    "required": false,
-                    "description": "Your name will show when someone clicks it in the members list if you are online",
-                    "usage": "DISPLAY",
-                    "schema": ""
-                },
-                {
-                    "name": "last_name",
-                    "displayName": "Last Name",
-                    "required": false,
-                    "description": "Your name will show when someone clicks it in the members list if you are online",
-                    "usage": "DISPLAY",
-                    "schema": ""
-                }]}}).into()
+        profile_spec(),
     );
     hdk::debug(format!("{:?}", result)).unwrap();
     hdk::debug("register spec end")?;
@@ -99,46 +65,8 @@ fn retrieve_profile(field_name: String) -> ZomeApiResult<String> {
 
     hdk::debug(format!("result of bridge call to retrieve: {:?}", result_json))?;
 
-    // hdk::call returns a ZomeApiResult so we unwrap that with ?
-
-    // The return value is a JsonStrinfigied ZomeApiResult as well so we try and convert that to the native type
-    // Because the conversion can fail this is also a Result type! So we unwrap that as well with ?
-
     result_json.try_into()?
 }
-
-// pub fn handle_get_member_profile(agent_address: Address) -> ZomeApiResult<Profile> {
-//     match hdk::utils::get_links_and_load_type::<Profile>(&agent_address, Some("profile".into()), None)?
-//         .into_iter()
-//         .next() {
-//             None => {
-//                 match (retrieve_profile("handle".to_string()), retrieve_profile("avatar".to_string())) {
-//                     (Ok(handle), Ok(avatar)) => {
-//                         // handle and avatar both successfully retrieved from P&P
-//                         // register them then return the profile
-//                         handle_register(handle.clone(), avatar.clone())?;
-//                         hdk::debug("Profile details registered").ok();
-//                         Ok(Profile {
-//                             name: handle,
-//                             avatar_url: avatar,
-//                             address: AGENT_ADDRESS.to_string().into(),
-//                         })
-//                     }
-//                     _ => {
-//                         // no handle or avatar in P&P
-//                         // register the spec then trigger redirect
-//                         register_spec().unwrap();
-//                         hdk::debug("Spec registered").ok();
-//                         Err(ZomeApiError::Internal(DNA_ADDRESS.to_string()))
-//                     }
-//                 }
-//             },
-//             Some(result) => {
-//                 // the profile already existed. Return it with no redirect
-//                 Ok(result.entry.clone())
-//             }
-//         }
-// }
 
 pub fn handle_get_member_profile(agent_address: Address) -> ZomeApiResult<Profile> {
     hdk::utils::get_links_and_load_type(&agent_address, Some("profile".into()), None)?
