@@ -114,7 +114,7 @@ pub fn profile_spec() -> JsonString{
 		            "name": "handle",
 		            "displayName": "Handle",
 		            "required": true,
-		            "description": "This is the name other people you cha to will see. ",
+		            "description": "This is the name other people you chat to will see. ",
 		            "usage": "STORE",
 		            "schema": ""
 		        },
