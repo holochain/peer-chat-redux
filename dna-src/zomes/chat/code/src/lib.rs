@@ -4,10 +4,12 @@ extern crate hdk;
 extern crate serde;
 #[macro_use]
 extern crate serde_derive;
+#[macro_use]
 extern crate serde_json;
 #[macro_use]
 extern crate holochain_core_types_derive;
 use hdk::{
+	api::DNA_ADDRESS,
     error::ZomeApiResult,
 };
 use hdk::utils::GetLinksLoadResult;
@@ -100,3 +102,48 @@ define_zome! {
 	        ]
 	}
  }
+
+pub fn profile_spec() -> JsonString{
+	json!(
+	{
+		"spec": {
+		  "name": "holochain-basic-chat",
+		  "sourceDna": DNA_ADDRESS.to_string(),
+		  "fields": [
+		  		{
+		            "name": "handle",
+		            "displayName": "Handle",
+		            "required": true,
+		            "description": "This is the name other people you cha to will see. ",
+		            "usage": "STORE",
+		            "schema": ""
+		        },
+		        {
+		            "name": "avatar",
+		            "displayName": "Avatar",
+		            "required": true,
+		            "description": "",
+		            "usage": "STORE",
+		            "schema": ""
+		        },
+		        {
+		            "name": "first_name",
+		            "displayName": "First Name",
+		            "required": false,
+		            "description": "Your name will show when someone clicks it in the members list if you are online",
+		            "usage": "DISPLAY",
+		            "schema": ""
+		        },
+		        {
+		            "name": "last_name",
+		            "displayName": "Last Name",
+		            "required": false,
+		            "description": "Your name will show when someone clicks it in the members list if you are online",
+		            "usage": "DISPLAY",
+		            "schema": ""
+		        }
+		    ]
+	    }
+	}
+	).into()
+}
