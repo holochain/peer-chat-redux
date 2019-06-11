@@ -97,6 +97,22 @@ const testMessage = {
 //   t.true(allMemberAddrs.length > 0, 'gets at least one member')
 // })
 
+
+const testFieldSpec = {
+  name: "handle",
+  displayName: "Test Field",
+  required: true,
+  description: "",
+  usage: "STORE",
+  schema: ""
+}
+
+const testProfileSpec = {
+  name: "something",
+  sourceDna: "xxx",
+  fields: [testFieldSpec]
+}
+
 scenarioBridge.runTape('Registers the Profile Spec when there is no existing profile', async (t, {chat_instance, personas_instance}) => {
   // const get_profile_result_1 = await chat_instance.callSync('chat', 'get_member_profile', {agent_address: 'HcScjwO9ji9633ZYxa6IYubHJHW6ctfoufv5eq4F7ZOxay8wR76FP4xeG9pY3ui'})
   // let sourceDna = get_profile_result_1.Err.Internal
@@ -105,6 +121,10 @@ scenarioBridge.runTape('Registers the Profile Spec when there is no existing pro
   // const get_profile_result_2 = await chat_instance.callSync('chat', 'get_member_profile', {agent_address: 'HcScjwO9ji9633ZYxa6IYubHJHW6ctfoufv5eq4F7ZOxay8wR76FP4xeG9pY3ui'})
   // sourceDna = get_profile_result_2.Err.Internal
   // console.log('sourceDna ' + sourceDna)
+
+  const register_result = await personas_instance.callSync("profiles", "register_app", {spec: testProfileSpec})
+  console.log(register_result)
+  t.notEqual(register_result.Ok, undefined)
 
   const get_result = await personas_instance.callSync("profiles", "get_profiles", {})
   console.log("Profiles" + get_result)
