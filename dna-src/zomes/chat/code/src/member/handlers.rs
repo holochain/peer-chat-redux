@@ -57,7 +57,7 @@ fn retrieve_profile(field_name: String) -> ZomeApiResult<String> {
 
     let result_json = hdk::call(
         "p-p-bridge",
-        "profiles", 
+        "profiles",
         Address::from(PUBLIC_TOKEN.to_string()), // never mind this for now
         "retrieve",
         json!({"retriever_dna": Address::from(DNA_ADDRESS.to_string()), "profile_field": field_name}).into()
@@ -92,6 +92,8 @@ pub fn handle_get_my_member_profile() -> ZomeApiResult<Profile> {
             })
         },
         Err(_) => {
+            let handle = retrieve_profile("handle".to_string());
+            hdk::debug(format!("result of handle retrieve: {:?}", handle)).ok();
             match (retrieve_profile("handle".to_string()), retrieve_profile("avatar".to_string())) {
                 (Ok(handle), Ok(avatar)) => {
                     // handle and avatar both successfully retrieved from P&P
