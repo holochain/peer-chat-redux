@@ -45,6 +45,7 @@ handle = "p-p-bridge"
 
 [[interfaces]]
 id = "chat_websocket_interface"
+admin = true
 [interfaces.driver]
 type = "websocket"
 port = 3401
@@ -79,6 +80,17 @@ id = "ui-interface"
 bundle = "main"
 port = 3001
 dna_interface = "chat_websocket_interface"
+
+[[ui_bundles]]
+id = "persona_profiles_ui_bundle"
+root_dir = "../personas-profiles/ui"
+hash = "Qm000"
+
+[[ui_interfaces]]
+id = "persona_profiles_ui_interface"
+bundle = "persona_profiles_ui_bundle"
+port = 4923
+dna_interface = "p_p_websocket_interface"
 
 # -----------  Networking  -----------
 
