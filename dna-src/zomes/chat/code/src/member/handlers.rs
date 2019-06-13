@@ -13,7 +13,10 @@ use hdk::{
         ZomeApiError,
     }
 };
-
+use utils::{
+    GetLinksLoadResult,
+    get_links_and_load_type
+};
 use crate::member::Profile;
 use crate::profile_spec;
 use serde_json::json;
@@ -69,11 +72,11 @@ fn retrieve_profile(field_name: String) -> ZomeApiResult<String> {
 }
 
 pub fn handle_get_member_profile(agent_address: Address) -> ZomeApiResult<Profile> {
-    hdk::utils::get_links_and_load_type(&agent_address, Some("profile".into()), None)?
+    get_links_and_load_type(&agent_address, Some("profile".into()), None)?
         .iter()
         .next()
         .ok_or(ZomeApiError::Internal("Agent does not have a profile registered".into()))
-        .map(|elem: &hdk::utils::GetLinksLoadResult<Profile>| {
+        .map(|elem: &GetLinksLoadResult<Profile>| {
             elem.entry.clone()
         })
 }
@@ -92,8 +95,6 @@ pub fn handle_get_my_member_profile() -> ZomeApiResult<Profile> {
             })
         },
         Err(_) => {
-            let handle = retrieve_profile("handle".to_string());
-            hdk::debug(format!("result of handle retrieve: {:?}", handle)).ok();
             match (retrieve_profile("handle".to_string()), retrieve_profile("avatar".to_string())) {
                 (Ok(handle), Ok(avatar)) => {
                     // handle and avatar both successfully retrieved from P&P

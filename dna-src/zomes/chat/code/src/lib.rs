@@ -1,6 +1,7 @@
 #![feature(try_from)]
 #[macro_use]
 extern crate hdk;
+extern crate utils;
 extern crate serde;
 #[macro_use]
 extern crate serde_derive;
@@ -12,7 +13,7 @@ use hdk::{
 	api::DNA_ADDRESS,
     error::ZomeApiResult,
 };
-use hdk::utils::GetLinksLoadResult;
+use utils::GetLinksLoadResult;
 use hdk::holochain_core_types::{
     hash::HashString,
     cas::content::Address,
