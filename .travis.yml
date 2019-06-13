@@ -7,6 +7,7 @@ script:
 - mv !(holochain-basic-chat) holochain-basic-chat
 - ls
 - cd holochain-basic-chat
+- cd ..
 - ls
 - git clone https://github.com/holochain/personas-profiles.git
 - cd personas-profiles
