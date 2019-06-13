@@ -11,6 +11,6 @@ script:
 - git clone https://github.com/holochain/personas-profiles.git
 - cd personas-profiles
 - nix-shell --run 'npm run hc:build' https://holochain.love
-- cd dna
-- pwd
-- ls
+- cd ..
+- cd holochain-basic-chat
+- nix-shell --run 'npm run hc:test' https://holochain.love
