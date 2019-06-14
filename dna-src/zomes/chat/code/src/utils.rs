@@ -4,6 +4,7 @@ use hdk::{
     holochain_core_types::{
     	hash::HashString,
     	entry::{AppEntryValue, Entry},
+		link::LinkMatch
     },
     error::{ZomeApiResult, ZomeApiError},
 };
@@ -22,7 +23,7 @@ pub fn get_links_and_load<S: Into<String>>(
     base: &HashString,
     tag: S
 ) -> ZomeApiResult<GetLinksLoadResult<Entry>>  {
-	let get_links_result = hdk::get_links(base, Some(tag.into()), None)?;
+	let get_links_result = hdk::get_links(base, LinkMatch::Exactly(&tag.into()), LinkMatch::Any)?;
 
 	Ok(get_links_result.addresses()
 	.iter()

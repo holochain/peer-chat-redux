@@ -6,6 +6,7 @@ use hdk::holochain_core_types::{
     entry::Entry,
     cas::content::Address,
     json::RawString,
+    link::LinkMatch,
 };
 
 use crate::stream::{
@@ -52,7 +53,7 @@ pub fn handle_join_stream(stream_address: HashString) -> ZomeApiResult<()> {
 }
 
 pub fn handle_get_members(address: HashString) -> ZomeApiResult<Vec<Address>> {
-    let all_member_ids = hdk::get_links(&address, Some("has_member".into()), None)?.addresses().to_owned();
+    let all_member_ids = hdk::get_links(&address, LinkMatch::Exactly("has_member"), LinkMatch::Any)?.addresses().to_owned();
     Ok(all_member_ids)
 }
 
