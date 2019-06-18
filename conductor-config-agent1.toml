@@ -45,6 +45,7 @@ handle = "p-p-bridge"
 
 [[interfaces]]
 id = "chat_websocket_interface"
+admin = true
 [interfaces.driver]
 type = "websocket"
 port = 3401
@@ -55,7 +56,7 @@ id = "holo-chat"
 id = "chat_http_interface"
 [interfaces.driver]
 type = "http"
-port = 4001
+port = 4401
 [[interfaces.instances]]
 id = "holo-chat"
 
@@ -63,7 +64,7 @@ id = "holo-chat"
 id = "p_p_websocket_interface"
 [interfaces.driver]
 type = "websocket"
-port = 3401
+port = 5401
 [[interfaces.instances]]
 id = "personas-profiles"
 
@@ -80,10 +81,20 @@ bundle = "main"
 port = 3001
 dna_interface = "chat_websocket_interface"
 
-# -----------  Networking  -----------
+[[ui_bundles]]
+id = "persona_profiles_ui_bundle"
+root_dir = "../personas-profiles/ui"
+hash = "Qm000"
 
+[[ui_interfaces]]
+id = "persona_profiles_ui_interface"
+bundle = "persona_profiles_ui_bundle"
+port = 4001
+dna_interface = "p_p_websocket_interface"
+
+# -----------  Networking  -----------
+# 
 # [network]
-# n3h_path = "/Users/philipbeadle/holochain/Holochain/n3h/bin/n3h"
 # n3h_mode = "REAL"
 # n3h_persistence_path = "/Users/philipbeadle/holochain/Holochain/n3h-agent1"
 # n3h_log_level = "i"
