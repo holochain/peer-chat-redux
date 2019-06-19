@@ -10,10 +10,10 @@
   juniper = "0.11.1"
   derive_more = "0.9.0"
   utils = { path ="../../../utils" }
-  
-  hdk = { git = "https://github.com/holochain/holochain-rust" , tag = "v0.0.19-alpha1" }
-  holochain_wasm_utils = { git = "https://github.com/holochain/holochain-rust" , tag = "v0.0.19-alpha1" }
-  holochain_core_types_derive = { git = "https://github.com/holochain/holochain-rust" , tag = "v0.0.19-alpha1" }
+
+  hdk = { git = "https://github.com/holochain/holochain-rust" , tag = "v0.0.20-alpha3" }
+  holochain_wasm_utils = { git = "https://github.com/holochain/holochain-rust" , tag = "v0.0.20-alpha3" }
+  holochain_core_types_derive = { git = "https://github.com/holochain/holochain-rust" , tag = "v0.0.20-alpha3" }
 
 [lib]
   path = "src/lib.rs"

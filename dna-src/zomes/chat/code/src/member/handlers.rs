@@ -7,6 +7,7 @@ use hdk::{
         entry::Entry,
         json::{RawString},
         cas::content::Address,
+        link::LinkMatch
     },
     error::{
         ZomeApiResult,
@@ -72,7 +73,7 @@ fn retrieve_profile(field_name: String) -> ZomeApiResult<String> {
 }
 
 pub fn handle_get_member_profile(agent_address: Address) -> ZomeApiResult<Profile> {
-    get_links_and_load_type(&agent_address, Some("profile".into()), None)?
+    get_links_and_load_type(&agent_address, LinkMatch::Exactly("profile"), LinkMatch::Any)?
         .iter()
         .next()
         .ok_or(ZomeApiError::Internal("Agent does not have a profile registered".into()))

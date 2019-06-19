@@ -10,6 +10,7 @@ use hdk::{
         cas::content::{Address, AddressableContent},
         entry::{AppEntryValue, Entry},
         json::{default_to_json, JsonString},
+        link::LinkMatch,
     },
 };
 use serde::Serialize;
@@ -34,8 +35,8 @@ impl<T: Into<JsonString> + Debug + Serialize> From<GetLinksLoadResult<T>> for Js
 ///
 pub fn get_links_and_load_type<R: TryFrom<AppEntryValue>>(
     base: &Address,
-    link_type: Option<String>,
-    tag: Option<String>,
+    link_type: LinkMatch<&str>,
+    tag: LinkMatch<&str>,
 ) -> ZomeApiResult<Vec<GetLinksLoadResult<R>>> {
     let link_load_results = hdk::get_links_and_load(base, link_type, tag)?;
 
