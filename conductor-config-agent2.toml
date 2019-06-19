@@ -10,7 +10,7 @@ keystore_file = "./agent2.keystore"
 
 [[dnas]]
 id = "personas_profiles"
-file = "../personas-profiles/dna/personas-profiles.dna.json"
+file = "../personas-profiles/dna/personas-profiles-agent2.dna.json"
 hash = "Qm328wyq38924y"
 
 [[instances]]
@@ -92,9 +92,9 @@ port = 4002
 dna_interface = "p_p_websocket_interface"
 
 # -----------  Networking  -----------
-#
-# [network]
-# n3h_mode = "REAL"
-# n3h_persistence_path = "/Users/philipbeadle/holochain/Holochain/n3h-agent2"
-# n3h_log_level = "i"
-# bootstrap_nodes = []
+
+[network]
+n3h_mode = "REAL"
+n3h_persistence_path = "/Users/philipbeadle/holochain/Holochain/n3h-agent2"
+n3h_log_level = "i"
+bootstrap_nodes = []
