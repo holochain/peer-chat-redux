@@ -1,24 +1,17 @@
 dist: trusty
 language: nix
 script:
-- git clone https://github.com/holochain/holochain-rust.git
 - ls
-- nix-shell --run 'hc -V && cd ui-src && npm install && cd .. && npm run prerelease' https://holochain.love
-- PACKAGE_NAME=$(node -p -e "require('./package.json').name")
-- PACKAGE_VERSION=$(node -p -e "require('./package.json').version")
-- cd release/ui
+- mkdir holochain-basic-chat
+- shopt -s extglob
+- mv !(holochain-basic-chat) holochain-basic-chat
 - ls
-- zip -r $PACKAGE_NAME-$PACKAGE_VERSION.zip *
+- cd holochain-basic-chat
 - cd ..
-
-deploy:
-  provider: releases
-  api_key:
-    secure: pJWATLx0sZzv8yM6FB6nX8ifMwsLiDNZmRUZmzuDRrsxa9gJAj+E+tRmYBAo653dCimgS3uviNEL/wi96dJW6Y6mqBqmAyPHqAbSEWI83ivNGJsLcsTRczK0A8prry/NjZQSWkUIX+jCbQ2PnHxCvjetbsp9aG26Tjl3ThvVekGj0NFVFTrmzVslypsZogNcfpdVA6Y+XwhX+3MYHwZpW7ri/mXPoVaJlHEu2E2ZF/kfKvbhaxvw4pq5hCaid2f1rr9wmcLfhZvIx1hTK8QjuVr37eXNS32hm1msO82QAEgL+9xLIzD7DS6MAYj9WrvJpDHA8kTKeIn4VjnUMn7DHKSuz69l49zyJLPj5b93OSUM1G+DjeJLSiwhyGJrMlmc287ICWJjqqPZCrXUk5Zn4ldUfNuDjaknibaHkHJuBVxZlR8WaCGUeOH51ysIlIxF/v4/fSkbNRjUZ6KrEHONFfo7o+/XLSqv3oahgv+Fn6M+aQHY7VJ+ExCTRkfpyfbEWg7nWlN2SiZPNtvyngL111gTPYS9Q66I3xYSbptrUoXmevSa1bIslcjUVRJhG+bf6N5vJApkZPK1WRhpIYOBP9347DVtas9/Udt39fyWn2yc6CvQf+3QVqAsQ7Qm4pIFpXyoh9A9RLQvslSuU6I+TiQuEP76NTxj7MHV/k9OWCQ=
-    file:
-      - "ui/$PACKAGE_NAME-$PACKAGE_VERSION.zip"
-      - "dna/holochain-basic-chat.dna.json"
-    skip_cleanup: true
-    on:
-      tags: true
-      branch: master
+- ls
+- git clone https://github.com/holochain/personas-profiles.git
+- cd personas-profiles
+- nix-shell --run 'npm run hc:build' https://holochain.love
+- cd ..
+- cd holochain-basic-chat
+- nix-shell --run 'npm run hc:test' https://holochain.love
