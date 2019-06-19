@@ -1,0 +1,11 @@
+[package]
+  name = "utils"
+  version = "0.0.1"
+  authors = ["Philip Beadle <philip.beadle@holo.host>"]
+
+[dependencies]
+  serde = "=1.0.89"
+  serde_json = { version = "=1.0.39", features = ["preserve_order"] }
+  serde_derive = "=1.0.89"
+  holochain_core_types = { git = "https://github.com/holochain/holochain-rust" , tag = "v0.0.20-alpha3" }
+  hdk = { git = "https://github.com/holochain/holochain-rust", tag = "v0.0.20-alpha3" }

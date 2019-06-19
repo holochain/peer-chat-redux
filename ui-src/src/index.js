@@ -14,6 +14,8 @@ import { WelcomeScreen } from './components/WelcomeScreen'
 import { JoinRoomScreen } from './components/JoinRoomScreen'
 import { RegisterScreen } from './components/RegisterScreen'
 
+const PERSONA_PROFILES_UI_INTERFACE_ID = "persona_profiles_ui_interface"
+
 // --------------------------------------
 // Application
 // --------------------------------------
@@ -22,8 +24,8 @@ class View extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      holochainConnection: connect('ws://localhost:3401'), // Use for debug
-      // holochainConnection: connect(), // use when letting the conductor auto-select. Allows for multiple agents
+      // holochainConnection: connect('ws://localhost:3401'), // Use for debug
+      holochainConnection: connect(), // use when letting the conductor auto-select. Allows for multiple agents
       connected: false,
       user: {},
       users: {},
@@ -31,7 +33,8 @@ class View extends React.Component {
       rooms: [],
       messages: {},
       sidebarOpen: false,
-      userListOpen: window.innerWidth > 1000
+      userListOpen: window.innerWidth > 1000,
+      profileSpecSourceDna: ''
     }
 
     this.actions = {
@@ -180,18 +183,28 @@ class View extends React.Component {
   }
 
   componentDidMount () {
-    this.state.holochainConnection.then(({ callZome }) => {
+    this.state.holochainConnection.then(({ callZome, call }) => {
+      this.setState({ connected: true })
       callZome('holo-chat', 'chat', 'get_my_member_profile')({}).then((result) => {
         const profile = JSON.parse(result).Ok
         if (profile) {
           console.log('registration user found with profile:', profile)
           this.actions.setUser({ id: profile.address, name: profile.name, avatarURL: profile.avatar_url })
         } else {
-          console.log('User has not registered a profile. Complete the form to proceed')
-          const address = JSON.parse(result).Err
-          window.location.replace("http://localhost:3000/profile/" + address + "/returnUrl/http://localhost:3001");
+          const profileSpecSourceDna = JSON.parse(result).Err.Internal
+          console.log('User has not registered a profile. redirecting to p&p ' + JSON.stringify(profileSpecSourceDna))
+
+          call('admin/ui_interface/list')({}).then(result => {
+            console.log(result)
+            let p_p_ui = result.find((elem) => elem.id === PERSONA_PROFILES_UI_INTERFACE_ID)
+            if (p_p_ui) {
+              window.location.replace(`http://localhost:${p_p_ui.port}/profile/${profileSpecSourceDna}/${encodeURIComponent(window.location.href)}`)
+            } else {
+              console.log("User is not registered and no personas/profiles UI interface was found in the conductor!")
+              // handle this somehow
+            }
+          })
         }
-        this.setState({ connected: true })
       })
     })
   }

@@ -1,19 +1,25 @@
 # -----------  Agents  -----------
 
-
 [[agents]]
 id = "test_agent2"
 name = "Agent 2"
 public_address = "HcSCIUKodbWktcbmwyAaVrYnsbadi6b9sOV9D4ZoE8i333ZtcGw38Jn3U6u63qi"
 keystore_file = "./agent2.keystore"
 
-# [[agents]]
-# id = "AgentID update the agent property in [[instances]]"
-# name = "Your agent name here"
-# public_address = "public addess"
-# keystore_file = "path/to/keystore"
 # -----------  DNA  -----------
 
+[[dnas]]
+id = "personas_profiles"
+file = "../personas-profiles/dna/personas-profiles-agent2.dna.json"
+hash = "Qm328wyq38924y"
+
+[[instances]]
+id = "personas-profiles"
+dna = "personas_profiles"
+agent = "test_agent2"
+[instances.storage]
+type = "memory"
+path = "tmp-storage"
 
 [[dnas]]
 id = "chat_dna"
@@ -31,9 +37,14 @@ file = "app_spec.log"
 type = "memory"
 path = "tmp-storage-agent2"
 
+[[bridges]]
+caller_id = "holo-chat"
+callee_id = "personas-profiles"
+handle = "p-p-bridge"
 
 [[interfaces]]
-id = "websocket_interface"
+id = "chat_websocket_interface"
+admin = true
 [interfaces.driver]
 type = "websocket"
 port = 3402
@@ -41,12 +52,20 @@ port = 3402
 id = "holo-chat"
 
 [[interfaces]]
-id = "http_interface"
+id = "chat_http_interface"
 [interfaces.driver]
 type = "http"
-port = 4002
+port = 4402
 [[interfaces.instances]]
 id = "holo-chat"
+
+[[interfaces]]
+id = "p_p_websocket_interface"
+[interfaces.driver]
+type = "websocket"
+port = 5402
+[[interfaces.instances]]
+id = "personas-profiles"
 
 # -----------  UI  -----------
 
@@ -59,12 +78,22 @@ hash = "Qm000"
 id = "ui-interface"
 bundle = "main"
 port = 3002
-dna_interface = "websocket_interface"
+dna_interface = "chat_websocket_interface"
+
+[[ui_bundles]]
+id = "persona_profiles_ui_bundle"
+root_dir = "../personas-profiles/ui"
+hash = "Qm000"
+
+[[ui_interfaces]]
+id = "persona_profiles_ui_interface"
+bundle = "persona_profiles_ui_bundle"
+port = 4002
+dna_interface = "p_p_websocket_interface"
 
 # -----------  Networking  -----------
 
 [network]
-# n3h_path = "/Users/philipbeadle/holochain/Holochain/n3h/bin/n3h"
 n3h_mode = "REAL"
 n3h_persistence_path = "/Users/philipbeadle/holochain/Holochain/n3h-agent2"
 n3h_log_level = "i"
