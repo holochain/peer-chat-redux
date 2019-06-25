@@ -1,10 +1,3 @@
-#![feature(try_from)]
-extern crate hdk;
-extern crate serde;
-
-#[macro_use]
-extern crate serde_derive;
-
 use hdk::{
     error::{ZomeApiError, ZomeApiResult},
     holochain_core_types::{

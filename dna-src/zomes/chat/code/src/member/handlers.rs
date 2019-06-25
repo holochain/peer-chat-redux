@@ -18,7 +18,7 @@ use hdk::holochain_json_api::{
 use hdk::holochain_persistence_api::{
     cas::content::Address
 };
-use utils::{
+use crate::util::{
     GetLinksLoadResult,
     get_links_and_load_type,
 };

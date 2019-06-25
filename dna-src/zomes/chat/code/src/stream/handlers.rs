@@ -1,4 +1,3 @@
-extern crate utils;
 use hdk::error::ZomeApiResult;
 use hdk::AGENT_ADDRESS;
 use hdk::holochain_core_types::{
@@ -19,7 +18,7 @@ use crate::stream::{
     Stream,
 };
 
-use utils::{
+use crate::util::{
     GetLinksLoadResult,
     get_links_and_load_type,
 };

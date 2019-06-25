@@ -1,7 +1,6 @@
 #![feature(try_from)]
 #[macro_use]
 extern crate hdk;
-extern crate utils;
 extern crate serde;
 #[macro_use]
 extern crate serde_derive;
@@ -14,7 +13,6 @@ use hdk::{
 	api::DNA_ADDRESS,
     error::ZomeApiResult,
 };
-use utils::GetLinksLoadResult;
 
 use hdk::holochain_json_api::{
 	json::JsonString,
@@ -30,6 +28,7 @@ mod anchor;
 mod message;
 mod stream;
 mod member;
+mod util;
 
 define_zome! {
 
@@ -64,7 +63,7 @@ define_zome! {
 		}
 		get_all_public_streams: {
 			inputs: | |,
-			outputs: |result: ZomeApiResult<Vec<GetLinksLoadResult<stream::Stream>>>|,
+			outputs: |result: ZomeApiResult<Vec<util::GetLinksLoadResult<stream::Stream>>>|,
 			handler: stream::handlers::handle_get_all_public_streams
 		}
 		get_members: {
@@ -89,7 +88,7 @@ define_zome! {
 		}
 		get_messages: {
 			inputs: |address: HashString|,
-			outputs: |result: ZomeApiResult<Vec<GetLinksLoadResult<message::Message>>>|,
+			outputs: |result: ZomeApiResult<Vec<util::GetLinksLoadResult<message::Message>>>|,
 			handler: stream::handlers::handle_get_messages
 		}
 	]
