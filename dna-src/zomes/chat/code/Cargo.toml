@@ -11,9 +11,9 @@
   derive_more = "0.9.0"
   utils = { path ="../../../utils" }
 
-  hdk = { git = "https://github.com/holochain/holochain-rust" , tag = "v0.0.20-alpha3" }
-  holochain_wasm_utils = { git = "https://github.com/holochain/holochain-rust" , tag = "v0.0.20-alpha3" }
-  holochain_core_types_derive = { git = "https://github.com/holochain/holochain-rust" , tag = "v0.0.20-alpha3" }
+  hdk = { git = "https://github.com/holochain/holochain-rust" , branch = "Connoropolous-patch-16" }
+  holochain_wasm_utils = { git = "https://github.com/holochain/holochain-rust" , branch = "Connoropolous-patch-16" }  
+  holochain_json_derive = "=0.0.1-alpha2"
 
 [lib]
   path = "src/lib.rs"

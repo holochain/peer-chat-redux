@@ -2,6 +2,9 @@ use hdk::entry_definition::ValidatingEntryType;
 
 use hdk::holochain_core_types::{
     dna::entry_types::Sharing,
+};
+
+use hdk::holochain_json_api::{
     json::RawString,
 };
 

@@ -1,12 +1,15 @@
 use hdk::{
     self,
     entry_definition::ValidatingEntryType,
-    holochain_core_types::error::HolochainError,
-    holochain_core_types::json::JsonString,
 };
 
 use hdk::holochain_core_types::{
     dna::entry_types::Sharing,
+};
+
+use hdk::holochain_json_api::{
+	error::JsonError,
+    json::JsonString,
 };
 
 pub mod handlers;

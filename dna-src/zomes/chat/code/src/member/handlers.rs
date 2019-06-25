@@ -5,8 +5,6 @@ use hdk::{
     DNA_ADDRESS,
     holochain_core_types::{
         entry::Entry,
-        json::{RawString},
-        cas::content::Address,
         link::LinkMatch
     },
     error::{
@@ -14,13 +12,19 @@ use hdk::{
         ZomeApiError,
     }
 };
+use hdk::holochain_json_api::{
+	json::RawString,
+};
+use hdk::holochain_persistence_api::{
+    cas::content::Address
+};
 use utils::{
     GetLinksLoadResult,
-    get_links_and_load_type
 };
 use crate::member::Profile;
 use crate::profile_spec;
 use serde_json::json;
+
 
 pub fn handle_register(name: String, avatar_url: String) -> ZomeApiResult<Address> {
     let anchor_entry = Entry::App(
@@ -73,8 +77,9 @@ fn retrieve_profile(field_name: String) -> ZomeApiResult<String> {
 }
 
 pub fn handle_get_member_profile(agent_address: Address) -> ZomeApiResult<Profile> {
-    get_links_and_load_type(&agent_address, LinkMatch::Exactly("profile"), LinkMatch::Any)?
+    hdk::utils::get_links_and_load_type(&agent_address, LinkMatch::Exactly("profile"), LinkMatch::Any)?
         .iter()
+        .map(|(address, entry)| GetLinksLoadResult { address, entry })
         .next()
         .ok_or(ZomeApiError::Internal("Agent does not have a profile registered".into()))
         .map(|elem: &GetLinksLoadResult<Profile>| {

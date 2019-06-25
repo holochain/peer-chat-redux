@@ -2,11 +2,17 @@ extern crate utils;
 use hdk::error::ZomeApiResult;
 use hdk::AGENT_ADDRESS;
 use hdk::holochain_core_types::{
-    hash::HashString,
     entry::Entry,
-    cas::content::Address,
-    json::RawString,
     link::LinkMatch,
+};
+
+use hdk::holochain_json_api::{
+	json::RawString,
+};
+
+use hdk::holochain_persistence_api::{
+    cas::content::Address,
+    hash::HashString,
 };
 
 use crate::stream::{
@@ -15,7 +21,6 @@ use crate::stream::{
 
 use utils::{
     GetLinksLoadResult,
-    get_links_and_load_type
 };
 use crate::message;
 
@@ -60,7 +65,10 @@ pub fn handle_get_members(address: HashString) -> ZomeApiResult<Vec<Address>> {
 }
 
 pub fn handle_get_messages(address: HashString) -> ZomeApiResult<Vec<GetLinksLoadResult<message::Message>>> {
-    get_links_and_load_type(&address, LinkMatch::Exactly("message_in"), LinkMatch::Any)
+    hdk::utils::get_links_and_load_type(&address, LinkMatch::Exactly("message_in"), LinkMatch::Any)?
+        .iter()
+        .map(|(address, entry)| GetLinksLoadResult { address, entry })
+        .collect()
 }
 
 pub fn handle_post_message(stream_address: HashString, message_spec: message::MessageSpec) -> ZomeApiResult<()> {
@@ -87,5 +95,8 @@ pub fn handle_get_all_public_streams() -> ZomeApiResult<Vec<GetLinksLoadResult<S
         RawString::from("public_streams").into(),
     );
     let anchor_address = hdk::entry_address(&anchor_entry)?;
-    get_links_and_load_type(&anchor_address, LinkMatch::Exactly("public_stream"), LinkMatch::Any)
+    hdk::utils::get_links_and_load_type(&anchor_address, LinkMatch::Exactly("public_stream"), LinkMatch::Any)?
+        .iter()
+        .map(|(address, entry)| GetLinksLoadResult { address, entry })
+        .collect()
 }

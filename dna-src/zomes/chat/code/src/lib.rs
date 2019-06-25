@@ -8,17 +8,22 @@ extern crate serde_derive;
 #[macro_use]
 extern crate serde_json;
 #[macro_use]
-extern crate holochain_core_types_derive;
+extern crate holochain_json_derive;
+
 use hdk::{
 	api::DNA_ADDRESS,
     error::ZomeApiResult,
 };
 use utils::GetLinksLoadResult;
-use hdk::holochain_core_types::{
-    hash::HashString,
+
+use hdk::holochain_json_api::{
+	json::JsonString,
+	error::JsonError
+};
+
+use hdk::holochain_persistence_api::{
     cas::content::Address,
-    json::{JsonString},
-    error::HolochainError,
+	hash::HashString,
 };
 
 mod anchor;
