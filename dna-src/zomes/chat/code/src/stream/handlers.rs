@@ -21,6 +21,7 @@ use crate::stream::{
 
 use utils::{
     GetLinksLoadResult,
+    get_links_and_load_type,
 };
 use crate::message;
 
@@ -65,10 +66,7 @@ pub fn handle_get_members(address: HashString) -> ZomeApiResult<Vec<Address>> {
 }
 
 pub fn handle_get_messages(address: HashString) -> ZomeApiResult<Vec<GetLinksLoadResult<message::Message>>> {
-    hdk::utils::get_links_and_load_type(&address, LinkMatch::Exactly("message_in"), LinkMatch::Any)?
-        .iter()
-        .map(|(address, entry)| GetLinksLoadResult { address, entry })
-        .collect()
+    get_links_and_load_type(&address, LinkMatch::Exactly("message_in"), LinkMatch::Any)
 }
 
 pub fn handle_post_message(stream_address: HashString, message_spec: message::MessageSpec) -> ZomeApiResult<()> {
@@ -95,8 +93,5 @@ pub fn handle_get_all_public_streams() -> ZomeApiResult<Vec<GetLinksLoadResult<S
         RawString::from("public_streams").into(),
     );
     let anchor_address = hdk::entry_address(&anchor_entry)?;
-    hdk::utils::get_links_and_load_type(&anchor_address, LinkMatch::Exactly("public_stream"), LinkMatch::Any)?
-        .iter()
-        .map(|(address, entry)| GetLinksLoadResult { address, entry })
-        .collect()
+    get_links_and_load_type(&anchor_address, LinkMatch::Exactly("public_stream"), LinkMatch::Any)
 }

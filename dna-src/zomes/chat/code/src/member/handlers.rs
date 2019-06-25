@@ -20,6 +20,7 @@ use hdk::holochain_persistence_api::{
 };
 use utils::{
     GetLinksLoadResult,
+    get_links_and_load_type,
 };
 use crate::member::Profile;
 use crate::profile_spec;
@@ -77,9 +78,8 @@ fn retrieve_profile(field_name: String) -> ZomeApiResult<String> {
 }
 
 pub fn handle_get_member_profile(agent_address: Address) -> ZomeApiResult<Profile> {
-    hdk::utils::get_links_and_load_type(&agent_address, LinkMatch::Exactly("profile"), LinkMatch::Any)?
+    get_links_and_load_type(&agent_address, LinkMatch::Exactly("profile"), LinkMatch::Any)?
         .iter()
-        .map(|(address, entry)| GetLinksLoadResult { address, entry })
         .next()
         .ok_or(ZomeApiError::Internal("Agent does not have a profile registered".into()))
         .map(|elem: &GetLinksLoadResult<Profile>| {
