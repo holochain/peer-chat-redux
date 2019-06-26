@@ -11,7 +11,7 @@ process.on('unhandledRejection', error => {
 const chat_dnaPath = "./dist/dna-src.dna.json"
 const chat_dna = Diorama.dna(chat_dnaPath, 'chat')
 const personas_dnaPath = "../../personas-profiles/dna/personas-profiles.dna.json"
-const personas_dna = Diorama.dna(personas_dnaPath, 'personas')
+const personas_dna = Diorama.dna(personas_dnaPath, 'personas', {uuid: 'agent1'})
 
 const diorama = new Diorama({
   instances: {
@@ -26,7 +26,8 @@ const diorama = new Diorama({
   middleware: backwardCompatibilityMiddleware,
 })
 
-require('./agent/profile')(diorama.registerScenario)
+// require('./agent/profile')(diorama.registerScenario)
+require('./agent/messages')(diorama.registerScenario)
 
 diorama.run()
 
