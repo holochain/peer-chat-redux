@@ -1,6 +1,7 @@
-#![feature(try_from)]
+#![feature(try_from, proc_macro_hygiene)]
 #[macro_use]
 extern crate hdk;
+extern crate hdk_proc_macros;
 extern crate utils;
 extern crate serde;
 #[macro_use]
@@ -9,98 +10,107 @@ extern crate serde_derive;
 extern crate serde_json;
 #[macro_use]
 extern crate holochain_core_types_derive;
+
 use hdk::{
 	api::DNA_ADDRESS,
     error::ZomeApiResult,
+    entry_definition::ValidatingEntryType,
+    holochain_core_types::{
+        cas::content::Address,
+		json::{JsonString},
+    },
 };
+
+use hdk_proc_macros::zome;
 use utils::GetLinksLoadResult;
-use hdk::holochain_core_types::{
-    hash::HashString,
-    cas::content::Address,
-    json::{JsonString},
-    error::HolochainError,
-};
 
-mod anchor;
-mod message;
-mod stream;
-mod member;
+pub mod anchor;
+pub mod message;
+pub mod stream;
+pub mod member;
 
-define_zome! {
+pub static MESSAGE_ENTRY: &str = "message";
+pub static MESSAGE_LINK_TYPE_TO: &str = "message_in";
+pub static PUBLIC_STREAM_ENTRY: &str = "public_stream";
+pub static PUBLIC_STREAM_LINK_TYPE_TO: &str = "has_member";
+pub static PUBLIC_STREAM_LINK_TYPE_FROM: &str = "member_of";
 
-	entries: [
-		message::message_definition(),
-    	stream::public_stream_definition(),
-        member::profile_definition(),
-        anchor::anchor_definition()
-	]
+#[zome]
+pub mod chat {
 
-    genesis: || {
-        {
-            Ok(())
-        }
+    #[genesis]
+    fn genesis() {
+        Ok(())
     }
 
-	functions: [
-		register: {
-			inputs: | name: String, avatar_url: String |,
-			outputs: |result: ZomeApiResult<Address>|,
-			handler: member::handlers::handle_register
-		}
-		create_stream: {
-			inputs: |name: String, description: String, initial_members: Vec<Address>|,
-			outputs: |result: ZomeApiResult<Address>|,
-			handler: stream::handlers::handle_create_stream
-		}
-		join_stream: {
-		    inputs: |stream_address: HashString|,
-		    outputs: |result: ZomeApiResult<()>|,
-		    handler: stream::handlers::handle_join_stream
-		}
-		get_all_public_streams: {
-			inputs: | |,
-			outputs: |result: ZomeApiResult<Vec<GetLinksLoadResult<stream::Stream>>>|,
-			handler: stream::handlers::handle_get_all_public_streams
-		}
-		get_members: {
-			inputs: |stream_address: HashString|,
-			outputs: |result: ZomeApiResult<Vec<Address>>|,
-			handler: stream::handlers::handle_get_members
-		}
-		get_member_profile: {
-			inputs: |agent_address: HashString|,
-			outputs: |result: ZomeApiResult<member::Profile>|,
-			handler: member::handlers::handle_get_member_profile
-		}
-		get_my_member_profile: {
-			inputs: | |,
-			outputs: |result: ZomeApiResult<member::Profile>|,
-			handler: member::handlers::handle_get_my_member_profile
-		}
-		post_message: {
-			inputs: |stream_address: HashString, message: message::MessageSpec|,
-			outputs: |result: ZomeApiResult<()>|,
-			handler: stream::handlers::handle_post_message
-		}
-		get_messages: {
-			inputs: |address: HashString|,
-			outputs: |result: ZomeApiResult<Vec<GetLinksLoadResult<message::Message>>>|,
-			handler: stream::handlers::handle_get_messages
-		}
-	]
+	#[receive]
+	pub fn receive(from: Address, msg_json: String) {
+		stream::handlers::handle_receive(from, JsonString::from_json(&msg_json))
+	}
 
-	 traits: {
-	        hc_public [
-	        	register,
-	        	create_stream,
-	        	join_stream,
-	        	get_all_public_streams,
-	        	get_members,
-	        	get_member_profile,
-	        	get_my_member_profile,
-	        	post_message,
-	        	get_messages
-	        ]
+	#[entry_def]
+    pub fn message_entry_def() -> ValidatingEntryType {
+        message::message_definition()
+    }
+
+	#[entry_def]
+    pub fn public_stream_entry_def() -> ValidatingEntryType {
+        stream::public_stream_definition()
+    }
+
+	#[entry_def]
+    pub fn member_entry_def() -> ValidatingEntryType {
+		member::profile_definition()
+    }
+
+	#[entry_def]
+	pub fn anchor_entry_def() -> ValidatingEntryType {
+		anchor::anchor_definition()
+	}
+
+	#[zome_fn("hc_public")]
+    pub fn register(name: String, avatar_url: String) -> ZomeApiResult<Address> {
+        member::handlers::handle_register(name, avatar_url)
+    }
+
+	#[zome_fn("hc_public")]
+    pub fn create_stream(name: String, description: String, initial_members: Vec<Address>) -> ZomeApiResult<Address> {
+        stream::handlers::handle_create_stream(name, description, initial_members)
+    }
+
+	#[zome_fn("hc_public")]
+	pub fn join_stream(stream_address: Address) -> ZomeApiResult<()> {
+		stream::handlers::handle_join_stream(stream_address)
+	}
+
+	#[zome_fn("hc_public")]
+	pub fn get_all_public_streams() -> ZomeApiResult<Vec<GetLinksLoadResult<stream::Stream>>> {
+		stream::handlers::handle_get_all_public_streams()
+	}
+
+	#[zome_fn("hc_public")]
+	pub fn get_members(stream_address: Address) -> ZomeApiResult<Vec<Address>> {
+		stream::handlers::handle_get_members(stream_address)
+	}
+
+	#[zome_fn("hc_public")]
+	pub fn get_member_profile(agent_address: Address) -> ZomeApiResult<member::Profile> {
+		member::handlers::handle_get_member_profile(agent_address)
+	}
+
+	#[zome_fn("hc_public")]
+	pub fn get_my_member_profile() -> ZomeApiResult<member::Profile> {
+		member::handlers::handle_get_my_member_profile()
+	}
+
+	#[zome_fn("hc_public")]
+	pub fn post_message(stream_address: Address, message: message::MessageSpec) -> ZomeApiResult<()> {
+		stream::handlers::handle_post_message(stream_address, message)
+	}
+
+	#[zome_fn("hc_public")]
+	pub fn get_messages(address: Address) -> ZomeApiResult<Vec<GetLinksLoadResult<message::Message>>> {
+		stream::handlers::handle_get_messages(address)
 	}
  }
 

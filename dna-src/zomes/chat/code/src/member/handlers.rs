@@ -7,7 +7,7 @@ use hdk::{
         entry::Entry,
         json::{RawString},
         cas::content::Address,
-        link::LinkMatch
+        link::LinkMatch,
     },
     error::{
         ZomeApiResult,

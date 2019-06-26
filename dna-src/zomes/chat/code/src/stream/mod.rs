@@ -17,10 +17,16 @@ pub struct Stream {
     pub description: String
 }
 
+use crate::{
+    PUBLIC_STREAM_ENTRY,
+    PUBLIC_STREAM_LINK_TYPE_TO,
+    PUBLIC_STREAM_LINK_TYPE_FROM,
+    MESSAGE_LINK_TYPE_TO
+};
 
 pub fn public_stream_definition() -> ValidatingEntryType {
     entry!(
-        name: "public_stream",
+        name: PUBLIC_STREAM_ENTRY,
         description: "A stream of which anyone can become a member and post",
         sharing: Sharing::Public,
 
@@ -35,7 +41,7 @@ pub fn public_stream_definition() -> ValidatingEntryType {
         links: [
             to!(
                 "%agent_id",
-                link_type: "has_member",
+                link_type: PUBLIC_STREAM_LINK_TYPE_TO,
 
                 validation_package: || {
                     hdk::ValidationPackageDefinition::Entry
@@ -47,7 +53,7 @@ pub fn public_stream_definition() -> ValidatingEntryType {
             ),
             from!(
                 "%agent_id",
-                link_type: "member_of",
+                link_type: PUBLIC_STREAM_LINK_TYPE_FROM,
 
                 validation_package: || {
                     hdk::ValidationPackageDefinition::Entry
@@ -59,7 +65,7 @@ pub fn public_stream_definition() -> ValidatingEntryType {
             ),
             to!(
                 "message",
-                link_type: "message_in",
+                link_type: MESSAGE_LINK_TYPE_TO,
 
                 validation_package: || {
                     hdk::ValidationPackageDefinition::Entry
