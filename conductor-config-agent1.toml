@@ -11,7 +11,8 @@ keystore_file = "./agent1.keystore"
 
 [[dnas]]
 id = "personas_profiles"
-file = "../personas-profiles/dna/personas-profiles-agent1.dna.json"
+file = "../personas-profiles/dna/personas-profiles.dna.json"
+uuid = "agent1"
 hash = "Qm328wyq38924y"
 
 [[instances]]

@@ -2,11 +2,11 @@ extern crate utils;
 use hdk::error::ZomeApiResult;
 use hdk::AGENT_ADDRESS;
 use hdk::holochain_core_types::{
-    hash::HashString,
     entry::Entry,
     cas::content::Address,
     json::RawString,
     link::LinkMatch,
+    json::{JsonString},
 };
 
 use crate::stream::{
@@ -18,6 +18,11 @@ use utils::{
     get_links_and_load_type
 };
 use crate::message;
+
+pub fn handle_receive(from: Address, json_msg: JsonString) -> String {
+    hdk::debug(format!("New message {:?} from: {:?}", json_msg, from)).ok();
+    from.to_string()
+}
 
 pub fn handle_create_stream(
     name: String,
@@ -49,21 +54,21 @@ pub fn handle_create_stream(
     Ok(stream_address)
 }
 
-pub fn handle_join_stream(stream_address: HashString) -> ZomeApiResult<()> {
+pub fn handle_join_stream(stream_address: Address) -> ZomeApiResult<()> {
     hdk::utils::link_entries_bidir(&AGENT_ADDRESS, &stream_address, "member_of", "has_member", "", "")?;
     Ok(())
 }
 
-pub fn handle_get_members(address: HashString) -> ZomeApiResult<Vec<Address>> {
+pub fn handle_get_members(address: Address) -> ZomeApiResult<Vec<Address>> {
     let all_member_ids = hdk::get_links(&address, LinkMatch::Exactly("has_member"), LinkMatch::Any)?.addresses().to_owned();
     Ok(all_member_ids)
 }
 
-pub fn handle_get_messages(address: HashString) -> ZomeApiResult<Vec<GetLinksLoadResult<message::Message>>> {
+pub fn handle_get_messages(address: Address) -> ZomeApiResult<Vec<GetLinksLoadResult<message::Message>>> {
     get_links_and_load_type(&address, LinkMatch::Exactly("message_in"), LinkMatch::Any)
 }
 
-pub fn handle_post_message(stream_address: HashString, message_spec: message::MessageSpec) -> ZomeApiResult<()> {
+pub fn handle_post_message(stream_address: Address, message_spec: message::MessageSpec) -> ZomeApiResult<()> {
 
     let message = message::Message::from_spec(
         &message_spec,
@@ -78,6 +83,11 @@ pub fn handle_post_message(stream_address: HashString, message_spec: message::Me
 
     hdk::link_entries(&stream_address, &message_addr, "message_in", "")?;
 
+    let mut all_member_ids = hdk::get_links(&stream_address, LinkMatch::Exactly("has_member"), LinkMatch::Any)?.addresses().to_owned();
+    while let Some(member_id) = all_member_ids.pop() {
+        hdk::debug(format!("result of bridge call to retrieve: {:?}", &member_id.to_string())).ok();
+        hdk::send(member_id, json!({"msg_type": "new_message"}).to_string(), 10000.into())?;
+    }
     Ok(())
 }
 

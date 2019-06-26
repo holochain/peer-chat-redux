@@ -39,9 +39,13 @@ pub struct MessageSpec {
     pub meta: String
 }
 
+use crate::{
+    MESSAGE_ENTRY,
+};
+
 pub fn message_definition() -> ValidatingEntryType {
     entry!(
-        name: "message",
+        name: MESSAGE_ENTRY,
         description: "A generic message entry",
         sharing: Sharing::Public,
 

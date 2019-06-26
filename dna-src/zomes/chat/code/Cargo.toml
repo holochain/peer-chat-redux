@@ -14,6 +14,7 @@
   hdk = { git = "https://github.com/holochain/holochain-rust" , tag = "v0.0.20-alpha3" }
   holochain_wasm_utils = { git = "https://github.com/holochain/holochain-rust" , tag = "v0.0.20-alpha3" }
   holochain_core_types_derive = { git = "https://github.com/holochain/holochain-rust" , tag = "v0.0.20-alpha3" }
+  hdk-proc-macros = { git = "https://github.com/holochain/holochain-rust" , tag = "v0.0.20-alpha3" }
 
 [lib]
   path = "src/lib.rs"
