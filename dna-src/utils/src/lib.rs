@@ -7,10 +7,14 @@ extern crate serde_derive;
 use hdk::{
     error::{ZomeApiError, ZomeApiResult},
     holochain_core_types::{
-        cas::content::{Address, AddressableContent},
         entry::{AppEntryValue, Entry},
-        json::{default_to_json, JsonString},
         link::LinkMatch,
+    },
+    holochain_json_api::{
+        json::{default_to_json, JsonString},
+    },
+    holochain_persistence_api::{
+        cas::content::{ Address, AddressableContent },
     },
 };
 use serde::Serialize;
