@@ -1,12 +1,20 @@
 extern crate utils;
-use hdk::error::ZomeApiResult;
-use hdk::AGENT_ADDRESS;
-use hdk::holochain_core_types::{
-    entry::Entry,
-    cas::content::Address,
-    json::RawString,
-    link::LinkMatch,
-    json::{JsonString},
+use std::convert::TryInto;
+use hdk::{
+    AGENT_ADDRESS,
+    error::ZomeApiResult,
+    holochain_core_types::{
+        entry::Entry,
+        link::LinkMatch,
+    },
+    holochain_json_api::{
+        json::RawString,
+    	json::JsonString,
+        error::JsonError,
+    },
+    holochain_persistence_api::{
+        cas::content::Address,
+    },
 };
 
 use crate::stream::{
@@ -19,9 +27,31 @@ use utils::{
 };
 use crate::message;
 
+#[derive(Serialize, Deserialize, Debug, DefaultJson, PartialEq)]
+struct Message {
+    msg_type: String,
+    room_id: String,
+}
+
+#[derive(Debug, Serialize, Deserialize, DefaultJson)]
+struct SignalPayload {
+    room_id: String
+}
+
 pub fn handle_receive(from: Address, json_msg: JsonString) -> String {
-    hdk::debug(format!("New message {:?} from: {:?}", json_msg, from)).ok();
-    from.to_string()
+    hdk::debug(format!("New message from: {:?}", from)).ok();
+    let maybe_message: Result<Message, _> = json_msg.try_into();
+    match maybe_message {
+        Err(err) => format!("error: {}", err),
+        Ok(message) => match message.msg_type.as_str() {
+            "new_message" => {
+                let room_id = message.room_id;
+                let _received_str = hdk::emit_signal("new_message", SignalPayload{room_id});
+                "UI Signal sent".into()
+            }
+            msg_type => format!("unknown message type: {}", msg_type),
+        }
+    }
 }
 
 pub fn handle_create_stream(
@@ -85,8 +115,12 @@ pub fn handle_post_message(stream_address: Address, message_spec: message::Messa
 
     let mut all_member_ids = hdk::get_links(&stream_address, LinkMatch::Exactly("has_member"), LinkMatch::Any)?.addresses().to_owned();
     while let Some(member_id) = all_member_ids.pop() {
-        hdk::debug(format!("result of bridge call to retrieve: {:?}", &member_id.to_string())).ok();
-        hdk::send(member_id, json!({"msg_type": "new_message"}).to_string(), 10000.into())?;
+        if &AGENT_ADDRESS.to_string() == &member_id.to_string() {
+            hdk::debug(format!("No need to send a message to myself: {:?}", &member_id.to_string())).ok();
+        } else {
+            hdk::debug(format!("Send a message to: {:?}", &member_id.to_string())).ok();
+            hdk::send(member_id, json!({"msg_type": "new_message", "room_id": &stream_address}).to_string(), 10000.into())?;
+        }
     }
     Ok(())
 }

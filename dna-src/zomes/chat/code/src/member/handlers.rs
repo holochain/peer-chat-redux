@@ -5,9 +5,13 @@ use hdk::{
     DNA_ADDRESS,
     holochain_core_types::{
         entry::Entry,
-        json::{RawString},
-        cas::content::Address,
         link::LinkMatch,
+    },
+    holochain_json_api::{
+    	json::RawString,
+    },
+    holochain_persistence_api::{
+        cas::content::Address
     },
     error::{
         ZomeApiResult,

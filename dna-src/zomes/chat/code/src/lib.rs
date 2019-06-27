@@ -2,23 +2,25 @@
 #[macro_use]
 extern crate hdk;
 extern crate hdk_proc_macros;
+#[macro_use]
+extern crate holochain_json_derive;
 extern crate utils;
 extern crate serde;
 #[macro_use]
 extern crate serde_derive;
 #[macro_use]
 extern crate serde_json;
-#[macro_use]
-extern crate holochain_core_types_derive;
 
 use hdk::{
 	api::DNA_ADDRESS,
     error::ZomeApiResult,
     entry_definition::ValidatingEntryType,
-    holochain_core_types::{
-        cas::content::Address,
-		json::{JsonString},
-    },
+	holochain_persistence_api::{
+		cas::content::Address,
+	},
+	holochain_json_api::{
+		json::JsonString,
+	},
 };
 
 use hdk_proc_macros::zome;
