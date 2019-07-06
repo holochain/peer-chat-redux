@@ -1,0 +1,55 @@
+~*~ 05/07/2019, 06:20:30 - 1562271630988 (n3h-bin) [i] || workDir ||
+./n3h-agent3
+~*~ 05/07/2019, 06:20:31 - 1562271631001 (n3h-bin) [i] got stdin config!
+{"webproxy":{"connection":{"rsaBits":1024,"bind":["wss://0.0.0.0:0/"]},"wssAdvertise":"auto","wssRelayPeers":null}}
+~*~ 05/07/2019, 06:20:31 - 1562271631002 (n3h-bin) [i] executing mode REAL
+~*~ 05/07/2019, 06:20:31 - 1562271631638 (wss-server-utils) [i] loaded rsa fingerprint
+NKUtJRB60+uBinHNfvKGuhufM2o=
+~*~ 05/07/2019, 06:20:31 - 1562271631668 (wss-connection) [i] listening at wss://127.0.0.1:53732/
+~*~ 05/07/2019, 06:20:31 - 1562271631671 (p2p-backend) [w] loadKeyFromDisk failed - Generating a new transport keyBundle
+~*~ 05/07/2019, 06:20:31 - 1562271631013 (wss-server-utils) [w] no tls data found, generating new keys and cert
+~*~ 05/07/2019, 06:20:31 - 1562271631009 (*n3hMode*) [i] @@ CONFIG @@
+{
+  "network": {
+    "id": "holochain closed alpha testnet d5d6c38c-648e-4ffc-b098-75d4181e639b",
+    "useTransientTransportId": false,
+    "idHash": "Pm2I3h2lUaHmnw1RHwTgR75IBfVYBtN0ZG5kfU2AB6g="
+  },
+  "ipc": {
+    "connection": {
+      "rsaBits": 1024,
+      "bind": [
+        "wss://127.0.0.1:0/"
+      ]
+    }
+  },
+  "mdns": {
+    "enabled": true,
+    "port": 55455
+  },
+  "webproxy": {
+    "connection": {
+      "rsaBits": 1024,
+      "bind": [
+        "wss://0.0.0.0:0/"
+      ]
+    },
+    "wssAdvertise": "auto",
+    "wssRelayPeers": null
+  }
+}
+~*~ 05/07/2019, 06:20:36 - 1562271636916 (wss-server-utils) [i] loaded rsa fingerprint
+NKUtJRB60+uBinHNfvKGuhufM2o=
+~*~ 05/07/2019, 06:20:36 - 1562271636892 (p2p-backend) [i] machineId:
+HcScj9nib9FESwmaairnkb6v3WXJ8wxwx8Ey3A4RWp3XOfmdIxaRphpayqc6kez
+~*~ 05/07/2019, 06:20:36 - 1562271636919 (wss-connection) [i] listening at wss://192.168.0.111:53765/
+~*~ 05/07/2019, 06:20:36 - 1562271636921 (@realmode@) [i] (Scj9)p2p bound
+wss://192.168.0.111:53765/?a=HcScj9nib9FESwmaairnkb6v3WXJ8wxwx8Ey3A4RWp3XOfmdIxaRphpayqc6kez
+~*~ 05/07/2019, 06:20:44 - 1562271644540 (@realmode@) [w] (Scj9) received gossipAllTracks from unknown peer
+(Scjb)
+~*~ 05/07/2019, 06:20:44 - 1562271644541 (@realmode@) [w] (Scj9) received gossipAllTracks from unknown peer
+(Scjb)
+~*~ 05/07/2019, 06:20:51 - 1562271651995 (@realmode@) [w] (Scj9) received gossipAllTracks from unknown peer
+(Scjx)
+~*~ 05/07/2019, 06:20:51 - 1562271651996 (@realmode@) [w] (Scj9) received gossipAllTracks from unknown peer
+(Scjx)

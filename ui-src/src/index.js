@@ -23,9 +23,11 @@ const PERSONA_PROFILES_UI_INTERFACE_ID = "persona_profiles_ui_interface"
 class View extends React.Component {
   constructor (props) {
     super(props)
+    // console.log('process.env.REACT_APP_CHAT_WEBSOCKET_INTERFACE' & process.env.REACT_APP_CHAT_WEBSOCKET_INTERFACE)
     this.state = {
-      // holochainConnection: connect('ws://localhost:3401'), // Use for debug
-      holochainConnection: connect(), // use when letting the conductor auto-select. Allows for multiple agents
+      holochainConnection: connect('ws://localhost:3401'), // Use for debug
+      // holochainConnection: connect(process.env.REACT_APP_CHAT_WEBSOCKET_INTERFACE),
+      // holochainConnection: connect(), // use when letting the conductor auto-select. Allows for multiple agents,
       connected: false,
       user: {},
       users: {},
@@ -100,7 +102,7 @@ class View extends React.Component {
           message
         }, (result) => {
           console.log('message posted', result)
-          setTimeout(() => this.actions.getMessages(roomId), 1000) // hack for now
+          this.actions.getMessages(roomId) // hack for now
           this.actions.scrollToEnd()
         })
       },
@@ -183,8 +185,20 @@ class View extends React.Component {
   }
 
   componentDidMount () {
-    this.state.holochainConnection.then(({ callZome, call }) => {
+    this.state.holochainConnection.then(({ callZome, call, onSignal }) => {
       this.setState({ connected: true })
+      onSignal((signal) => {
+        console.log(JSON.stringify(signal.signal))
+        if (signal.signal.name === 'new_message') {
+          console.log(JSON.stringify(signal.signal.name))
+          const {roomId} = JSON.parse(signal.signal.arguments)
+          this.actions.getMessages(roomId)
+        } else if (signal.signal.name === 'new_room_member') {
+          console.log(JSON.stringify(signal.signal.name))
+          const {roomId} = JSON.parse(signal.signal.arguments)
+          this.actions.getRoomMembers(roomId)
+        }
+      })
       callZome('holo-chat', 'chat', 'get_my_member_profile')({}).then((result) => {
         const profile = JSON.parse(result).Ok
         if (profile) {
