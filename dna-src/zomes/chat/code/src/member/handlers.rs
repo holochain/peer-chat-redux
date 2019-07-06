@@ -1,17 +1,17 @@
 use std::convert::TryInto;
 use hdk::{
-    PUBLIC_TOKEN,
     AGENT_ADDRESS,
+    PUBLIC_TOKEN,
     DNA_ADDRESS,
     holochain_core_types::{
         entry::Entry,
         link::LinkMatch,
     },
     holochain_json_api::{
-    	json::RawString,
+        json::RawString,
     },
     holochain_persistence_api::{
-        cas::content::Address
+        cas::content::Address,
     },
     error::{
         ZomeApiResult,

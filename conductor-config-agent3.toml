@@ -1,23 +1,22 @@
 # -----------  Agents  -----------
 
-
 [[agents]]
-id = "test_agent1"
-name = "Agent 1"
-public_address = "HcSCJbpm8CZparb6f5iEKKRv4Te4op93q6ESMRuDtwp9abbzV8zYTF7EKqqw9ei"
-keystore_file = "./agent1.keystore"
+id = "test_agent3"
+name = "Agent 3"
+public_address = "HcSciD4Rn7wc3hno39KxqMHKQBr5yegivdQq9BzsG5q54pf46NsyZc8Fp6dsper"
+keystore_file = "./agent3.keystore"
 
 # -----------  DNA  -----------
 
 [[dnas]]
 id = "personas_profiles"
-file = "../personas-profiles/dna/personas-profiles.dna.json"
+file = "../personas-profiles/dna/personas-profiles-agent3.dna.json"
 hash = "Qm328wyq38924y"
 
 [[instances]]
 id = "personas-profiles"
 dna = "personas_profiles"
-agent = "test_agent1"
+agent = "test_agent3"
 [instances.storage]
 type = "memory"
 path = "tmp-storage"
@@ -30,13 +29,13 @@ hash = "Qm328wyq38924y"
 [[instances]]
 id = "holo-chat"
 dna = "chat_dna"
-agent = "test_agent1"
+agent = "test_agent3"
 [instances.logger]
 type = "simple"
 file = "app_spec.log"
 [instances.storage]
 type = "memory"
-path = "tmp-storage-agent1"
+path = "tmp-storage-agent3"
 
 [[bridges]]
 caller_id = "holo-chat"
@@ -48,7 +47,7 @@ id = "chat_websocket_interface"
 admin = true
 [interfaces.driver]
 type = "websocket"
-port = 3401
+port = 3403
 [[interfaces.instances]]
 id = "holo-chat"
 
@@ -56,7 +55,7 @@ id = "holo-chat"
 id = "chat_http_interface"
 [interfaces.driver]
 type = "http"
-port = 4401
+port = 4403
 [[interfaces.instances]]
 id = "holo-chat"
 
@@ -64,22 +63,22 @@ id = "holo-chat"
 id = "p_p_websocket_interface"
 [interfaces.driver]
 type = "websocket"
-port = 5401
+port = 5403
 [[interfaces.instances]]
 id = "personas-profiles"
 
 # -----------  UI  -----------
 
-[[ui_bundles]]
-id = "main"
-root_dir = "./ui"
-hash = "Qm000"
-
-[[ui_interfaces]]
-id = "ui-interface"
-bundle = "main"
-port = 3001
-dna_interface = "chat_websocket_interface"
+# [[ui_bundles]]
+# id = "main"
+# root_dir = "./ui"
+# hash = "Qm000"
+#
+# [[ui_interfaces]]
+# id = "ui-interface"
+# bundle = "main"
+# port = 3003
+# dna_interface = "chat_websocket_interface"
 
 [[ui_bundles]]
 id = "persona_profiles_ui_bundle"
@@ -89,13 +88,14 @@ hash = "Qm000"
 [[ui_interfaces]]
 id = "persona_profiles_ui_interface"
 bundle = "persona_profiles_ui_bundle"
-port = 4001
+port = 4003
 dna_interface = "p_p_websocket_interface"
 
 # -----------  Networking  -----------
 
 [network]
+# type = "n3h"
 n3h_mode = "REAL"
-n3h_persistence_path = "/Users/philipbeadle/holochain/Holochain/n3h-agent1"
+n3h_persistence_path = "./n3h-agent3"
 n3h_log_level = "i"
 bootstrap_nodes = []
