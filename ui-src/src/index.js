@@ -24,7 +24,6 @@ const REACT_APP_CHAT_WEBSOCKET_INTERFACE = process.env.REACT_APP_CHAT_WEBSOCKET_
 class View extends React.Component {
   constructor (props) {
     super(props)
-
     if(REACT_APP_CHAT_WEBSOCKET_INTERFACE){
       this.state = {
         holochainConnection: connect({ url: REACT_APP_CHAT_WEBSOCKET_INTERFACE }), // Use for debug
