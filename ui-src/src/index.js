@@ -19,15 +19,15 @@ const PERSONA_PROFILES_UI_INTERFACE_ID = "persona_profiles_ui_interface"
 // --------------------------------------
 // Application
 // --------------------------------------
+const REACT_APP_CHAT_WEBSOCKET_INTERFACE = process.env.REACT_APP_CHAT_WEBSOCKET_INTERFACE
 
 class View extends React.Component {
   constructor (props) {
     super(props)
-    // console.log('process.env.REACT_APP_CHAT_WEBSOCKET_INTERFACE' & process.env.REACT_APP_CHAT_WEBSOCKET_INTERFACE)
+
     this.state = {
-      holochainConnection: connect('ws://localhost:3401'), // Use for debug
-      // holochainConnection: connect(process.env.REACT_APP_CHAT_WEBSOCKET_INTERFACE),
-      // holochainConnection: connect(), // use when letting the conductor auto-select. Allows for multiple agents,
+      holochainConnection: connect({ url: REACT_APP_CHAT_WEBSOCKET_INTERFACE }), // Use for debug
+      // holochainConnection: connect(), // use when letting the conductor auto-select. Allows for multiple agents
       connected: false,
       user: {},
       users: {},

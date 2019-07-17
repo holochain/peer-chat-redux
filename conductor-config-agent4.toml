@@ -69,16 +69,16 @@ id = "personas-profiles"
 
 # -----------  UI  -----------
 
-[[ui_bundles]]
-id = "main"
-root_dir = "./ui"
-hash = "Qm000"
-
-[[ui_interfaces]]
-id = "ui-interface"
-bundle = "main"
-port = 3004
-dna_interface = "chat_websocket_interface"
+# [[ui_bundles]]
+# id = "main"
+# root_dir = "./ui"
+# hash = "Qm000"
+#
+# [[ui_interfaces]]
+# id = "ui-interface"
+# bundle = "main"
+# port = 3004
+# dna_interface = "chat_websocket_interface"
 
 [[ui_bundles]]
 id = "persona_profiles_ui_bundle"
@@ -94,7 +94,7 @@ dna_interface = "p_p_websocket_interface"
 # -----------  Networking  -----------
 
 [network]
-# type = "n3h"
+type = "n3h"
 n3h_mode = "REAL"
 n3h_persistence_path = "./n3h-agent4"
 n3h_log_level = "i"

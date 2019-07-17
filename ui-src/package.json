@@ -11,10 +11,12 @@
     "vuid": "^1.0.0"
   },
   "scripts": {
-    "ui:start:agent1": "react-scripts start",
+    "ui:start:agents": "npm run ui:start:agent1 & npm run ui:start:agent2 & npm run ui:start:agent3 & npm run ui:start:agent4 &",
+    "ui:start:agent1": "REACT_APP_CHAT_WEBSOCKET_INTERFACE='ws://localhost:3401' PORT=3001 react-scripts start",
     "ui:start:agent2": "REACT_APP_CHAT_WEBSOCKET_INTERFACE='ws://localhost:3402' PORT=3002 react-scripts start",
     "ui:start:agent3": "REACT_APP_CHAT_WEBSOCKET_INTERFACE='ws://localhost:3403' PORT=3003 react-scripts start",
     "ui:start:agent4": "REACT_APP_CHAT_WEBSOCKET_INTERFACE='ws://localhost:3404' PORT=3004 react-scripts start",
+    "kill-all-ui": "lsof -ti tcp:3001 | xargs kill && lsof -ti tcp:3002 | xargs kill && lsof -ti tcp:3003 | xargs kill && lsof -ti tcp:3004 | xargs kill",
     "build": "rm -rf ../ui && react-scripts build && mv ./build ../ui",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",

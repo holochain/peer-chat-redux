@@ -94,7 +94,7 @@ dna_interface = "p_p_websocket_interface"
 # -----------  Networking  -----------
 
 [network]
-# type = "n3h"
+type = "n3h"
 n3h_mode = "REAL"
 n3h_persistence_path = "./n3h-agent3"
 n3h_log_level = "i"

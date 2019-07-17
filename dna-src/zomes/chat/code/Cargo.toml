@@ -11,10 +11,10 @@
   derive_more = "0.9.0"
   utils = { path ="../../../utils" }
 
-  hdk = { git = "https://github.com/holochain/holochain-rust" , tag = "v0.0.21-alpha1" }
-  holochain_wasm_utils = { git = "https://github.com/holochain/holochain-rust" , tag = "v0.0.21-alpha1" }
-  hdk-proc-macros = { git = "https://github.com/holochain/holochain-rust" , tag = "v0.0.21-alpha1" }
-  holochain_json_derive = "=0.0.1-alpha2"
+  hdk = { git = "https://github.com/holochain/holochain-rust" , tag = "0.0.24-alpha2" }
+  holochain_wasm_utils = { git = "https://github.com/holochain/holochain-rust" , tag = "0.0.24-alpha2" }
+  hdk-proc-macros = { git = "https://github.com/holochain/holochain-rust" , tag = "0.0.24-alpha2" }
+  holochain_json_derive = "=0.0.15"
 
 [lib]
   path = "src/lib.rs"

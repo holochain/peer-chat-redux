@@ -1,4 +1,3 @@
-#![feature(try_from)]
 extern crate holochain_core_types;
 extern crate hdk;
 extern crate serde;
