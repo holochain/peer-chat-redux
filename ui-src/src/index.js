@@ -25,19 +25,34 @@ class View extends React.Component {
   constructor (props) {
     super(props)
 
-    this.state = {
-      holochainConnection: connect({ url: REACT_APP_CHAT_WEBSOCKET_INTERFACE }), // Use for debug
-      // holochainConnection: connect(), // use when letting the conductor auto-select. Allows for multiple agents
-      connected: false,
-      user: {},
-      users: {},
-      room: {},
-      rooms: [],
-      messages: {},
-      sidebarOpen: false,
-      userListOpen: window.innerWidth > 1000,
-      profileSpecSourceDna: ''
+    if(REACT_APP_CHAT_WEBSOCKET_INTERFACE){
+      this.state = {
+        holochainConnection: connect({ url: REACT_APP_CHAT_WEBSOCKET_INTERFACE }), // Use for debug
+        connected: false,
+        user: {},
+        users: {},
+        room: {},
+        rooms: [],
+        messages: {},
+        sidebarOpen: false,
+        userListOpen: window.innerWidth > 1000,
+        profileSpecSourceDna: ''
+      }
+    } else {
+      this.state = {
+        holochainConnection: connect(), // use when letting the conductor auto-select. Allows for multiple agents
+        connected: false,
+        user: {},
+        users: {},
+        room: {},
+        rooms: [],
+        messages: {},
+        sidebarOpen: false,
+        userListOpen: window.innerWidth > 1000,
+        profileSpecSourceDna: ''
+      }
     }
+
 
     this.actions = {
       // --------------------------------------
