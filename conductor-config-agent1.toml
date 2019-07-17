@@ -12,7 +12,7 @@ keystore_file = "./agent1.keystore"
 [[dnas]]
 id = "personas_profiles"
 file = "../personas-profiles/dna/personas-profiles-agent1.dna.json"
-hash = "Qm328wyq38924y"
+hash = "QmST4ENcy4HD5uwcwZ1MSxHUkpo2y311JiPpvjREgUKkjW"
 
 
 [[instances]]
@@ -26,8 +26,7 @@ path = "tmp-storage"
 [[dnas]]
 id = "chat_dna"
 file = "./dna/holochain-basic-chat.dna.json"
-hash = "Qm328wyq38924y"
-agent = "HcSCJbpm8CZparb6f5iEKKRv4Te4op93q6ESMRuDtwp9abbzV8zYTF7EKqqw9ei"
+hash = "QmZiMRayd86ocfZfDzjgwpPQFjxF3DtYHYoNFLZfhsw3xt"
 
 [[instances]]
 id = "holo-chat"
@@ -97,7 +96,7 @@ dna_interface = "p_p_websocket_interface"
 # -----------  Networking  -----------
 
 [network]
-# type = "n3h"
+type = "n3h"
 n3h_mode = "REAL"
 n3h_persistence_path = "./n3h-agent1"
 n3h_log_level = "i"
