@@ -21,6 +21,7 @@ const PERSONA_PROFILES_UI_INTERFACE_ID = "persona_profiles_ui_interface"
 // --------------------------------------
 const REACT_APP_CHAT_WEBSOCKET_INTERFACE = process.env.REACT_APP_CHAT_WEBSOCKET_INTERFACE
 
+console.log(REACT_APP_CHAT_WEBSOCKET_INTERFACE)
 class View extends React.Component {
   constructor (props) {
     super(props)
