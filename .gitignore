@@ -13,7 +13,10 @@ ui-src/coverage
 foo
 tmp-storage-agent1
 tmp-storage-agent2
-
+n3h-agent1
+n3h-agent2
+n3h-agent3
+n3h-agent4
 
 # misc
 .DS_Store
