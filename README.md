@@ -10,14 +10,9 @@ A simple chat app designed to get new users up, running and developing on Holoch
   curl https://nixos.org/nix/install | sh
 ```
 
-- Clone the holochain-rust repo to access the nix commands
+- Start a new nix-shell that has everything we need, this commit in the URL will install 0.0.14-alpha-1
 ```
-  git clone https://github.com/holochain/holochain-rust.git
-```
-
-- Start a new nix-shell that has everything we need
-```
-  nix-shell ./holochain-rust/default.nix
+  nix-shell https://github.com/holochain/holochain-rust/archive/3b42375dc31442b62855cff8c339a6422c447176.tar.gz
 ```
 
 - Get the latest released basic-chat
@@ -56,6 +51,9 @@ A simple chat app designed to get new users up, running and developing on Holoch
 
 
 
+
+
+
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
@@ -64,7 +62,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 At a minimum you will need to have the binaries for the holochain conductor installed on your system. See [the official installation instructions](https://developer.holochain.org/start.html).
 
-**Be sure to use the 0.0.9-alpha release for the CLI and Conductor.**
+**Be sure to use the v0.0.17-alpha2 release for the CLI and Conductor.**
 
 ### Running
 

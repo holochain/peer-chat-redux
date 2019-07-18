@@ -1,10 +1,15 @@
-
-use hdk::entry_definition::ValidatingEntryType;
-use hdk::holochain_core_types::{
-    json::JsonString,
-    error::HolochainError,
-    dna::entry_types::Sharing,
-    cas::content::Address,
+use hdk::{
+    entry_definition::ValidatingEntryType,
+    holochain_core_types::{
+        dna::entry_types::Sharing,
+    },
+    holochain_json_api::{
+        json::JsonString,
+        error::JsonError,
+    },
+    holochain_persistence_api::{
+        cas::content::Address
+    },
 };
 
 pub mod handlers;
@@ -41,7 +46,7 @@ pub fn profile_definition() -> ValidatingEntryType {
         links: [
             from!(
                 "%agent_id",
-                tag: "profile",
+                link_type: "profile",
 
                 validation_package: || {
                     hdk::ValidationPackageDefinition::Entry
