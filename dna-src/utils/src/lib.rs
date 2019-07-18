@@ -1,3 +1,10 @@
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+#![feature(try_from)]
+>>>>>>> cf17f1bb4a535935a48f8c03b264e9dd5c26b4af
+>>>>>>> develop
 extern crate holochain_core_types;
 extern crate hdk;
 extern crate serde;
