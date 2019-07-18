@@ -1,14 +1,14 @@
-use hdk::holochain_core_types::error::HolochainError;
-use hdk::holochain_core_types::json::JsonString;
 use hdk::{
     self,
     entry_definition::ValidatingEntryType,
+    holochain_core_types::{
+        dna::entry_types::Sharing,
+    },
+    holochain_json_api::{
+        json::JsonString,
+        error::JsonError,
+    },
 };
-
-use hdk::holochain_core_types::{
-    dna::entry_types::Sharing,
-};
-
 
 #[derive(Serialize, Deserialize, Debug, Clone, DefaultJson)]
 pub struct Message {
@@ -39,9 +39,13 @@ pub struct MessageSpec {
     pub meta: String
 }
 
+use crate::{
+    MESSAGE_ENTRY,
+};
+
 pub fn message_definition() -> ValidatingEntryType {
     entry!(
-        name: "message",
+        name: MESSAGE_ENTRY,
         description: "A generic message entry",
         sharing: Sharing::Public,
 

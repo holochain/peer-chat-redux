@@ -1,3 +1,12 @@
 {
-  "description": "The chat App"
+  "description": "The chat App",
+   "bridges": [
+    {
+      "presence": "optional",
+      "handle": "p-p-bridge",
+      "reference": {
+        "traits": {}
+      }
+    }
+  ]
 }

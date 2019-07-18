@@ -1,9 +1,13 @@
-use hdk::entry_definition::ValidatingEntryType;
-
-use hdk::holochain_core_types::{
-    dna::entry_types::Sharing,
-    json::RawString,
+use hdk::{
+    entry_definition::ValidatingEntryType,
+    holochain_core_types::{
+        dna::entry_types::Sharing,
+    },
+    holochain_json_api::{
+        json::RawString,
+    },
 };
+
 
 
 pub fn anchor_definition() -> ValidatingEntryType {
@@ -23,7 +27,7 @@ pub fn anchor_definition() -> ValidatingEntryType {
         links: [
             to!(
                 "%agent_id",
-                tag: "member_tag",
+                link_type: "member_tag",
 
                 validation_package: || {
                     hdk::ValidationPackageDefinition::Entry
@@ -35,7 +39,7 @@ pub fn anchor_definition() -> ValidatingEntryType {
             ),
             to!(
                 "public_stream",
-                tag: "public_stream",
+                link_type: "public_stream",
 
                 validation_package: || {
                     hdk::ValidationPackageDefinition::Entry
