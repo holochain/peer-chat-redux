@@ -51,7 +51,8 @@ A simple chat app designed to get new users up, running and developing on Holoch
 
 
 
-
+sudo lsof -i :PORT
+sudo kill -9 PID
 
 
 ## Getting Started

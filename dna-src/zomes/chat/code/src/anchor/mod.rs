@@ -5,6 +5,7 @@ use hdk::{
     },
     holochain_json_api::{
         json::RawString,
+        json::JsonString,
     },
 };
 
