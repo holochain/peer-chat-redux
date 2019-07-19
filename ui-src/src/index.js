@@ -14,7 +14,7 @@ import { WelcomeScreen } from './components/WelcomeScreen'
 import { JoinRoomScreen } from './components/JoinRoomScreen'
 import { RegisterScreen } from './components/RegisterScreen'
 
-const PERSONA_PROFILES_UI_INTERFACE_ID = "persona_profiles_ui_interface"
+// const PERSONA_PROFILES_UI_INTERFACE_ID = "persona_profiles_ui_interface"
 
 // --------------------------------------
 // Application
@@ -223,16 +223,18 @@ class View extends React.Component {
           const profileSpecSourceDna = JSON.parse(result).Err.Internal
           console.log('User has not registered a profile. redirecting to p&p ' + JSON.stringify(profileSpecSourceDna))
 
-          call('admin/ui_interface/list')({}).then(result => {
-            console.log(result)
-            let p_p_ui = result.find((elem) => elem.id === PERSONA_PROFILES_UI_INTERFACE_ID)
-            if (p_p_ui) {
-              window.location.replace(`http://localhost:${p_p_ui.port}/profile/${profileSpecSourceDna}/${encodeURIComponent(window.location.href)}`)
-            } else {
-              console.log("User is not registered and no personas/profiles UI interface was found in the conductor!")
-              // handle this somehow
-            }
-          })
+          window.location.replace(`http://localhost:4001/profile/${profileSpecSourceDna}/${encodeURIComponent(window.location.href)}`)
+
+          // call('admin/ui_interface/list')({}).then(result => {
+          //   console.log(result)
+          //   let p_p_ui = result.find((elem) => elem.id === PERSONA_PROFILES_UI_INTERFACE_ID)
+          //   if (p_p_ui) {
+          //     window.location.replace(`http://localhost:${p_p_ui.port}/profile/${profileSpecSourceDna}/${encodeURIComponent(window.location.href)}`)
+          //   } else {
+          //     console.log("User is not registered and no personas/profiles UI interface was found in the conductor!")
+          //     // handle this somehow
+          //   }
+          // })
         }
       })
     })
