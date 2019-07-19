@@ -89,6 +89,7 @@ pub fn handle_get_member_profile(agent_address: Address) -> ZomeApiResult<Profil
 pub fn handle_get_my_member_profile() -> ZomeApiResult<Profile> {
     match handle_get_member_profile(AGENT_ADDRESS.to_string().into()) {
         Ok(profile) => {
+            hdk::debug(format!("Found the profile {}", profile.name)).ok();
             // check if there any updates that have been made in P&P (if available)
             // fall back to using the existing saved info
             let name = retrieve_profile("handle".to_string()).unwrap_or(profile.name);
@@ -100,6 +101,7 @@ pub fn handle_get_my_member_profile() -> ZomeApiResult<Profile> {
             })
         },
         Err(_) => {
+            hdk::debug("Did not find profile").ok();
             match (retrieve_profile("handle".to_string()), retrieve_profile("avatar".to_string())) {
                 (Ok(handle), Ok(avatar)) => {
                     // handle and avatar both successfully retrieved from P&P
