@@ -98,8 +98,18 @@ pub fn handle_create_stream(
 }
 
 pub fn handle_join_stream(stream_address: Address) -> ZomeApiResult<()> {
-    hdk::utils::link_entries_bidir(&AGENT_ADDRESS, &stream_address, "member_of", "has_member", "", "")?;
-    notify_room(stream_address, "new_room_member".to_string())?;
+    let mut all_member_ids = hdk::get_links(&stream_address, LinkMatch::Exactly("has_member"), LinkMatch::Any)?.addresses().to_owned();
+    let mut join_room = true;
+    while let Some(member_id) = all_member_ids.pop() {
+        if &AGENT_ADDRESS.to_string() == &member_id.to_string() {
+            hdk::debug(format!("No need to rejoin roomMessages: {:?}", &member_id.to_string())).ok();
+            join_room = false;
+        }
+    }
+    if join_room {
+        hdk::utils::link_entries_bidir(&AGENT_ADDRESS, &stream_address, "member_of", "has_member", "", "")?;
+        notify_room(stream_address, "new_room_member".to_string())?;
+    }
     Ok(())
 }
 
