@@ -80,16 +80,16 @@ id = "personas-profiles"
 # port = 3002
 # dna_interface = "chat_websocket_interface"
 
-[[ui_bundles]]
-id = "persona_profiles_ui_bundle"
-root_dir = "../personas-profiles/ui"
-hash = "Qm000"
-
-[[ui_interfaces]]
-id = "persona_profiles_ui_interface"
-bundle = "persona_profiles_ui_bundle"
-port = 4002
-dna_interface = "p_p_websocket_interface"
+# [[ui_bundles]]
+# id = "persona_profiles_ui_bundle"
+# root_dir = "../personas-profiles/ui"
+# hash = "Qm000"
+#
+# [[ui_interfaces]]
+# id = "persona_profiles_ui_interface"
+# bundle = "persona_profiles_ui_bundle"
+# port = 4002
+# dna_interface = "p_p_websocket_interface"
 
 # -----------  Networking  -----------
 
