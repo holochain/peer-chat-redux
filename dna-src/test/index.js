@@ -26,7 +26,7 @@ const diorama = new Diorama({
   middleware: backwardCompatibilityMiddleware,
 })
 
-// require('./agent/profile')(diorama.registerScenario)
+require('./agent/profile')(diorama.registerScenario)
 require('./agent/messages')(diorama.registerScenario)
 
 diorama.run()
