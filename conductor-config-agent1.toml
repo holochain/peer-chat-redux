@@ -26,7 +26,7 @@ path = "tmp-storage"
 [[dnas]]
 id = "chat_dna"
 file = "./dna/holochain-basic-chat.dna.json"
-hash = "QmQxk7VMC9EqUtVnkC3s5DUhHAWcXW6xKgqjtDXEVfFTgg"
+hash = "QmYm7EdCThYqztMaXbYE858qsWBN2ho25txJKcFducWjrn"
 
 [[instances]]
 id = "holo-chat"
@@ -82,16 +82,16 @@ id = "personas-profiles"
 # port = 3001
 # dna_interface = "chat_websocket_interface"
 
-[[ui_bundles]]
-id = "persona_profiles_ui_bundle"
-root_dir = "../personas-profiles/ui"
-hash = "Qm000"
-
-[[ui_interfaces]]
-id = "persona_profiles_ui_interface"
-bundle = "persona_profiles_ui_bundle"
-port = 4001
-dna_interface = "p_p_websocket_interface"
+# [[ui_bundles]]
+# id = "persona_profiles_ui_bundle"
+# root_dir = "../personas-profiles/ui"
+# hash = "Qm000"
+#
+# [[ui_interfaces]]
+# id = "persona_profiles_ui_interface"
+# bundle = "persona_profiles_ui_bundle"
+# port = 4001
+# dna_interface = "p_p_websocket_interface"
 
 # -----------  Networking  -----------
 
