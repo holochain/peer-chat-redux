@@ -26,11 +26,7 @@ path = "tmp-storage"
 [[dnas]]
 id = "chat_dna"
 file = "./dna/holochain-basic-chat.dna.json"
-<<<<<<< Updated upstream
-hash = "QmQxk7VMC9EqUtVnkC3s5DUhHAWcXW6xKgqjtDXEVfFTgg"
-=======
 hash = "QmReuRH9yVkHB9ZFtZQeWJppKeq2TxWtaexTh2gT96ZtBb"
->>>>>>> Stashed changes
 
 [[instances]]
 id = "holo-chat"
