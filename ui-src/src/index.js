@@ -20,6 +20,8 @@ import { RegisterScreen } from './components/RegisterScreen'
 // Application
 // --------------------------------------
 const REACT_APP_CHAT_WEBSOCKET_INTERFACE = process.env.REACT_APP_CHAT_WEBSOCKET_INTERFACE
+const REACT_APP_PERSONAS_URL = process.env.REACT_APP_PERSONAS_URL
+
 
 console.log(REACT_APP_CHAT_WEBSOCKET_INTERFACE)
 class View extends React.Component {
@@ -223,7 +225,7 @@ class View extends React.Component {
           const profileSpecSourceDna = JSON.parse(result).Err.Internal
           console.log('User has not registered a profile. redirecting to p&p ' + JSON.stringify(profileSpecSourceDna))
 
-          window.location.replace(`http://localhost:4001/profile/${profileSpecSourceDna}/${encodeURIComponent(window.location.href)}`)
+          window.location.replace(`${REACT_APP_PERSONAS_URL}/profile/${profileSpecSourceDna}/${encodeURIComponent(window.location.href)}`)
 
           // call('admin/ui_interface/list')({}).then(result => {
           //   console.log(result)
