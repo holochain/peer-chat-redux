@@ -86,13 +86,13 @@ name = "crossbeam-channel"
 version = "0.3.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
- "crossbeam-utils 0.6.5 (registry+https://github.com/rust-lang/crates.io-index)",
+ "crossbeam-utils 0.6.6 (registry+https://github.com/rust-lang/crates.io-index)",
  "smallvec 0.6.10 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
 name = "crossbeam-utils"
-version = "0.6.5"
+version = "0.6.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
  "cfg-if 0.1.9 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -271,7 +271,7 @@ dependencies = [
 
 [[package]]
 name = "holochain_basic_chat"
-version = "0.0.5"
+version = "0.0.7"
 dependencies = [
  "derive_more 0.9.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "hdk 0.0.24-alpha2 (git+https://github.com/holochain/holochain-rust?tag=0.0.24-alpha2)",
@@ -282,7 +282,7 @@ dependencies = [
  "serde 1.0.89 (registry+https://github.com/rust-lang/crates.io-index)",
  "serde_derive 1.0.89 (registry+https://github.com/rust-lang/crates.io-index)",
  "serde_json 1.0.39 (registry+https://github.com/rust-lang/crates.io-index)",
- "utils 0.0.5",
+ "utils 0.0.7",
 ]
 
 [[package]]
@@ -907,7 +907,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
 name = "utils"
-version = "0.0.5"
+version = "0.0.7"
 dependencies = [
  "hdk 0.0.24-alpha2 (git+https://github.com/holochain/holochain-rust?tag=0.0.24-alpha2)",
  "holochain_core_types 0.0.24-alpha2 (git+https://github.com/holochain/holochain-rust?tag=0.0.24-alpha2)",
@@ -986,7 +986,7 @@ dependencies = [
 "checksum chrono 0.4.6 (registry+https://github.com/rust-lang/crates.io-index)" = "45912881121cb26fad7c38c17ba7daa18764771836b34fab7d3fbd93ed633878"
 "checksum cloudabi 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)" = "ddfc5b9aa5d4507acaf872de71051dfd0e309860e88966e1051e462a077aac4f"
 "checksum crossbeam-channel 0.3.8 (registry+https://github.com/rust-lang/crates.io-index)" = "0f0ed1a4de2235cabda8558ff5840bffb97fcb64c97827f354a451307df5f72b"
-"checksum crossbeam-utils 0.6.5 (registry+https://github.com/rust-lang/crates.io-index)" = "f8306fcef4a7b563b76b7dd949ca48f52bc1141aa067d2ea09565f3e2652aa5c"
+"checksum crossbeam-utils 0.6.6 (registry+https://github.com/rust-lang/crates.io-index)" = "04973fa96e96579258a5091af6003abde64af786b860f18622b82e026cca60e6"
 "checksum crunchy 0.2.2 (registry+https://github.com/rust-lang/crates.io-index)" = "7a81dae078cea95a014a339291cec439d2f232ebe854a9d672b796c6afafa9b7"
 "checksum ctor 0.1.9 (registry+https://github.com/rust-lang/crates.io-index)" = "3b4c17619643c1252b5f690084b82639dd7fac141c57c8e77a00e0148132092c"
 "checksum derive_more 0.9.0 (registry+https://github.com/rust-lang/crates.io-index)" = "64fba494f26a7e7906d1b4123b46d17717670a9b199cba941bf1a3885d917f0f"
