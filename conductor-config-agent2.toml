@@ -11,7 +11,7 @@ keystore_file = "./agent2.keystore"
 [[dnas]]
 id = "personas_profiles"
 file = "../personas-profiles/dna/personas-profiles-agent2.dna.json"
-hash = "QmT2e3aEsckxSBtpDCs2FqwWUaVwVRVrZyduc16LMDho4p"
+hash = "QmV3opmEDw9eKEUwYAyyvpYU7sEwEbaQssYzPmnmR9sYwU"
 
 [[instances]]
 id = "personas-profiles"
@@ -24,7 +24,7 @@ path = "tmp-storage"
 [[dnas]]
 id = "chat_dna"
 file = "./dna/holochain-basic-chat.dna.json"
-hash = "QmQxk7VMC9EqUtVnkC3s5DUhHAWcXW6xKgqjtDXEVfFTgg"
+hash = "QmReuRH9yVkHB9ZFtZQeWJppKeq2TxWtaexTh2gT96ZtBb"
 
 [[instances]]
 id = "holo-chat"
@@ -80,16 +80,16 @@ id = "personas-profiles"
 # port = 3002
 # dna_interface = "chat_websocket_interface"
 
-# [[ui_bundles]]
-# id = "persona_profiles_ui_bundle"
-# root_dir = "../personas-profiles/ui"
-# hash = "Qm000"
-#
-# [[ui_interfaces]]
-# id = "persona_profiles_ui_interface"
-# bundle = "persona_profiles_ui_bundle"
-# port = 4002
-# dna_interface = "p_p_websocket_interface"
+[[ui_bundles]]
+id = "persona_profiles_ui_bundle"
+root_dir = "../personas-profiles/ui"
+hash = "Qm000"
+
+[[ui_interfaces]]
+id = "persona_profiles_ui_interface"
+bundle = "persona_profiles_ui_bundle"
+port = 4002
+dna_interface = "p_p_websocket_interface"
 
 # -----------  Networking  -----------
 
