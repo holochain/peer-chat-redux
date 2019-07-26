@@ -1,6 +1,6 @@
 [package]
   name = "holochain_basic_chat"
-version = "0.0.5"
+version = "0.0.7"
   authors = ["willem <willemolding@gmail.com>, Philip Beadle <philip.beadle@holo.host>"]
   edition = "2018"
 [dependencies]
