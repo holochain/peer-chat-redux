@@ -11,7 +11,26 @@ script:
 - ls
 - git clone https://github.com/holochain/personas-profiles.git
 - cd personas-profiles
-- nix-shell --run 'npm run hc:build' https://github.com/holochain/holonix/archive/bc0901c64047298a8c2d081f3e91cf5fdf193e90.tar.gz
+- nix-shell --run 'npm run hc:build'
 - cd ..
 - cd holochain-basic-chat
-- nix-shell --run 'npm run hc:test' https://github.com/holochain/holonix/archive/bc0901c64047298a8c2d081f3e91cf5fdf193e90.tar.gz
+- nix-shell --run 'cd ui-src && npm install && cd .. && npm run prerelease'
+- PACKAGE_NAME=$(node -p -e "require('./package.json').name")
+- PACKAGE_VERSION=$(node -p -e "require('./package.json').version")
+- cd release/ui
+- ls
+- zip -r $PACKAGE_NAME-$PACKAGE_VERSION.zip *
+- cd ..
+deploy:
+  provider: releases
+  api_key:
+    secure: ARM6PsKuh1w+DBndAEJCknyUxzfD9gcmAcDDlXBhE6nshsJh9jdfNluE+ejtS3Eh0piYlwtmO6nETDVB6qMC101Ez1ESTbRkwbLiESXp5ESJ3XBmNMPOS3+cVxX6reoivpF9BB9SG3nuS+TBmm6o7jn0xZjQQXYgnLiz7JdFi+Jhx1WiWKmPnvWLv4oC4Zn6FOVK39sWLjyJuSDs/DjMZwhcKSXGodB2SaEwaAwkCvXuP3X287FSBJb+T75EkZJLaKkjRO620LqvpBnV684jZeOrCRIE6hBEF3pcC5FdYBSGpq460hFe6kTsTjUxmchAJO9M4yBdF2vqmw3brjhNuD/7DgBxJKwo+WrYQM3lcc28YdYTK6FfUII7ECvhLhO1u2fleMGT7GiMKHgSoo1Tm8q/+MrjPYyYujxN1m3pEntLvkuCAF7QV7TKZqKNbslvV8qwzpOn0w9Lii0FV7OY3Q7DFU3vuqFkZ3LzZB5YedHdaEPQAvYkSP7uXqFheqeYWt9K9Tj0HWOcUkA11+MuRLhNRLZQCakZhZmWebDndcazYH4qYeiBcdR1Dt456ylgLUDNXoNRv1LGJeYrX0Zdq+aAkG+n8po6hXvDywLTVukE0c9DMpfJvaySXaBuht7c4vog/oMqqAmgJcL3V38vcNLIK8WLnLUmVuUOlg2edRs=
+  file:
+    - "ui/$PACKAGE_NAME-$PACKAGE_VERSION.zip"
+    - "dna/holochain-basic-chat.dna.json"
+    - "../personas-profiles/dna/personas-profiles.dna.json"
+  skip_cleanup: true
+  on:
+    tags: true
+    branch: master
+    name: $TRAVIS_TAG
