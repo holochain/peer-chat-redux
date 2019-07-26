@@ -23,7 +23,7 @@ module.exports = scenario => {
     console.log('sourceDna ' + JSON.stringify(sourceDna))
     const get_result = await personas_instance.call('profiles', 'get_profiles', {})
     console.log('Profiles' + JSON.stringify(get_result))
-    t.deepEqual(get_result.Ok.length, 1)
+    t.deepEqual(get_result.Ok.length, 2)
   })
 
   scenario('Can register a profile and retrieve', async (s, t, {chat_instance}) => {
