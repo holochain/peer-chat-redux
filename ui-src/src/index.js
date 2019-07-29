@@ -168,6 +168,15 @@ class View extends React.Component {
         })
       },
 
+      getFullName: userId => {
+        this.makeHolochainCall('holo-chat/chat/get_full_name', { agent_address: userId }, (result) => {
+          console.log('retrieved Full Name', result)
+          this.setState({
+            users: { ...this.state.users, [userId]: result.Ok }
+          })
+        })
+      },
+
       getRooms: () => {
         this.makeHolochainCall('holo-chat/chat/get_all_public_streams', {}, (result) => {
           console.log('retrieved public rooms', result)
@@ -224,19 +233,7 @@ class View extends React.Component {
         } else {
           const profileSpecSourceDna = JSON.parse(result).Err.Internal
           console.log('User has not registered a profile. redirecting to p&p ' + JSON.stringify(profileSpecSourceDna))
-
           window.location.replace(`${REACT_APP_PERSONAS_URL}/profile/${profileSpecSourceDna}/${encodeURIComponent(window.location.href)}`)
-
-          // call('admin/ui_interface/list')({}).then(result => {
-          //   console.log(result)
-          //   let p_p_ui = result.find((elem) => elem.id === PERSONA_PROFILES_UI_INTERFACE_ID)
-          //   if (p_p_ui) {
-          //     window.location.replace(`http://localhost:${p_p_ui.port}/profile/${profileSpecSourceDna}/${encodeURIComponent(window.location.href)}`)
-          //   } else {
-          //     console.log("User is not registered and no personas/profiles UI interface was found in the conductor!")
-          //     // handle this somehow
-          //   }
-          // })
         }
       })
     })
@@ -265,7 +262,7 @@ class View extends React.Component {
     return (
       <main>
         <aside data-open={sidebarOpen}>
-          <UserHeader user={user} />
+          <UserHeader state={this.state} actions={this.actions} />
           <RoomList
             user={user}
             rooms={rooms}
