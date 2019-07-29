@@ -168,7 +168,7 @@ class View extends React.Component {
         })
       },
 
-      getFullName: userId => {
+      openFullName: userId => {
         this.makeHolochainCall('holo-chat/chat/get_full_name', { agent_address: userId }, (result) => {
           console.log('retrieved Full Name', result)
           this.setState({

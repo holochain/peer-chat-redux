@@ -1,5 +1,4 @@
 extern crate utils;
-use std::convert::TryInto;
 use hdk::{
     AGENT_ADDRESS,
     error::ZomeApiResult,
@@ -9,8 +8,6 @@ use hdk::{
     },
     holochain_json_api::{
         json::RawString,
-    	json::JsonString,
-        error::JsonError,
     },
     holochain_persistence_api::{
         cas::content::Address,
@@ -27,18 +24,6 @@ use utils::{
 };
 use crate::message;
 
-#[derive(Serialize, Deserialize, Debug, DefaultJson, PartialEq)]
-struct Message {
-    msg_type: String,
-    room_id: String,
-}
-
-#[derive(Debug, Serialize, Deserialize, DefaultJson)]
-#[serde(rename_all = "camelCase")]
-struct SignalPayload {
-    room_id: String
-}
-
 fn notify_room(stream_address: Address, msg_type: String) -> ZomeApiResult<()> {
     let mut all_member_ids = hdk::get_links(&stream_address, LinkMatch::Exactly("has_member"), LinkMatch::Any)?.addresses().to_owned();
     while let Some(member_id) = all_member_ids.pop() {
@@ -50,21 +35,6 @@ fn notify_room(stream_address: Address, msg_type: String) -> ZomeApiResult<()> {
         }
     }
     Ok(())
-}
-
-pub fn handle_receive(from: Address, json_msg: JsonString) -> String {
-    hdk::debug(format!("New message from: {:?}", from)).ok();
-    let maybe_message: Result<Message, _> = json_msg.try_into();
-    match maybe_message {
-        Err(err) => format!("error: {}", err),
-        Ok(message) => match message.msg_type.as_str() {
-            msg_type => {
-                let room_id = message.room_id;
-                let _ = hdk::emit_signal(msg_type, SignalPayload{room_id});
-                format!("Emitted: {}", msg_type)
-            },
-        }
-    }
 }
 
 pub fn handle_create_stream(

@@ -10,7 +10,7 @@ extern crate serde;
 extern crate serde_derive;
 #[macro_use]
 extern crate serde_json;
-
+use std::convert::TryInto;
 use hdk::{
 	api::DNA_ADDRESS,
     error::ZomeApiResult,
@@ -20,6 +20,7 @@ use hdk::{
 	},
 	holochain_json_api::{
 		json::JsonString,
+		error::JsonError,
 	},
 };
 
@@ -37,6 +38,18 @@ pub static PUBLIC_STREAM_ENTRY: &str = "public_stream";
 pub static PUBLIC_STREAM_LINK_TYPE_TO: &str = "has_member";
 pub static PUBLIC_STREAM_LINK_TYPE_FROM: &str = "member_of";
 
+#[derive(Serialize, Deserialize, Debug, DefaultJson, PartialEq)]
+struct Message {
+	msg_type: String,
+	room_id: String,
+}
+
+#[derive(Debug, Serialize, Deserialize, DefaultJson)]
+#[serde(rename_all = "camelCase")]
+struct SignalPayload {
+	room_id: String
+}
+
 #[zome]
 pub mod chat {
 
@@ -46,8 +59,25 @@ pub mod chat {
     }
 
 	#[receive]
-	pub fn receive(from: Address, msg_json: String) {
-		stream::handlers::handle_receive(from, JsonString::from_json(&msg_json))
+	pub fn receive(from: Address, msg_json: JsonString) {
+		hdk::debug(format!("New message from: {:?}", from)).ok();
+		let maybe_message: Result<Message, _> = JsonString::from_json(&msg_json).try_into();
+		match maybe_message {
+			Err(err) => format!("error: {}", err),
+			Ok(message) => match message.msg_type.as_str() {
+				"new_room_member" | "new_message" => {
+					let room_id = message.room_id;
+					let _ = hdk::emit_signal(message.msg_type.as_str(), SignalPayload{room_id});
+					format!("Emitted: {}", message.msg_type.as_str())
+				}
+				"full_name_request" => {
+					format!("Emitted: {}", message.msg_type.as_str())
+				}
+				_ => {
+					format!("No match: {}", message.msg_type.as_str())
+				}
+			}
+		}
 	}
 
 	#[entry_def]
