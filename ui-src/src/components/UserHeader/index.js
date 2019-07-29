@@ -6,12 +6,12 @@ const placeholder =
 
 export const UserHeader = ({
   state: { user = {} },
-  actions: { getFullName }
+  actions: { openFullName }
 }) => (
   <header className={style.component}>
-    <img src={user.avatarURL ? user.avatarURL : placeholder} alt={user.name ? user.name[0] : ''} onClick={() => getFullName(user.id)}/>
+    <img src={user.avatarURL ? user.avatarURL : placeholder} alt={user.name ? user.name[0] : ''} onClick={() => openFullName(user.id)}/>
     <div>
-      <h3>{user.name}{user.firstName}</h3>
+      <h3>{user.firstName} {user.lastName} {user.name}</h3>
       <h5>{user.id && `@${user.id.substring(0, 15)}`}</h5>
     </div>
   </header>
