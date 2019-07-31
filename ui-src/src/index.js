@@ -168,12 +168,18 @@ class View extends React.Component {
         })
       },
 
-      openFullName: userId => {
-        this.makeHolochainCall('holo-chat/chat/get_full_name', { agent_address: userId }, (result) => {
-          console.log('retrieved Full Name', result)
+      setFirstName: userId => {
+        console.log('Asked for First Name')
+        this.makeHolochainCall('holo-chat/chat/get_first_name', { agent_address: userId }, (result) => {
+          let name = result.Ok.body
+          let user = this.state.users[userId]
+          user.first_name = name
+          console.log(user)
           this.setState({
-            users: { ...this.state.users, [userId]: result.Ok }
+            users: { ...this.state.users, [userId]: user }
           })
+
+          console.log('Asked for First Name', result.Ok.body)
         })
       },
 
@@ -285,11 +291,7 @@ class View extends React.Component {
                 <CreateMessageForm state={this.state} actions={this.actions} />
               </col->
               {userListOpen && (
-                <UserList
-                  room={room}
-                  current={user.id}
-                  users={users}
-                />
+                <UserList state={this.state} actions={this.actions} />
               )}
             </row->
           ) : connected ? (

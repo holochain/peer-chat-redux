@@ -41,13 +41,20 @@ pub static PUBLIC_STREAM_LINK_TYPE_FROM: &str = "member_of";
 #[derive(Serialize, Deserialize, Debug, DefaultJson, PartialEq)]
 struct Message {
 	msg_type: String,
-	room_id: String,
+	id: String,
+	name: String,
 }
 
 #[derive(Debug, Serialize, Deserialize, DefaultJson)]
 #[serde(rename_all = "camelCase")]
 struct SignalPayload {
 	room_id: String
+}
+
+#[derive(Debug, Serialize, Deserialize, DefaultJson)]
+#[serde(rename_all = "camelCase")]
+struct NamePayload {
+	name: String
 }
 
 #[zome]
@@ -59,25 +66,32 @@ pub mod chat {
     }
 
 	#[receive]
-	pub fn receive(from: Address, msg_json: JsonString) {
+	pub fn receive(from: Address, msg_json: JsonString) -> String {
 		hdk::debug(format!("New message from: {:?}", from)).ok();
 		let maybe_message: Result<Message, _> = JsonString::from_json(&msg_json).try_into();
-		match maybe_message {
+		let response = match maybe_message {
 			Err(err) => format!("error: {}", err),
 			Ok(message) => match message.msg_type.as_str() {
 				"new_room_member" | "new_message" => {
-					let room_id = message.room_id;
+					let room_id = message.id;
 					let _ = hdk::emit_signal(message.msg_type.as_str(), SignalPayload{room_id});
-					format!("Emitted: {}", message.msg_type.as_str())
+					format!("Emit: {}", message.msg_type.as_str())
 				}
-				"full_name_request" => {
-					format!("Emitted: {}", message.msg_type.as_str())
+				"first_name_request" => {
+					let name = member::handlers::retrieve_profile("first_name".into()).expect("first_name_request Couldn't find first_name");
+					let _ = hdk::emit_signal("first_name_response", NamePayload{name: name.clone()});
+					format!("{}", name)
 				}
 				_ => {
 					format!("No match: {}", message.msg_type.as_str())
 				}
 			}
-		}
+		};
+		json!({
+			"msg_type": "response",
+			"body": response
+		})
+		.to_string()
 	}
 
 	#[entry_def]
@@ -133,6 +147,11 @@ pub mod chat {
 	#[zome_fn("hc_public")]
 	pub fn get_my_member_profile() -> ZomeApiResult<member::Profile> {
 		member::handlers::handle_get_my_member_profile()
+	}
+
+	#[zome_fn("hc_public")]
+	pub fn get_first_name(agent_address: Address) -> ZomeApiResult<JsonString> {
+		member::handlers::handle_get_first_name(agent_address)
 	}
 
 	#[zome_fn("hc_public")]
