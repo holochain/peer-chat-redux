@@ -12,8 +12,8 @@ let props = {
       avatarURL: 'https://avatars3.githubusercontent.com/u/5264862?s=40&v=4',
       name: '@philt3r',
       id: 'https://avatars3.githubusercontent.com/u/5264862?s=40&v=4',
-      firstName: 'Philip',
-      lastName: 'Beadle'
+      firstName: '',
+      lastName: ''
     },
     users: {},
     room: {},
@@ -24,20 +24,12 @@ let props = {
     profileSpecSourceDna: ''
   },
   actions: {
-    openFullName: openFullName => setUser(),
   }
 }
 
 const store = new Store({
   props: props
 });
-
-function setUser () {
-  store.set({
-    props: { ...props.state.user, firstName: 'Philip' }
-  })
-  console.log(store.get('props'))
-}
 
 storiesOf('User Header', module)
   .addDecorator(StateDecorator(store))
