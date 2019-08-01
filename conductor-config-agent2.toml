@@ -11,7 +11,7 @@ keystore_file = "./agent2.keystore"
 [[dnas]]
 id = "personas_profiles"
 file = "../personas-profiles/dna/personas-profiles-agent2.dna.json"
-hash = "QmRgSWBEbHtPBhWbVALTxQYp3LFc7gaxhKqfGMMSPCYJVF"
+hash = "QmXX6vx3VYi71bJsxzCs1TRn6v5q9HUmfkqWR66mnYiBEx"
 
 [[instances]]
 id = "personas-profiles"
@@ -24,7 +24,7 @@ path = "tmp-storage"
 [[dnas]]
 id = "chat_dna"
 file = "./dna/holochain-basic-chat.dna.json"
-hash = "QmQhANuLdNQvSLJ4gSaBMeqCZF7vsSTprcrwC9ddxHu1Lh"
+hash = "QmbA6WyhkCGrorEWtKhQnsDgJhSopepNi1ViKx78PkCe3V"
 
 [[instances]]
 id = "holo-chat"
