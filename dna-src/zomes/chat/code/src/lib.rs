@@ -82,7 +82,6 @@ pub mod chat {
 				}
 				"full_name_request" => {
 					let name = member::handlers::retrieve_profile("full_name".into()).expect("full_name_request Couldn't find full_name");
-					let _ = hdk::emit_signal("full_name_response", NamePayload{name: name.clone()});
 					json!({
 						"msg_type": message.msg_type.as_str(),
 						"body": format!("{}", name)
