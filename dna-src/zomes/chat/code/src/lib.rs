@@ -42,7 +42,6 @@ pub static PUBLIC_STREAM_LINK_TYPE_FROM: &str = "member_of";
 struct Message {
 	msg_type: String,
 	id: String,
-	name: String,
 }
 
 #[derive(Debug, Serialize, Deserialize, DefaultJson)]
@@ -69,29 +68,36 @@ pub mod chat {
 	pub fn receive(from: Address, msg_json: JsonString) -> String {
 		hdk::debug(format!("New message from: {:?}", from)).ok();
 		let maybe_message: Result<Message, _> = JsonString::from_json(&msg_json).try_into();
-		let response = match maybe_message {
+		match maybe_message {
 			Err(err) => format!("error: {}", err),
 			Ok(message) => match message.msg_type.as_str() {
 				"new_room_member" | "new_message" => {
 					let room_id = message.id;
 					let _ = hdk::emit_signal(message.msg_type.as_str(), SignalPayload{room_id});
-					format!("Emit: {}", message.msg_type.as_str())
+					json!({
+						"msg_type": message.msg_type.as_str(),
+						"body": format!("Emit: {}", message.msg_type.as_str())
+					})
+					.to_string()
 				}
-				"first_name_request" => {
-					let name = member::handlers::retrieve_profile("first_name".into()).expect("first_name_request Couldn't find first_name");
-					let _ = hdk::emit_signal("first_name_response", NamePayload{name: name.clone()});
-					format!("{}", name)
+				"full_name_request" => {
+					let name = member::handlers::retrieve_profile("full_name".into()).expect("full_name_request Couldn't find full_name");
+					let _ = hdk::emit_signal("full_name_response", NamePayload{name: name.clone()});
+					json!({
+						"msg_type": message.msg_type.as_str(),
+						"body": format!("{}", name)
+					})
+					.to_string()
 				}
 				_ => {
-					format!("No match: {}", message.msg_type.as_str())
+					json!({
+						"msg_type": message.msg_type.as_str(),
+						"body": format!("No match: {}", message.msg_type.as_str())
+					})
+					.to_string()
 				}
 			}
-		};
-		json!({
-			"msg_type": "response",
-			"body": response
-		})
-		.to_string()
+		}
 	}
 
 	#[entry_def]
@@ -150,8 +156,8 @@ pub mod chat {
 	}
 
 	#[zome_fn("hc_public")]
-	pub fn get_first_name(agent_address: Address) -> ZomeApiResult<JsonString> {
-		member::handlers::handle_get_first_name(agent_address)
+	pub fn get_full_name(agent_address: Address) -> ZomeApiResult<JsonString> {
+		member::handlers::handle_get_full_name(agent_address)
 	}
 
 	#[zome_fn("hc_public")]
@@ -169,7 +175,7 @@ pub fn profile_spec() -> JsonString{
 	json!(
 	{
 		"spec": {
-		  "name": "holochain-basic-chat",
+		  "name": "Holochain Peer Messenger",
 		  "sourceDna": DNA_ADDRESS.to_string(),
 		  "fields": [
 		  		{
@@ -189,16 +195,8 @@ pub fn profile_spec() -> JsonString{
 		            "schema": ""
 		        },
 		        {
-		            "name": "first_name",
-		            "displayName": "First Name",
-		            "required": false,
-		            "description": "Your name will show when someone clicks it in the members list if you are online",
-		            "usage": "DISPLAY",
-		            "schema": ""
-		        },
-		        {
-		            "name": "last_name",
-		            "displayName": "Last Name",
+		            "name": "full_name",
+		            "displayName": "Full Name",
 		            "required": false,
 		            "description": "Your name will show when someone clicks it in the members list if you are online",
 		            "usage": "DISPLAY",

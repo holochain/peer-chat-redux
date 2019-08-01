@@ -15,7 +15,20 @@ const chat_dna_1 = Diorama.dna(chat_dnaPath, 'chat_1')
 const personas_dna_1 = Diorama.dna(personas_dnaPath, 'personas_1', {uuid: 'agent1'})
 const chat_dna_2 = Diorama.dna(chat_dnaPath, 'chat_2')
 
-const diorama = new Diorama({
+const diorama_1 = new Diorama({
+  instances: {
+    chat_instance_1: chat_dna_1,
+    personas_instance_1: personas_dna_1
+  },
+  bridges: [
+    Diorama.bridge('p-p-bridge', 'chat_instance_1', 'personas_instance_1')
+  ],
+  debugLog: false,
+  executor: tapeExecutor(require('tape')),
+  middleware: backwardCompatibilityMiddleware,
+})
+
+const diorama_2 = new Diorama({
   instances: {
     chat_instance_1: chat_dna_1,
     personas_instance_1: personas_dna_1,
@@ -29,9 +42,10 @@ const diorama = new Diorama({
   middleware: backwardCompatibilityMiddleware,
 })
 
-require('./agent/profile')(diorama.registerScenario)
-require('./agent/messages')(diorama.registerScenario)
+require('./agent/profile')(diorama_2.registerScenario)
+require('./agent/messages')(diorama_2.registerScenario)
 
-require('./scenario/full_name')(diorama.registerScenario)
+require('./scenario/full_name')(diorama_2.registerScenario)
 
-diorama.run()
+diorama_2.run()
+// diorama_2.run()

@@ -31,7 +31,7 @@ fn notify_room(stream_address: Address, msg_type: String) -> ZomeApiResult<()> {
             hdk::debug(format!("No need to send a message to myself: {:?}", &member_id.to_string())).ok();
         } else {
             hdk::debug(format!("Send a message to: {:?}", &member_id.to_string())).ok();
-            hdk::send(member_id, json!({"msg_type": msg_type, "room_id": &stream_address}).to_string(), 10000.into())?;
+            hdk::send(member_id, json!({"msg_type": msg_type, "id": &stream_address}).to_string(), 10000.into())?;
         }
     }
     Ok(())

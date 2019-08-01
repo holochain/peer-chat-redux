@@ -170,10 +170,10 @@ class View extends React.Component {
 
       setFirstName: userId => {
         console.log('Asked for First Name')
-        this.makeHolochainCall('holo-chat/chat/get_first_name', { agent_address: userId }, (result) => {
+        this.makeHolochainCall('holo-chat/chat/get_full_name', { agent_address: userId }, (result) => {
           let name = result.Ok.body
           let user = this.state.users[userId]
-          user.first_name = name
+          user.full_name = name
           console.log(user)
           this.setState({
             users: { ...this.state.users, [userId]: user }
@@ -224,6 +224,8 @@ class View extends React.Component {
         if (signal.signal.name === 'new_message') {
           console.log(JSON.stringify(signal.signal.name))
           const {roomId} = JSON.parse(signal.signal.arguments)
+          console.log(JSON.parse(signal.signal.arguments))
+          console.log(roomId)
           this.actions.getMessages(roomId)
         } else if (signal.signal.name === 'new_room_member') {
           console.log(JSON.stringify(signal.signal.name))
