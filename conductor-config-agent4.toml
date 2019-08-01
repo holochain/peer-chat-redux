@@ -24,7 +24,7 @@ path = "tmp-storage"
 [[dnas]]
 id = "chat_dna"
 file = "./dna/holochain-basic-chat.dna.json"
-hash = "QmZGoeKaPoq7qTxT6x9WfmBQ6yF2nbBziSzgKqfVJ3r59z"
+hash = "QmQhANuLdNQvSLJ4gSaBMeqCZF7vsSTprcrwC9ddxHu1Lh"
 
 [[instances]]
 id = "holo-chat"
