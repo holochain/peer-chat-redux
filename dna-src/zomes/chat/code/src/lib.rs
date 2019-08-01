@@ -174,7 +174,7 @@ pub fn profile_spec() -> JsonString{
 	json!(
 	{
 		"spec": {
-		  "name": "Holochain Peer Messenger",
+		  "name": "Holochain Peer Chat",
 		  "sourceDna": DNA_ADDRESS.to_string(),
 		  "fields": [
 		  		{

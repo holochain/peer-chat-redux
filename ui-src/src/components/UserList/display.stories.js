@@ -28,28 +28,50 @@ let props = {
     }
   },
   actions: {
-    setFirstName: setFirstName => {
-      let user = {
-        name: '@philt3r',
-        avatar_url: 'https://avatars0.githubusercontent.com/u/5264862?s=60&v=4',
-        address: 'HcSCJbpm8CZparb6f5iEKKRv4Te4op93q6ESMRuDtwp9abbzV8zYTF7EKqqw9ei',
-        full_name: 'Philip'
-      }
-
+    setFirstName: userId => {
+      console.log(userId)
+      let user =  { ...props.state.users[userId], full_name: 'Full Name' }
+      let users = { ...props.state.users, [userId]: user }
       store.set({
-        props: { ...props.state.users, ['HcSCJbpm8CZparb6f5iEKKRv4Te4op93q6ESMRuDtwp9abbzV8zYTF7EKqqw9ei']: user }
+        state: { ...props.state, users }
       })
-      console.log(store.get('props'))
     }
   }
 }
 
 const store = new Store({
-  props: props
+  state: props.state,
+  actions: props.actions
 })
+
+function setFirstName (userId) {
+  console.log(userId)
+}
+
 
 storiesOf('User List', module)
   .addDecorator(StateDecorator(store))
   .add('Display', (() => {
-    return <UserList {...store.props} />
+    let user = {
+      name: '@philt3r',
+      avatar_url: 'https://avatars0.githubusercontent.com/u/5264862?s=60&v=4',
+      address: 'HcSCJbpm8CZparb6f5iEKKRv4Te4op93q6ESMRuDtwp9abbzV8zYTF7EKqqw9ei'    }
+    let users = { ...props.state.users, ['HcSCJbpm8CZparb6f5iEKKRv4Te4op93q6ESMRuDtwp9abbzV8zYTF7EKqqw9ei']: user }
+    store.set({
+      state: { ...props.state, users }
+    })
+    return <UserList {...store.get('props')} />
+  }))
+  .add('Display with Full Name', (() => {
+    let user = {
+      name: '@philt3r',
+      avatar_url: 'https://avatars0.githubusercontent.com/u/5264862?s=60&v=4',
+      address: 'HcSCJbpm8CZparb6f5iEKKRv4Te4op93q6ESMRuDtwp9abbzV8zYTF7EKqqw9ei',
+      full_name: 'Philip Beadle'
+    }
+    let users = { ...props.state.users, ['HcSCJbpm8CZparb6f5iEKKRv4Te4op93q6ESMRuDtwp9abbzV8zYTF7EKqqw9ei']: user }
+    store.set({
+      state: { ...props.state, users }
+    })
+    return <UserList {...store.get('props')} />
   }))

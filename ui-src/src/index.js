@@ -24,7 +24,7 @@ const REACT_APP_PERSONAS_URL = process.env.REACT_APP_PERSONAS_URL
 
 
 console.log(REACT_APP_CHAT_WEBSOCKET_INTERFACE)
-class View extends React.Component {
+export class View extends React.Component {
   constructor (props) {
     super(props)
     if(REACT_APP_CHAT_WEBSOCKET_INTERFACE){
