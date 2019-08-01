@@ -6,7 +6,6 @@ import { UserHeader } from './index'
 
 let props = {
   state: {
-    holochainConnection: null, // Use for debug
     connected: false,
     user: {
       avatarURL: 'https://avatars3.githubusercontent.com/u/5264862?s=40&v=4',

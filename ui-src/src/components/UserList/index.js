@@ -11,7 +11,7 @@ export const UserList = (
       <li key={user} onClick={() => setFirstName(user)}>
         <img src={users[user] ? users[user].avatar_url : ''} alt={users[user] ? users[user].name[0] : ''} />
         <p>{users[user] ? users[user].name : '?'}&nbsp;</p>
-        <p>{users[user] ? users[user].first_name : '?'}</p>
+        <p>{users[user] ? users[user].full_name : '?'}</p>
       </li>
     ))}
   </ul>

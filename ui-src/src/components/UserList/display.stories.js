@@ -23,13 +23,24 @@ let props = {
       'HcSCJbpm8CZparb6f5iEKKRv4Te4op93q6ESMRuDtwp9abbzV8zYTF7EKqqw9ei': {
         name: '@philt3r',
         avatar_url: 'https://avatars0.githubusercontent.com/u/5264862?s=60&v=4',
-        address: 'HcSCJbpm8CZparb6f5iEKKRv4Te4op93q6ESMRuDtwp9abbzV8zYTF7EKqqw9ei',
-        first_name: 'Philip'
+        address: 'HcSCJbpm8CZparb6f5iEKKRv4Te4op93q6ESMRuDtwp9abbzV8zYTF7EKqqw9ei'
       }
     }
   },
   actions: {
-    setFirstName: setFirstName => setFirstName()
+    setFirstName: setFirstName => {
+      let user = {
+        name: '@philt3r',
+        avatar_url: 'https://avatars0.githubusercontent.com/u/5264862?s=60&v=4',
+        address: 'HcSCJbpm8CZparb6f5iEKKRv4Te4op93q6ESMRuDtwp9abbzV8zYTF7EKqqw9ei',
+        full_name: 'Philip'
+      }
+
+      store.set({
+        props: { ...props.state.users, ['HcSCJbpm8CZparb6f5iEKKRv4Te4op93q6ESMRuDtwp9abbzV8zYTF7EKqqw9ei']: user }
+      })
+      console.log(store.get('props'))
+    }
   }
 }
 
@@ -37,22 +48,8 @@ const store = new Store({
   props: props
 })
 
-function setFirstName () {
-  let user = {
-    name: '@philt3r',
-    avatar_url: 'https://avatars0.githubusercontent.com/u/5264862?s=60&v=4',
-    address: 'HcSCJbpm8CZparb6f5iEKKRv4Te4op93q6ESMRuDtwp9abbzV8zYTF7EKqqw9ei',
-    first_name: 'Philip'
-  }
-
-  store.set({
-    props: { ...props.state.users, ['HcSCJbpm8CZparb6f5iEKKRv4Te4op93q6ESMRuDtwp9abbzV8zYTF7EKqqw9ei']: user }
-  })
-  console.log(store.get('props'))
-}
-
 storiesOf('User List', module)
   .addDecorator(StateDecorator(store))
   .add('Display', (() => {
-    return <UserList {...props} />
+    return <UserList {...store.props} />
   }))
