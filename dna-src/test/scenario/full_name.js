@@ -58,7 +58,7 @@ module.exports = scenario => {
 
     const get_profiles = await personas_instance_1.callSync("profiles", "get_profiles", {})
     console.log(get_profiles.Ok[1])
-    t.deepEqual(get_profiles.Ok.filter(p => p.name === "Holochain Peer Messenger")[0].fields[0].mapping, {personaAddress: persona_address, personaFieldName: 'handle'})
+    t.deepEqual(get_profiles.Ok.filter(p => p.name === "Holochain Peer Chat")[0].fields[0].mapping, {personaAddress: persona_address, personaFieldName: 'handle'})
 
     const get_personas = await personas_instance_1.callSync("personas", "get_personas", {})
     console.log(get_personas.Ok)
