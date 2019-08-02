@@ -9,6 +9,7 @@ use hdk::{
     },
     holochain_json_api::{
         json::RawString,
+        json::JsonString,
     },
     holochain_persistence_api::{
         cas::content::Address,
@@ -50,6 +51,7 @@ pub fn handle_register(name: String, avatar_url: String) -> ZomeApiResult<Addres
 }
 
 fn register_spec() -> ZomeApiResult<()> {
+    hdk::debug(profile_spec()).ok();
     hdk::debug("register spec start")?;
     let result = hdk::call("p-p-bridge", "profiles", Address::from(PUBLIC_TOKEN.to_string()), // never mind this for now
         "register_app",
@@ -60,7 +62,7 @@ fn register_spec() -> ZomeApiResult<()> {
     Ok(())
 }
 
-fn retrieve_profile(field_name: String) -> ZomeApiResult<String> {
+pub fn retrieve_profile(field_name: String) -> ZomeApiResult<String> {
     hdk::debug("retrieve_profile start")?;
 
     let result_json = hdk::call(
@@ -84,6 +86,12 @@ pub fn handle_get_member_profile(agent_address: Address) -> ZomeApiResult<Profil
         .map(|elem: &GetLinksLoadResult<Profile>| {
             elem.entry.clone()
         })
+}
+
+pub fn handle_get_full_name(agent_address: Address) -> ZomeApiResult<JsonString> {
+    let received_str = hdk::send(agent_address, json!({"msg_type": "full_name_request", "id": "", "name": ""}).to_string(), 10000.into())?;
+    hdk::debug(format!("handle_get_full_name {}", received_str)).ok();
+    Ok(JsonString::from_json(&received_str))
 }
 
 pub fn handle_get_my_member_profile() -> ZomeApiResult<Profile> {

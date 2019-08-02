@@ -10,7 +10,7 @@ extern crate serde;
 extern crate serde_derive;
 #[macro_use]
 extern crate serde_json;
-
+use std::convert::TryInto;
 use hdk::{
 	api::DNA_ADDRESS,
     error::ZomeApiResult,
@@ -20,6 +20,7 @@ use hdk::{
 	},
 	holochain_json_api::{
 		json::JsonString,
+		error::JsonError,
 	},
 };
 
@@ -37,6 +38,24 @@ pub static PUBLIC_STREAM_ENTRY: &str = "public_stream";
 pub static PUBLIC_STREAM_LINK_TYPE_TO: &str = "has_member";
 pub static PUBLIC_STREAM_LINK_TYPE_FROM: &str = "member_of";
 
+#[derive(Serialize, Deserialize, Debug, DefaultJson, PartialEq)]
+struct Message {
+	msg_type: String,
+	id: String,
+}
+
+#[derive(Debug, Serialize, Deserialize, DefaultJson)]
+#[serde(rename_all = "camelCase")]
+struct SignalPayload {
+	room_id: String
+}
+
+#[derive(Debug, Serialize, Deserialize, DefaultJson)]
+#[serde(rename_all = "camelCase")]
+struct NamePayload {
+	name: String
+}
+
 #[zome]
 pub mod chat {
 
@@ -46,8 +65,38 @@ pub mod chat {
     }
 
 	#[receive]
-	pub fn receive(from: Address, msg_json: String) {
-		stream::handlers::handle_receive(from, JsonString::from_json(&msg_json))
+	pub fn receive(from: Address, msg_json: JsonString) -> String {
+		hdk::debug(format!("New message from: {:?}", from)).ok();
+		let maybe_message: Result<Message, _> = JsonString::from_json(&msg_json).try_into();
+		match maybe_message {
+			Err(err) => format!("error: {}", err),
+			Ok(message) => match message.msg_type.as_str() {
+				"new_room_member" | "new_message" => {
+					let room_id = message.id;
+					let _ = hdk::emit_signal(message.msg_type.as_str(), SignalPayload{room_id});
+					json!({
+						"msg_type": message.msg_type.as_str(),
+						"body": format!("Emit: {}", message.msg_type.as_str())
+					})
+					.to_string()
+				}
+				"full_name_request" => {
+					let name = member::handlers::retrieve_profile("full_name".into()).expect("full_name_request Couldn't find full_name");
+					json!({
+						"msg_type": message.msg_type.as_str(),
+						"body": format!("{}", name)
+					})
+					.to_string()
+				}
+				_ => {
+					json!({
+						"msg_type": message.msg_type.as_str(),
+						"body": format!("No match: {}", message.msg_type.as_str())
+					})
+					.to_string()
+				}
+			}
+		}
 	}
 
 	#[entry_def]
@@ -106,6 +155,11 @@ pub mod chat {
 	}
 
 	#[zome_fn("hc_public")]
+	pub fn get_full_name(agent_address: Address) -> ZomeApiResult<JsonString> {
+		member::handlers::handle_get_full_name(agent_address)
+	}
+
+	#[zome_fn("hc_public")]
 	pub fn post_message(stream_address: Address, message: message::MessageSpec) -> ZomeApiResult<()> {
 		stream::handlers::handle_post_message(stream_address, message)
 	}
@@ -120,7 +174,7 @@ pub fn profile_spec() -> JsonString{
 	json!(
 	{
 		"spec": {
-		  "name": "holochain-basic-chat",
+		  "name": "Holochain Peer Chat",
 		  "sourceDna": DNA_ADDRESS.to_string(),
 		  "fields": [
 		  		{
@@ -140,16 +194,8 @@ pub fn profile_spec() -> JsonString{
 		            "schema": ""
 		        },
 		        {
-		            "name": "first_name",
-		            "displayName": "First Name",
-		            "required": false,
-		            "description": "Your name will show when someone clicks it in the members list if you are online",
-		            "usage": "DISPLAY",
-		            "schema": ""
-		        },
-		        {
-		            "name": "last_name",
-		            "displayName": "Last Name",
+		            "name": "full_name",
+		            "displayName": "Full Name",
 		            "required": false,
 		            "description": "Your name will show when someone clicks it in the members list if you are online",
 		            "usage": "DISPLAY",
