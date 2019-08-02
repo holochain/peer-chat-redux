@@ -42,10 +42,10 @@ const diorama_2 = new Diorama({
   middleware: backwardCompatibilityMiddleware,
 })
 
-require('./agent/profile')(diorama_2.registerScenario)
-require('./agent/messages')(diorama_2.registerScenario)
+require('./agent/profile')(diorama_1.registerScenario)
+require('./agent/messages')(diorama_1.registerScenario)
 
 require('./scenario/full_name')(diorama_2.registerScenario)
 
+diorama_1.run()
 diorama_2.run()
-// diorama_2.run()
