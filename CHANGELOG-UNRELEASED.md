@@ -7,7 +7,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### Added
 
 ### Changed
-
+Added a second Diorama to avoid current error in Hachiko that is caused when an instance created in Diorama is not used in a test. PR https://github.com/holochain/holochain-basic-chat/pull/59 
 ### Deprecated
 
 ### Removed
@@ -15,4 +15,3 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### Fixed
 
 ### Security
-
