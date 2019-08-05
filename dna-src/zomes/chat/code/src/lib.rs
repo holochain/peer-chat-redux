@@ -59,8 +59,13 @@ struct NamePayload {
 #[zome]
 pub mod chat {
 
-    #[genesis]
-    fn genesis() {
+	#[init]
+    fn init() {
+        Ok(())
+    }
+
+    #[validate_agent]
+    pub fn validate_agent(validation_data: EntryValidationData<AgentId>) {
         Ok(())
     }
 
