@@ -233,6 +233,9 @@ export class View extends React.Component {
           this.actions.getRoomMembers(roomId)
         }
       })
+      call('admin/interface/list')({}).then(result => {
+        console.log(result)
+      })
       callZome('holo-chat', 'chat', 'get_my_member_profile')({}).then((result) => {
         const profile = JSON.parse(result).Ok
         if (profile) {
