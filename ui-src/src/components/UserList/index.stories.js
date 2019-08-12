@@ -1,7 +1,11 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 import { StateDecorator, Store } from '@sambego/storybook-state'
+import { specs } from 'storybook-addon-specifications'
 import { UserList } from './index'
+import { displayTests } from './display.test'
+import { displayFullNameTests } from './displayFullName.test'
+
 
 let props = {
   state: {
@@ -44,14 +48,10 @@ const store = new Store({
   actions: props.actions
 })
 
-function setFirstName (userId) {
-  console.log(userId)
-}
-
-
 storiesOf('User List', module)
   .addDecorator(StateDecorator(store))
   .add('Display', (() => {
+    specs(() => displayTests)
     let user = {
       name: '@philt3r',
       avatar_url: 'https://avatars0.githubusercontent.com/u/5264862?s=60&v=4',
@@ -63,6 +63,7 @@ storiesOf('User List', module)
     return <UserList {...store.get('props')} />
   }))
   .add('Display with Full Name', (() => {
+    specs(() => displayFullNameTests)
     let user = {
       name: '@philt3r',
       avatar_url: 'https://avatars0.githubusercontent.com/u/5264862?s=60&v=4',
