@@ -14,7 +14,7 @@ script:
 - nix-shell --run 'npm run hc:build'
 - cd ..
 - cd holochain-basic-chat
-- nix-shell --run 'cd ui-src && npm install && cd .. && npm run prerelease'
+- nix-shell --run 'cd ui-src && npm install && npm run test && cd .. && npm run prerelease'
 - PACKAGE_NAME=$(node -p -e "require('./package.json').name")
 - PACKAGE_VERSION=$(node -p -e "require('./package.json').version")
 - cd release/ui
