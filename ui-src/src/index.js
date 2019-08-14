@@ -244,7 +244,11 @@ export class View extends React.Component {
         } else {
           const profileSpecSourceDna = JSON.parse(result).Err.Internal
           console.log('User has not registered a profile. redirecting to p&p ' + JSON.stringify(profileSpecSourceDna))
-          window.location.replace(`${REACT_APP_PERSONAS_URL}/profile/${profileSpecSourceDna}/${encodeURIComponent(window.location.href)}`)
+          if(window.activateHappWindow) {
+            window.activateHappWindow('personas-ui', `/profile/${profileSpecSourceDna}/${encodeURIComponent(window.location.href)}`)
+          } else {
+            window.location.replace(`${REACT_APP_PERSONAS_URL}/profile/${profileSpecSourceDna}/${encodeURIComponent(window.location.href)}`)
+          }
         }
       })
     })
