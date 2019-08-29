@@ -3,8 +3,8 @@
 [[agents]]
 id = "test_test_agent1_1"
 name = "Agent 3"
-public_address = "HcSciD4Rn7wc3hno39KxqMHKQBr5yegivdQq9BzsG5q54pf46NsyZc8Fp6dsper"
-keystore_file = "./test_agent1_1.keystore"
+public_address = "HcScjTnefoi6c79eunbqfFNYEYovwaygbPkWEk95xVPd7vemvoB9Qwbjxf458ii"
+keystore_file = "./agent1_1.keystore"
 
 # -----------  DNAs  -----------
 [[dnas]]

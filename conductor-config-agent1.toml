@@ -2,8 +2,8 @@
 [[agents]]
   id = "test_agent1"
   name = "Agent 1"
-  public_address = "HcSCJbpm8CZparb6f5iEKKRv4Te4op93q6ESMRuDtwp9abbzV8zYTF7EKqqw9ei"
-  keystore_file = "./agent1.keystore"
+  public_address = "HcSCj3IY876TgX988Uw65kSdg7PTFtjijjQ97vs9W6qV9gtnaiyWRfEDe3ouprr"
+  keystore_file = "./agent1.key"
 
 # -----------  DNAs  -----------
 [[dnas]]
