@@ -19,17 +19,15 @@ import { RegisterScreen } from './components/RegisterScreen'
 // --------------------------------------
 // Application
 // --------------------------------------
-const REACT_APP_CHAT_WEBSOCKET_INTERFACE = process.env.REACT_APP_CHAT_WEBSOCKET_INTERFACE
+const REACT_APP_WEBSOCKET_INTERFACE = process.env.REACT_APP_WEBSOCKET_INTERFACE
 const REACT_APP_PERSONAS_URL = process.env.REACT_APP_PERSONAS_URL
 
-
-console.log(REACT_APP_CHAT_WEBSOCKET_INTERFACE)
 export class View extends React.Component {
   constructor (props) {
     super(props)
-    if(REACT_APP_CHAT_WEBSOCKET_INTERFACE){
+    if(REACT_APP_WEBSOCKET_INTERFACE){
       this.state = {
-        holochainConnection: connect({ url: REACT_APP_CHAT_WEBSOCKET_INTERFACE }), // Use for debug
+        holochainConnection: connect({ url: REACT_APP_WEBSOCKET_INTERFACE }), // Use for debug
         connected: false,
         user: {},
         users: {},
@@ -241,14 +239,15 @@ export class View extends React.Component {
         if (profile) {
           console.log('registration user found with profile:', profile)
           this.actions.setUser({ id: profile.address, name: profile.name, avatarURL: profile.avatar_url })
-        } else {
+        }
+        else {
           const profileSpecSourceDna = JSON.parse(result).Err.Internal
           console.log('User has not registered a profile. redirecting to p&p ' + JSON.stringify(profileSpecSourceDna))
-          if(window.activateHappWindow) {
-            window.activateHappWindow('personas-ui', `/profile/${profileSpecSourceDna}/${encodeURIComponent(window.location.href)}`)
-          } else {
+          // if(!window.activateHappWindow) {
+          //   window.activateHappWindow('personas-ui', `/profile/${profileSpecSourceDna}/peer-chat-ui`)
+          // } else {
             window.location.replace(`${REACT_APP_PERSONAS_URL}/profile/${profileSpecSourceDna}/${encodeURIComponent(window.location.href)}`)
-          }
+          // }
         }
       })
     })
