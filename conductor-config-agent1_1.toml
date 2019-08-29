@@ -1,7 +1,7 @@
 # -----------  Agents  -----------
 # Agent 1's second device
 [[agents]]
-id = "test_test_agent1_1"
+id = "test_agent1_1"
 name = "Agent 3"
 public_address = "HcScjTnefoi6c79eunbqfFNYEYovwaygbPkWEk95xVPd7vemvoB9Qwbjxf458ii"
 keystore_file = "./agent1_1.keystore"
@@ -23,19 +23,19 @@ keystore_file = "./agent1_1.keystore"
 [[instances]]
   id = "dpki_happ"
   dna = "deep_key"
-  agent = "test_test_agent1_1"
+  agent = "test_agent1_1"
 [instances.storage]
   type = "memory"
 [[instances]]
   id = "personas-profiles"
   dna = "personas_profiles"
-  agent = "test_test_agent1_1"
+  agent = "test_agent1_1"
 [instances.storage]
   type = "memory"
 [[instances]]
   id = "holo-chat"
   dna = "chat_dna"
-  agent = "test_test_agent1_1"
+  agent = "test_agent1_1"
 [instances.storage]
   type = "memory"
 
