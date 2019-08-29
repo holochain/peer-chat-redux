@@ -1,5 +1,6 @@
 extern crate utils;
 use hdk::{
+    self,
     AGENT_ADDRESS,
     error::ZomeApiResult,
     holochain_core_types::{
@@ -93,6 +94,11 @@ pub fn handle_get_messages(address: Address) -> ZomeApiResult<Vec<GetLinksLoadRe
 }
 
 pub fn handle_post_message(stream_address: Address, message_spec: message::MessageSpec) -> ZomeApiResult<()> {
+
+
+    // Check DeepKey hash
+    // Check Agent Key via bridge
+    // Put validation into the message_entry
 
     let message = message::Message::from_spec(
         &message_spec,

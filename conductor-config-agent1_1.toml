@@ -1,16 +1,16 @@
 # -----------  Agents  -----------
-
+# Agent 1's second device
 [[agents]]
-id = "test_agent2"
-name = "Agent 2"
-public_address = "HcSCIUKodbWktcbmwyAaVrYnsbadi6b9sOV9D4ZoE8i333ZtcGw38Jn3U6u63qi"
-keystore_file = "./agent2.keystore"
+id = "test_test_agent1_1"
+name = "Agent 3"
+public_address = "HcSciD4Rn7wc3hno39KxqMHKQBr5yegivdQq9BzsG5q54pf46NsyZc8Fp6dsper"
+keystore_file = "./test_agent1_1.keystore"
 
 # -----------  DNAs  -----------
 [[dnas]]
   id = "personas_profiles"
-  file = "../personas-profiles/dna/personas-profiles-agent2.dna.json"
-  hash = "QmYDp1iXZUibuVBKsvooF3Npy3ZnNAKM4SrqM9wTZ7iQ7Z"
+  file = "../identity-manager/dna/personas-profiles.dna.json"
+  hash = "QmdJqnjMWismskN3vfkaAGaWzwEZegFWDTfR1U7ikrcqeN"
 [[dnas]]
   id = "deep_key"
   file = "../DeepKey/dna/deepkey.dna.json"
@@ -23,19 +23,19 @@ keystore_file = "./agent2.keystore"
 [[instances]]
   id = "dpki_happ"
   dna = "deep_key"
-  agent = "test_agent2"
+  agent = "test_test_agent1_1"
 [instances.storage]
   type = "memory"
 [[instances]]
   id = "personas-profiles"
   dna = "personas_profiles"
-  agent = "test_agent2"
+  agent = "test_test_agent1_1"
 [instances.storage]
   type = "memory"
 [[instances]]
   id = "holo-chat"
   dna = "chat_dna"
-  agent = "test_agent2"
+  agent = "test_test_agent1_1"
 [instances.storage]
   type = "memory"
 
@@ -48,7 +48,7 @@ keystore_file = "./agent2.keystore"
   id = "websocket_interface"
 [interfaces.driver]
   type = "websocket"
-  port = 3402
+  port = 3403
 [[interfaces.instances]]
   id = "dpki_happ"
 [[interfaces.instances]]
@@ -60,13 +60,13 @@ keystore_file = "./agent2.keystore"
 
 [dpki]
   instance_id = "dpki_happ"
-  init_params = "{\"revocation_key\": \"HcScIXuxtWI6ttc5gngvQTsDnHtynb5dzyDujh37mNo43nf7ZRB5UZKmR9953pb\"}"
+  init_params = "{\"revocation_key\": \"HcScIXuxtWI6ttc5gngvQTsDnHtynb5dzyDujh37mNo43nf7ZRB5UZKmR9953pc\"}"
 
 # -----------  Networking  -----------
 
 [network]
-  type = "n3h"
-  n3h_mode = "REAL"
-  n3h_persistence_path = "./n3h-agent2"
-  n3h_log_level = "i"
-  bootstrap_nodes = []
+type = "n3h"
+n3h_mode = "REAL"
+n3h_persistence_path = "./n3h-test_agent1_1"
+n3h_log_level = "i"
+bootstrap_nodes = []

@@ -32,6 +32,7 @@ pub mod message;
 pub mod stream;
 pub mod member;
 
+pub static DEEPKEY_ADDRESS: &str = "QmDeepKeyHash";
 pub static MESSAGE_ENTRY: &str = "message";
 pub static MESSAGE_LINK_TYPE_TO: &str = "message_in";
 pub static PUBLIC_STREAM_ENTRY: &str = "public_stream";
