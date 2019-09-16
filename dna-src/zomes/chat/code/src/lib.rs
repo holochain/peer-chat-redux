@@ -10,6 +10,9 @@ extern crate serde;
 extern crate serde_derive;
 #[macro_use]
 extern crate serde_json;
+#[macro_use]
+extern crate validator_derive;
+extern crate validator;
 use std::convert::TryInto;
 use hdk::{
 	api::DNA_ADDRESS,
