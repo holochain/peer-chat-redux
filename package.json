@@ -1,6 +1,6 @@
 {
   "name": "holochain-basic-chat",
-  "version": "0.0.6",
+  "version": "0.0.16",
   "description": "A chat demo for holochain",
   "scripts": {
     "fetch": "download-github-release holochain holochain-basic-chat",
