@@ -11,9 +11,9 @@ version = "0.0.15"
   derive_more = "0.9.0"
   utils = { path ="../../../utils" }
 
-  hdk = { git = "https://github.com/holochain/holochain-rust" , tag = "0.0.28-alpha1" }
-  holochain_wasm_utils = { git = "https://github.com/holochain/holochain-rust" , tag = "0.0.28-alpha1" }
-  hdk-proc-macros = { git = "https://github.com/holochain/holochain-rust" , tag = "0.0.28-alpha1" }
+  hdk = { git = "https://github.com/holochain/holochain-rust" , tag = "0.0.30-alpha2" }
+  holochain_wasm_utils = { git = "https://github.com/holochain/holochain-rust" , tag = "0.0.30-alpha2" }
+  hdk-proc-macros = { git = "https://github.com/holochain/holochain-rust" , tag = "0.0.30-alpha2" }
   holochain_json_derive = "=0.0.15"
 
 [lib]
