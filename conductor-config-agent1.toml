@@ -9,7 +9,7 @@
 [[dnas]]
   id = "personas_profiles"
   file = "../identity-manager/dna/personas-profiles.dna.json"
-  hash = "QmdJqnjMWismskN3vfkaAGaWzwEZegFWDTfR1U7ikrcqeN"
+  hash = "QmdGmzCjd4oJUhagboEAqP8855Y4jKMCbmY8kSBM26VX3U"
 # [[dnas]]
 #   id = "deep_key"
 #   file = "../DeepKey/dna/deepkey.dna.json"
@@ -17,8 +17,11 @@
 [[dnas]]
   id = "chat_dna"
   file = "./dna/holochain-basic-chat.dna.json"
-  hash = "Qmf7mbu7B898UBtLte1y3AB8c6MskpsrV8yWjvyNsXxxSj"
-
+  hash = "QmVASzM5iMFMn3FQx3N5dWC2uRkJM3viC4jEX5BMeQ2oRR"
+[[dnas]]
+  id = "chat_dna_private"
+  file = "./dna/holochain-basic-chat-private.dna.json"
+  hash = "QmRU79dQ4x7uhqjP4kirFv9PiTWrJteBKUg2L6wj3QmJgB"
 # [[instances]]
 #   id = "dpki_happ"
 #   dna = "deep_key"
@@ -37,9 +40,20 @@
   agent = "test_agent1"
 [instances.storage]
   type = "memory"
+  [[instances]]
+    id = "holo-chat-private"
+    dna = "chat_dna_private"
+    agent = "test_agent1"
+  [instances.storage]
+    type = "memory"
 
 [[bridges]]
   caller_id = "holo-chat"
+  callee_id = "personas-profiles"
+  handle = "p-p-bridge"
+
+[[bridges]]
+  caller_id = "holo-chat-private"
   callee_id = "personas-profiles"
   handle = "p-p-bridge"
 
@@ -53,6 +67,8 @@
 [[interfaces.instances]]
   id = "holo-chat"
 [[interfaces.instances]]
+  id = "holo-chat-private"
+[[interfaces.instances]]
   id = "personas-profiles"
 #
 # # -----------  dpki  -----------
@@ -63,9 +79,9 @@
 
 # -----------  Networking  -----------
 
-[network]
-  type = "n3h"
-  n3h_mode = "REAL"
-  n3h_persistence_path = "./n3h-agent1"
-  n3h_log_level = "i"
-  bootstrap_nodes = []
+# [network]
+#   type = "n3h"
+#   n3h_mode = "REAL"
+#   n3h_persistence_path = "./n3h-agent1"
+#   n3h_log_level = "i"
+#   bootstrap_nodes = []

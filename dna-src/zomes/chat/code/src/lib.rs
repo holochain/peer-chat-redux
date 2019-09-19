@@ -18,6 +18,10 @@ use hdk::{
 	api::DNA_ADDRESS,
     error::ZomeApiResult,
     entry_definition::ValidatingEntryType,
+	holochain_core_types::{
+		validation::EntryValidationData,
+		agent::AgentId,
+	},
 	holochain_persistence_api::{
 		cas::content::Address,
 	},
@@ -60,6 +64,8 @@ struct NamePayload {
 	name: String
 }
 
+
+
 #[zome]
 pub mod chat {
 
@@ -70,7 +76,27 @@ pub mod chat {
 
     #[validate_agent]
     pub fn validate_agent(validation_data: EntryValidationData<AgentId>) {
-        Ok(())
+		if let EntryValidationData::Create{entry, ..} = validation_data {
+			let properties = hdk::api::property("allowed_members");
+			if let Ok(members) = properties {
+				let member_list: Vec<String> = serde_json::from_str(&members.to_string()).unwrap();
+				hdk::debug(format!("PROPERTIES: {:?}", member_list)).ok();
+				let agent = entry as AgentId;
+				hdk::debug(format!("AgentId: {:?}", agent)).ok();
+				if member_list.contains(&agent.pub_sign_key) {
+					Ok(())
+				} else if member_list.contains(&"public".to_string()) {
+					Ok(())
+				} else {
+					Err("This agent is not in the allowed members list".into())
+				}
+			} else {
+				Err("Issue reading members from dna.json".into())
+			}
+	    } else {
+			hdk::debug(format!("Cannot update or delete an agent at this time")).ok();
+	        Err("Cannot update or delete an agent at this time".into())
+	    }
     }
 
 	#[receive]
@@ -121,6 +147,11 @@ pub mod chat {
 	#[entry_def]
     pub fn member_entry_def() -> ValidatingEntryType {
 		member::profile_definition()
+    }
+
+	#[entry_def]
+    pub fn allowed_members_entry_def() -> ValidatingEntryType {
+		member::allowed_members_definition()
     }
 
 	#[entry_def]

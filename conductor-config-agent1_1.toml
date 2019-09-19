@@ -18,7 +18,7 @@ keystore_file = "./agent1_1.keystore"
 [[dnas]]
   id = "chat_dna"
   file = "./dna/holochain-basic-chat.dna.json"
-  hash = "Qmf7mbu7B898UBtLte1y3AB8c6MskpsrV8yWjvyNsXxxSj"
+  hash = "QmWhzXTDfyyxaTRs7iwz9FycQUWMeiavkKdPrM963Spihj"
 
 # [[instances]]
 #   id = "dpki_happ"
