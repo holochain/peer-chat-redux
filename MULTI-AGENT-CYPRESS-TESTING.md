@@ -7,7 +7,7 @@ A little convoluted but works for now.
 
 - clone the repo
 ```
-  git clone git@github.com:holochain/holochain-basic-chat.git
+  git clone git@github.com:holochain/peer-chat.git
 ```
 
 - install node modules for the UI and build to the ui folder for Agent 2.
@@ -51,7 +51,7 @@ A little convoluted but works for now.
   npm run cypress:open
 ```
 
-  - you can now see the 2 files of tests, register.js and rooms.js. These tests are designed to be run over and over again.
+  - you can now see the 2 files of tests, register.js and conversations.js. These tests are designed to be run over and over again.
 - Click the run all tests button.
 
 ### Tests

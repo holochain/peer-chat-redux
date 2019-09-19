@@ -42,6 +42,11 @@ svg {
   width: 100%;
 }
 
+flex_container {
+  display: flex;
+  width: 320px;
+}
+
 main {
   display: flex;
   margin: auto;

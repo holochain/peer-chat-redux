@@ -13,13 +13,13 @@ keystore_file = "path/to/keystore"
 # -----------  DNA  -----------
 
 [[dnas]]
-id = "chat_dna"
-file = "./dna/holochain-basic-chat.dna.json"
+id = "peer_chat_dna"
+file = "./dna/peer-chat.dna.json"
 hash = "Qm328wyq38924y"
 
 [[instances]]
-id = "holo-chat"
-dna = "chat_dna"
+id = "peer-chat"
+dna = "peer_chat_dna"
 agent = "same as id in [[agents]] section above"
 [instances.logger]
 type = "simple"
@@ -35,7 +35,7 @@ id = "websocket_interface"
 type = "websocket"
 port = 3400
 [[interfaces.instances]]
-id = "holo-chat"
+id = "peer-chat"
 
 # -----------  UI  -----------
 

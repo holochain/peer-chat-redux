@@ -1,10 +1,10 @@
 {
-  "name": "holochain-basic-chat",
+  "name": "peer-chat",
   "version": "0.0.6",
   "description": "A chat demo for holochain",
   "scripts": {
-    "fetch": "download-github-release holochain holochain-basic-chat",
-    "hc:build": "rm -rf tmp-storage && mkdir -p ./dna && cd dna-src && hc package --strip-meta -o ../dna/holochain-basic-chat.dna.json",
+    "fetch": "download-github-release holochain peer-chat",
+    "hc:build": "rm -rf tmp-storage && mkdir -p ./dna && cd dna-src && hc package --strip-meta -o ../dna/peer-chat.dna.json",
     "hc:start": "holochain -c ./conductor-config.toml",
     "hc:start:agents": "npm run hc:start:agent1",
     "hc:start:agent1": "rm -rf n3h-agent1 && mkdir -p ./n3h-agent1 && holochain -c ./conductor-config-agent1.toml",

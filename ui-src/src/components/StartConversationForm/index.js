@@ -1,7 +1,7 @@
 import React from 'react'
 import style from './index.module.css'
 
-export const CreateRoomForm = ({ submit }) => (
+export const StartConversationForm = ({ submit }) => (
   <form
     className={style.component}
     onSubmit={e => {
@@ -19,7 +19,7 @@ export const CreateRoomForm = ({ submit }) => (
       e.target[0].value = ''
     }}
   >
-    <input id='room' placeholder='Create a Room' />
+    <input id='conversation' placeholder='Start a Conversation' />
     <button id='submit' type='submit'>
       <svg>
         <use xlinkHref='index.svg#add' />

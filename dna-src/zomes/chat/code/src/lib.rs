@@ -29,13 +29,13 @@ use utils::GetLinksLoadResult;
 
 pub mod anchor;
 pub mod message;
-pub mod stream;
+pub mod conversation;
 pub mod member;
 
 pub static DEEPKEY_ADDRESS: &str = "QmDeepKeyHash";
 pub static MESSAGE_ENTRY: &str = "message";
 pub static MESSAGE_LINK_TYPE_TO: &str = "message_in";
-pub static PUBLIC_STREAM_ENTRY: &str = "public_stream";
+pub static PUBLIC_STREAM_ENTRY: &str = "public_conversation";
 pub static PUBLIC_STREAM_LINK_TYPE_TO: &str = "has_member";
 pub static PUBLIC_STREAM_LINK_TYPE_FROM: &str = "member_of";
 
@@ -48,7 +48,7 @@ struct Message {
 #[derive(Debug, Serialize, Deserialize, DefaultJson)]
 #[serde(rename_all = "camelCase")]
 struct SignalPayload {
-	room_id: String
+	conversation_id: String
 }
 
 #[derive(Debug, Serialize, Deserialize, DefaultJson)]
@@ -77,9 +77,9 @@ pub mod chat {
 		match maybe_message {
 			Err(err) => format!("error: {}", err),
 			Ok(message) => match message.msg_type.as_str() {
-				"new_room_member" | "new_message" => {
-					let room_id = message.id;
-					let _ = hdk::emit_signal(message.msg_type.as_str(), SignalPayload{room_id});
+				"new_conversation_member" | "new_message" => {
+					let conversation_id = message.id;
+					let _ = hdk::emit_signal(message.msg_type.as_str(), SignalPayload{conversation_id});
 					json!({
 						"msg_type": message.msg_type.as_str(),
 						"body": format!("Emit: {}", message.msg_type.as_str())
@@ -111,8 +111,8 @@ pub mod chat {
     }
 
 	#[entry_def]
-    pub fn public_stream_entry_def() -> ValidatingEntryType {
-        stream::public_stream_definition()
+    pub fn public_conversation_entry_def() -> ValidatingEntryType {
+        conversation::public_conversation_definition()
     }
 
 	#[entry_def]
@@ -131,23 +131,23 @@ pub mod chat {
     }
 
 	#[zome_fn("hc_public")]
-    pub fn create_stream(name: String, description: String, initial_members: Vec<Address>) -> ZomeApiResult<Address> {
-        stream::handlers::handle_create_stream(name, description, initial_members)
+    pub fn create_conversation(name: String, description: String, initial_members: Vec<Address>) -> ZomeApiResult<Address> {
+        conversation::handlers::handle_create_conversation(name, description, initial_members)
     }
 
 	#[zome_fn("hc_public")]
-	pub fn join_stream(stream_address: Address) -> ZomeApiResult<()> {
-		stream::handlers::handle_join_stream(stream_address)
+	pub fn join_conversation(conversation_address: Address) -> ZomeApiResult<()> {
+		conversation::handlers::handle_join_conversation(conversation_address)
 	}
 
 	#[zome_fn("hc_public")]
-	pub fn get_all_public_streams() -> ZomeApiResult<Vec<GetLinksLoadResult<stream::Stream>>> {
-		stream::handlers::handle_get_all_public_streams()
+	pub fn get_all_public_conversations() -> ZomeApiResult<Vec<GetLinksLoadResult<conversation::Conversation>>> {
+		conversation::handlers::handle_get_all_public_conversations()
 	}
 
 	#[zome_fn("hc_public")]
-	pub fn get_members(stream_address: Address) -> ZomeApiResult<Vec<Address>> {
-		stream::handlers::handle_get_members(stream_address)
+	pub fn get_members(conversation_address: Address) -> ZomeApiResult<Vec<Address>> {
+		conversation::handlers::handle_get_members(conversation_address)
 	}
 
 	#[zome_fn("hc_public")]
@@ -166,13 +166,13 @@ pub mod chat {
 	}
 
 	#[zome_fn("hc_public")]
-	pub fn post_message(stream_address: Address, message: message::MessageSpec) -> ZomeApiResult<()> {
-		stream::handlers::handle_post_message(stream_address, message)
+	pub fn post_message(conversation_address: Address, message: message::MessageSpec) -> ZomeApiResult<()> {
+		conversation::handlers::handle_post_message(conversation_address, message)
 	}
 
 	#[zome_fn("hc_public")]
 	pub fn get_messages(address: Address) -> ZomeApiResult<Vec<GetLinksLoadResult<message::Message>>> {
-		stream::handlers::handle_get_messages(address)
+		conversation::handlers::handle_get_messages(address)
 	}
  }
 

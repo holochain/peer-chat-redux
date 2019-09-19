@@ -1,21 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import './index.css'
 import { connect } from '@holochain/hc-web-client'
-
-import { UserHeader } from './components/UserHeader'
-import { UserList } from './components/UserList'
-import { MessageList } from './components/MessageList'
-import { CreateMessageForm } from './components/CreateMessageForm'
-import { RoomList } from './components/RoomList'
-import { RoomHeader } from './components/RoomHeader'
-import { CreateRoomForm } from './components/CreateRoomForm'
-import { WelcomeScreen } from './components/WelcomeScreen'
-import { JoinRoomScreen } from './components/JoinRoomScreen'
-import { RegisterScreen } from './components/RegisterScreen'
-
-// const PERSONA_PROFILES_UI_INTERFACE_ID = "persona_profiles_ui_interface"
-
+import { Group } from './components/Group'
 // --------------------------------------
 // Application
 // --------------------------------------
@@ -31,8 +17,8 @@ export class View extends React.Component {
         connected: false,
         user: {},
         users: {},
-        room: {},
-        rooms: [],
+        conversation: {},
+        conversations: [],
         messages: {},
         sidebarOpen: false,
         userListOpen: window.innerWidth > 1000,
@@ -44,8 +30,8 @@ export class View extends React.Component {
         connected: false,
         user: {},
         users: {},
-        room: {},
-        rooms: [],
+        conversation: {},
+        conversations: [],
         messages: {},
         sidebarOpen: false,
         userListOpen: window.innerWidth > 1000,
@@ -68,31 +54,31 @@ export class View extends React.Component {
 
       setUser: user => {
         this.setState({ user })
-        this.actions.getRooms()
+        this.actions.getConversations()
       },
 
       // --------------------------------------
-      // Room
+      // Conversation
       // --------------------------------------
 
-      setRoom: room => {
-        this.setState({ room, sidebarOpen: false })
-        this.actions.getMessages(room.id)
-        this.actions.getRoomMembers(room.id)
+      setConversation: conversation => {
+        this.setState({ conversation, sidebarOpen: false })
+        this.actions.getMessages(conversation.id)
+        this.actions.getConversationMembers(conversation.id)
         this.actions.scrollToEnd()
       },
 
-      joinRoom: room => {
-        console.log('joining room')
-        this.actions.setRoom(room)
-        this.makeHolochainCall('holo-chat/chat/join_stream', { stream_address: room.id }, (result) => {
-          console.log('joined room', result)
+      joinConversation: conversation => {
+        console.log('joining conversation')
+        this.actions.setConversation(conversation)
+        this.makeHolochainCall('peer-chat/chat/join_conversation', { conversation_address: conversation.id }, (result) => {
+          console.log('joined conversation', result)
         })
       },
 
-      getRoomMembers: roomId => {
-        this.makeHolochainCall('holo-chat/chat/get_members', {
-          stream_address: roomId
+      getConversationMembers: conversationId => {
+        this.makeHolochainCall('peer-chat/chat/get_members', {
+          conversation_address: conversationId
         }, (result) => {
           console.log('retrieved members', result)
           const users = result.Ok
@@ -100,33 +86,33 @@ export class View extends React.Component {
             this.actions.getUserProfile(address)
           })
           this.setState({
-            room: { ...this.state.room, users }
+            conversation: { ...this.state.conversation, users }
           })
         })
       },
 
-      sendMessage: ({ text, roomId }) => {
+      sendMessage: ({ text, conversationId }) => {
         const message = {
           message_type: 'text',
           timestamp: Math.floor(Date.now() / 1000),
           payload: text,
           meta: ''
         }
-        this.makeHolochainCall('holo-chat/chat/post_message', {
-          stream_address: roomId,
+        this.makeHolochainCall('peer-chat/chat/post_message', {
+          conversation_address: conversationId,
           message
         }, (result) => {
           console.log('message posted', result)
-          this.actions.getMessages(roomId) // hack for now
+          this.actions.getMessages(conversationId) // hack for now
           this.actions.scrollToEnd()
         })
       },
 
-      getMessages: (roomId) => {
-        this.makeHolochainCall('holo-chat/chat/get_messages', { address: roomId }, (result) => {
+      getMessages: (conversationId) => {
+        this.makeHolochainCall('peer-chat/chat/get_messages', { address: conversationId }, (result) => {
           console.log('retrieved messages', result)
 
-          const roomMessages = result.Ok.map(({ address, entry }) => ({
+          const conversationMessages = result.Ok.map(({ address, entry }) => ({
             text: entry.payload,
             sender: entry.author,
             createdAt: entry.timestamp,
@@ -134,31 +120,31 @@ export class View extends React.Component {
           }))
 
           this.setState({
-            messages: { ...this.state.messages, [roomId]: roomMessages }
+            messages: { ...this.state.messages, [conversationId]: conversationMessages }
           })
         })
       },
 
-      createRoom: options => {
+      createConversation: options => {
         console.log(options)
-        const roomSpec = {
+        const conversationSpec = {
           name: options.name,
           description: '',
           initial_members: []
         }
-        this.makeHolochainCall('holo-chat/chat/create_stream', roomSpec, (result) => {
-          console.log('created room', result)
-          this.actions.setRoom({
+        this.makeHolochainCall('peer-chat/chat/create_conversation', conversationSpec, (result) => {
+          console.log('created conversation', result)
+          this.actions.setConversation({
             id: result.Ok,
             name: options.name,
             users: []
           })
-          this.actions.getRooms()
+          this.actions.getConversations()
         })
       },
 
       getUserProfile: userId => {
-        this.makeHolochainCall('holo-chat/chat/get_member_profile', { agent_address: userId }, (result) => {
+        this.makeHolochainCall('peer-chat/chat/get_member_profile', { agent_address: userId }, (result) => {
           console.log('retrieved profile', result)
           this.setState({
             users: { ...this.state.users, [userId]: result.Ok }
@@ -166,9 +152,9 @@ export class View extends React.Component {
         })
       },
 
-      setFirstName: userId => {
+      setFullName: userId => {
         console.log('Asked for First Name')
-        this.makeHolochainCall('holo-chat/chat/get_full_name', { agent_address: userId }, (result) => {
+        this.makeHolochainCall('peer-chat/chat/get_full_name', { agent_address: userId }, (result) => {
           let name = result.Ok.body
           let user = this.state.users[userId]
           user.full_name = name
@@ -181,10 +167,10 @@ export class View extends React.Component {
         })
       },
 
-      getRooms: () => {
-        this.makeHolochainCall('holo-chat/chat/get_all_public_streams', {}, (result) => {
-          console.log('retrieved public rooms', result)
-          let rooms = result.Ok.map(({ address, entry }) => {
+      getConversations: () => {
+        this.makeHolochainCall('peer-chat/chat/get_all_public_conversations', {}, (result) => {
+          console.log('retrieved public conversations', result)
+          let conversations = result.Ok.map(({ address, entry }) => {
             return {
               id: address,
               private: !entry.public,
@@ -193,13 +179,13 @@ export class View extends React.Component {
             }
           })
           this.setState({
-            rooms
+            conversations
           })
         })
       },
 
       registerUser: ({ name, avatarURL }) => {
-        this.makeHolochainCall('holo-chat/chat/register', { name, avatar_url: avatarURL }, result => {
+        this.makeHolochainCall('peer-chat/chat/register', { name, avatar_url: avatarURL }, result => {
           console.log('registered user', result)
           this.actions.setUser({ id: result.Ok, name, avatarURL })
         })
@@ -221,20 +207,20 @@ export class View extends React.Component {
         console.log(JSON.stringify(signal.signal))
         if (signal.signal.name === 'new_message') {
           console.log(JSON.stringify(signal.signal.name))
-          const {roomId} = JSON.parse(signal.signal.arguments)
+          const {conversationId} = JSON.parse(signal.signal.arguments)
           console.log(JSON.parse(signal.signal.arguments))
-          console.log(roomId)
-          this.actions.getMessages(roomId)
-        } else if (signal.signal.name === 'new_room_member') {
+          console.log(conversationId)
+          this.actions.getMessages(conversationId)
+        } else if (signal.signal.name === 'new_conversation_member') {
           console.log(JSON.stringify(signal.signal.name))
-          const {roomId} = JSON.parse(signal.signal.arguments)
-          this.actions.getRoomMembers(roomId)
+          const {conversationId} = JSON.parse(signal.signal.arguments)
+          this.actions.getConversationMembers(conversationId)
         }
       })
       call('admin/interface/list')({}).then(result => {
         console.log(result)
       })
-      callZome('holo-chat', 'chat', 'get_my_member_profile')({}).then((result) => {
+      callZome('peer-chat', 'chat', 'get_my_member_profile')({}).then((result) => {
         const profile = JSON.parse(result).Ok
         if (profile) {
           console.log('registration user found with profile:', profile)
@@ -261,54 +247,19 @@ export class View extends React.Component {
   }
 
   render () {
-    const {
-      user,
-      users,
-      room,
-      rooms,
-      messages,
-      sidebarOpen,
-      userListOpen,
-      connected
-    } = this.state
-    const { createRoom, registerUser } = this.actions
-
+    let props = {
+      user: this.state.user,
+      conversations: this.state.conversations,
+      sidebarOpen: this.state.sidebarOpen,
+      messages: this.state.messages,
+      conversation: this.state.conversation,
+      getConversations: this.actions.getConversations,
+      startConversation: this.actions.startConversation,
+      joinConversation: this.actions.joinConversation,
+      setSidebar: this.actions.setSidebar
+    }
     return (
-      <main>
-        <aside data-open={sidebarOpen}>
-          <UserHeader state={this.state} actions={this.actions} />
-          <RoomList
-            user={user}
-            rooms={rooms}
-            messages={messages}
-            current={room}
-            actions={this.actions}
-          />
-          {user.id && <CreateRoomForm submit={createRoom} />}
-        </aside>
-        <section>
-          <RoomHeader state={this.state} actions={this.actions} />
-          {room.id ? (
-            <row->
-              <col->
-                <MessageList
-                  user={user}
-                  users={users}
-                  messages={messages[room.id]}
-                />
-                <CreateMessageForm state={this.state} actions={this.actions} />
-              </col->
-              {userListOpen && (
-                <UserList state={this.state} actions={this.actions} />
-              )}
-            </row->
-          ) : connected ? (
-            user.id ? <JoinRoomScreen /> : <RegisterScreen registerUser={registerUser} />
-          ) : (
-            <WelcomeScreen message='Connecting to Holochain... Make sure the conductor is running and try refreshing the page' />
-          )}
-        </section>
-      </main>
+      <Group {...props} />
     )
   }
 }

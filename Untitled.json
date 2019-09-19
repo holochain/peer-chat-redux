@@ -2,7 +2,7 @@
   "signal": {
     "signal_type": "User",
     "name": "new_message",
-    "arguments": "{\"room_id\":\"QmTuAgVbGEZruty7362x84qGC2PhrdNapX9upYhvuavitH\"}"
+    "arguments": "{\"conversation_id\":\"QmTuAgVbGEZruty7362x84qGC2PhrdNapX9upYhvuavitH\"}"
   },
-  "instance_id": "holo-chat"
+  "instance_id": "peer-chat"
 }

@@ -9,7 +9,7 @@ import { displayFullNameTests } from './displayFullName.test'
 
 let props = {
   state: {
-    room: {
+    conversation: {
       id: 'QmVQC9Fno8QFXgnW9i5tNdabcKxtTeXYXPeecK2qjn8bDx',
       private: true,
       name: 'Holochain Meetup - Melbourne',

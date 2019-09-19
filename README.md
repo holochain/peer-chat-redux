@@ -17,7 +17,7 @@ A simple chat app designed to get new users up, running and developing on Holoch
 
 - Get the latest released basic-chat
 ```
-  wget --header='Accept:application/octet-stream' https://api.github.com/repos/holochain/holochain-basic-chat/releases/assets/12405253 -O basic-chat.zip
+  wget --header='Accept:application/octet-conversation' https://api.github.com/repos/holochain/peer-chat/releases/assets/12405253 -O basic-chat.zip
   unzip basic-chat.zip
 ```
 
@@ -106,7 +106,7 @@ or use the CLI directly
 ```
 mkdir -p dna
 cd dna-src
-hc package --strip-meta -o ../dna/holo-chat.hcpkg
+hc package --strip-meta -o ../dna/peer-chat.hcpkg
 ```
 
 *Be careful!* If you are trying to network with other agents it is best to use a pre-built DNA. Any differences in compiler configuration may lead to the DNA hash being different and the nodes will not be able to communicate.
