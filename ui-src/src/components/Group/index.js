@@ -1,5 +1,5 @@
 import React from 'react'
-import style from './index.module.css'
+import '../../index.css'
 import { GroupList } from '../GroupList'
 import { UserHeader } from '../UserHeader'
 import { UserList } from '../UserList'
@@ -38,7 +38,7 @@ export const Group = ({
   <main>
     <aside data-open={sidebarOpen}>
       <UserHeader user={user} />
-      <div id='container'>
+      <menu>
         <GroupList groups={groups} currentGroup={currentGroup} joinGroup={joinGroup} />
         <ConversationList
           user={user}
@@ -48,7 +48,7 @@ export const Group = ({
           getConversations={getConversations}
           joinConversation={joinConversation}
         />
-      </div>
+      </menu>
       {user.id && <StartConversationForm submit={startConversation} />}
     </aside>
     <section>

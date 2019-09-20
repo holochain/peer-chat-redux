@@ -4,11 +4,7 @@
   margin: 0;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
   height: 100%;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .component li {

@@ -30,19 +30,6 @@ export class View extends React.Component {
         },
         groups: []
       }
-    } else {
-      this.state = {
-        holochainConnection: connect(), // use when letting the conductor auto-select. Allows for multiple agents
-        connected: false,
-        user: {},
-        users: {},
-        conversation: {},
-        conversations: [],
-        messages: {},
-        sidebarOpen: false,
-        userListOpen: window.innerWidth > 1000,
-        profileSpecSourceDna: ''
-      }
     }
 
 
@@ -79,6 +66,8 @@ export class View extends React.Component {
               }
             })
             this.setState({ groups: groups})
+            console.log(this.state.groups)
+
           })
         })
       },
@@ -251,37 +240,56 @@ export class View extends React.Component {
   }
 
   componentDidMount () {
-    this.state.holochainConnection.then(({ callZome, call, onSignal }) => {
-      this.setState({ connected: true })
-      onSignal((signal) => {
-        console.log(JSON.stringify(signal.signal))
-        if (signal.signal.name === 'new_message') {
-          console.log(JSON.stringify(signal.signal.name))
-          const {conversationId} = JSON.parse(signal.signal.arguments)
-          console.log(JSON.parse(signal.signal.arguments))
-          console.log(conversationId)
-          this.actions.getMessages(conversationId)
-        } else if (signal.signal.name === 'new_conversation_member') {
-          console.log(JSON.stringify(signal.signal.name))
-          const {conversationId} = JSON.parse(signal.signal.arguments)
-          this.actions.getConversationMembers(conversationId)
-        }
-      })
-      callZome(this.state.group.id, 'chat', 'get_my_member_profile')({}).then((result) => {
-        const profile = JSON.parse(result).Ok
-        if (profile) {
-          console.log('registration user found with profile:', profile)
-          this.actions.setUser({ id: profile.address, name: profile.name, avatarURL: profile.avatar_url })
-        }
-        else {
-          const profileSpecSourceDna = JSON.parse(result).Err.Internal
-          console.log('User has not registered a profile. redirecting to p&p ' + JSON.stringify(profileSpecSourceDna))
-          // if(!window.activateHappWindow) {
-          //   window.activateHappWindow('personas-ui', `/profile/${profileSpecSourceDna}/peer-chat-ui`)
-          // } else {
-            window.location.replace(`${REACT_APP_PERSONAS_URL}/profile/${profileSpecSourceDna}/${encodeURIComponent(window.location.href)}`)
-          // }
-        }
+      console.log('this.state.group.id ' + this.state.group.id)
+      this.state.holochainConnection.then(({ call }) => {
+        call('admin/interface/list')({}).then(result => {
+          console.log(result[0].instances)
+          let groups = []
+          result[0].instances.map(instance => {
+            if (instance.id.startsWith('peer-chat')) {
+              groups.push({
+                id: instance.id,
+                name: instance.name,
+                icon: 'public'
+              })
+            }
+          })
+          this.setState({ groups: groups})
+          console.log(this.state.groups)
+          this.state.holochainConnection.then(({ callZome, call, onSignal }) => {
+          console.log('holochainConnection')
+          this.setState({ connected: true })
+          onSignal((signal) => {
+            console.log(JSON.stringify(signal.signal))
+            if (signal.signal.name === 'new_message') {
+              console.log(JSON.stringify(signal.signal.name))
+              const {conversationId} = JSON.parse(signal.signal.arguments)
+              console.log(JSON.parse(signal.signal.arguments))
+              console.log(conversationId)
+              this.actions.getMessages(conversationId)
+            } else if (signal.signal.name === 'new_conversation_member') {
+              console.log(JSON.stringify(signal.signal.name))
+              const {conversationId} = JSON.parse(signal.signal.arguments)
+              this.actions.getConversationMembers(conversationId)
+            }
+          })
+          callZome(this.state.group.id, 'chat', 'get_my_member_profile')({}).then((result) => {
+            const profile = JSON.parse(result).Ok
+            if (profile) {
+              console.log('registration user found with profile:', profile)
+              this.actions.setUser({ id: profile.address, name: profile.name, avatarURL: profile.avatar_url })
+            }
+            else {
+              const profileSpecSourceDna = JSON.parse(result).Err.Internal
+              console.log('User has not registered a profile. redirecting to p&p ' + JSON.stringify(profileSpecSourceDna))
+              // if(!window.activateHappWindow) {
+              //   window.activateHappWindow('personas-ui', `/profile/${profileSpecSourceDna}/peer-chat-ui`)
+              // } else {
+                window.location.replace(`${REACT_APP_PERSONAS_URL}/profile/${profileSpecSourceDna}/${encodeURIComponent(window.location.href)}`)
+              // }
+            }
+          })
+        })
       })
     })
   }

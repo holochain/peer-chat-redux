@@ -18,10 +18,10 @@
   id = "peer_chat_dna"
   file = "./dna/peer-chat.dna.json"
   hash = "QmcheBCVdq8ySV6EiBP2fNXq6pJyJTTsRsK6voGZrjour4"
-  [[dnas]]
-    id = "peer_chat_dna_1"
-    file = "./dna/peer-chat-1.dna.json"
-    hash = "QmXmzBwfsFHWyUQZ9TWTkS88bzf7WPzxesytuMYqBURpLf"
+[[dnas]]
+  id = "peer_chat_dna_1"
+  file = "./dna/peer-chat-1.dna.json"
+  hash = "QmXmzBwfsFHWyUQZ9TWTkS88bzf7WPzxesytuMYqBURpLf"
 # [[instances]]
 #   id = "dpki_happ"
 #   dna = "deep_key"
@@ -67,10 +67,8 @@
 #   id = "dpki_happ"
 [[interfaces.instances]]
   id = "peer-chat"
-  alias = "Public"
 [[interfaces.instances]]
-  id = "peer-chat-1-private"
-  alias = "James Gang"
+  id = "peer-chat-1"
 [[interfaces.instances]]
   id = "personas-profiles"
 #
