@@ -9,7 +9,7 @@ process.on('unhandledRejection', error => {
 });
 
 const chat_dnaPath = "./dist/dna-src.dna.json"
-const personas_dnaPath = "../../personas-profiles/dna/personas-profiles.dna.json"
+const personas_dnaPath = "../../identity-manager/dna/personas-profiles.dna.json"
 
 const chat_dna_1 = Diorama.dna(chat_dnaPath, 'chat_1')
 const personas_dna_1 = Diorama.dna(personas_dnaPath, 'personas_1', {uuid: 'agent1'})
