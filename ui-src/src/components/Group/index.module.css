@@ -42,7 +42,7 @@ svg {
   width: 900px;
 }
 
-flex_container {
+#container {
   display: flex;
   width: 320px;
 }
@@ -50,7 +50,7 @@ flex_container {
 main {
   display: flex;
   margin: auto;
-  width: 900px;
+  width: 1000px;
   height: 100%;
   background: #fff;
   overflow: hidden;

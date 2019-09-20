@@ -38,7 +38,7 @@ export const Group = ({
   <main>
     <aside data-open={sidebarOpen}>
       <UserHeader user={user} />
-      <flex_container>
+      <div id='container'>
         <GroupList groups={groups} currentGroup={currentGroup} joinGroup={joinGroup} />
         <ConversationList
           user={user}
@@ -48,7 +48,7 @@ export const Group = ({
           getConversations={getConversations}
           joinConversation={joinConversation}
         />
-      </flex_container>
+      </div>
       {user.id && <StartConversationForm submit={startConversation} />}
     </aside>
     <section>

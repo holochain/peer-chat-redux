@@ -22,7 +22,13 @@ export class View extends React.Component {
         messages: {},
         sidebarOpen: false,
         userListOpen: window.innerWidth > 1000,
-        profileSpecSourceDna: ''
+        profileSpecSourceDna: '',
+        group: {
+          id: "peer-chat",
+          name: "Public",
+          icon: 'public'
+        },
+        groups: []
       }
     } else {
       this.state = {
@@ -54,9 +60,53 @@ export class View extends React.Component {
 
       setUser: user => {
         this.setState({ user })
+        this.actions.getGroups()
         this.actions.getConversations()
       },
 
+      getGroups: () => {
+        this.state.holochainConnection.then(({ call }) => {
+          call('admin/interface/list')({}).then(result => {
+            console.log(result[0].instances)
+            let groups = []
+            result[0].instances.map(instance => {
+              if (instance.id.startsWith('peer-chat')) {
+                groups.push({
+                  id: instance.id,
+                  name: instance.name,
+                  icon: 'public'
+                })
+              }
+            })
+            this.setState({ groups: groups})
+          })
+        })
+      },
+
+      setGroup: group => {
+        this.setState({ group: group })
+        this.actions.getConversations()
+        this.actions.scrollToEnd()
+      },
+
+      joinGroup: group => {
+        console.log('joining group')
+        console.log(group)
+        this.makeHolochainCall(group.id + '/chat/get_my_member_profile', {}, (result) => {
+          console.log(result)
+          const profile = result.Ok
+          if (profile) {
+            console.log('registration user found with profile:', profile)
+            this.actions.setUser({ id: profile.address, name: profile.name, avatarURL: profile.avatar_url })
+          }
+          else {
+            const profileSpecSourceDna = result.Err.Internal
+            console.log('User has not registered a profile. redirecting to p&p ' + JSON.stringify(profileSpecSourceDna))
+            window.location.replace(`${REACT_APP_PERSONAS_URL}/profile/${profileSpecSourceDna}/${encodeURIComponent(window.location.href)}`)
+          }
+        })
+        this.actions.setGroup(group)
+      },
       // --------------------------------------
       // Conversation
       // --------------------------------------
@@ -71,13 +121,13 @@ export class View extends React.Component {
       joinConversation: conversation => {
         console.log('joining conversation')
         this.actions.setConversation(conversation)
-        this.makeHolochainCall('peer-chat/chat/join_conversation', { conversation_address: conversation.id }, (result) => {
+        this.makeHolochainCall(this.state.group.id + '/chat/join_conversation', { conversation_address: conversation.id }, (result) => {
           console.log('joined conversation', result)
         })
       },
 
       getConversationMembers: conversationId => {
-        this.makeHolochainCall('peer-chat/chat/get_members', {
+        this.makeHolochainCall(this.state.group.id + '/chat/get_members', {
           conversation_address: conversationId
         }, (result) => {
           console.log('retrieved members', result)
@@ -98,7 +148,7 @@ export class View extends React.Component {
           payload: text,
           meta: ''
         }
-        this.makeHolochainCall('peer-chat/chat/post_message', {
+        this.makeHolochainCall(this.state.group.id + '/chat/post_message', {
           conversation_address: conversationId,
           message
         }, (result) => {
@@ -109,7 +159,7 @@ export class View extends React.Component {
       },
 
       getMessages: (conversationId) => {
-        this.makeHolochainCall('peer-chat/chat/get_messages', { address: conversationId }, (result) => {
+        this.makeHolochainCall(this.state.group.id + '/chat/get_messages', { address: conversationId }, (result) => {
           console.log('retrieved messages', result)
 
           const conversationMessages = result.Ok.map(({ address, entry }) => ({
@@ -126,13 +176,13 @@ export class View extends React.Component {
       },
 
       startConversation: options => {
-        console.log(options)
+        console.log(this.state.group)
         const conversationSpec = {
           name: options.name,
           description: '',
           initial_members: []
         }
-        this.makeHolochainCall('peer-chat/chat/start_conversation', conversationSpec, (result) => {
+        this.makeHolochainCall(this.state.group.id + '/chat/start_conversation', conversationSpec, (result) => {
           console.log('created conversation', result)
           this.actions.setConversation({
             id: result.Ok,
@@ -144,7 +194,7 @@ export class View extends React.Component {
       },
 
       getUserProfile: userId => {
-        this.makeHolochainCall('peer-chat/chat/get_member_profile', { agent_address: userId }, (result) => {
+        this.makeHolochainCall(this.state.group.id + '/chat/get_member_profile', { agent_address: userId }, (result) => {
           console.log('retrieved profile', result)
           this.setState({
             users: { ...this.state.users, [userId]: result.Ok }
@@ -154,7 +204,7 @@ export class View extends React.Component {
 
       setFullName: userId => {
         console.log('Asked for First Name')
-        this.makeHolochainCall('peer-chat/chat/get_full_name', { agent_address: userId }, (result) => {
+        this.makeHolochainCall(this.state.group.id + '/chat/get_full_name', { agent_address: userId }, (result) => {
           let name = result.Ok.body
           let user = this.state.users[userId]
           user.full_name = name
@@ -168,7 +218,7 @@ export class View extends React.Component {
       },
 
       getConversations: () => {
-        this.makeHolochainCall('peer-chat/chat/get_all_public_conversations', {}, (result) => {
+        this.makeHolochainCall(this.state.group.id + '/chat/get_all_public_conversations', {}, (result) => {
           console.log('retrieved public conversations', result)
           let conversations = result.Ok.map(({ address, entry }) => {
             return {
@@ -185,7 +235,7 @@ export class View extends React.Component {
       },
 
       registerUser: ({ name, avatarURL }) => {
-        this.makeHolochainCall('peer-chat/chat/register', { name, avatar_url: avatarURL }, result => {
+        this.makeHolochainCall(this.state.group.id + '/chat/register', { name, avatar_url: avatarURL }, result => {
           console.log('registered user', result)
           this.actions.setUser({ id: result.Ok, name, avatarURL })
         })
@@ -217,10 +267,7 @@ export class View extends React.Component {
           this.actions.getConversationMembers(conversationId)
         }
       })
-      call('admin/interface/list')({}).then(result => {
-        console.log(result)
-      })
-      callZome('peer-chat', 'chat', 'get_my_member_profile')({}).then((result) => {
+      callZome(this.state.group.id, 'chat', 'get_my_member_profile')({}).then((result) => {
         const profile = JSON.parse(result).Ok
         if (profile) {
           console.log('registration user found with profile:', profile)
@@ -249,33 +296,21 @@ export class View extends React.Component {
   render () {
     let props = {
       user: this.state.user,
+      users: this.state.users,
       conversations: this.state.conversations,
       sidebarOpen: this.state.sidebarOpen,
       messages: this.state.messages,
       conversation: this.state.conversation,
       userListOpen: this.state.userListOpen,
-      groups: [{
-        id: "group-address-1",
-        name: "Public",
-        icon: 'public'
-      },
-      {
-        id: "group-address-2",
-        name: "Private",
-        icon: 'lock'
-      },
-      {
-        id: "group-address-3",
-        name: "Public",
-        icon: 'public'
-      }],
+      groups: this.state.groups,
       getConversations: this.actions.getConversations,
       startConversation: this.actions.startConversation,
       joinConversation: this.actions.joinConversation,
       setSidebar: this.actions.setSidebar,
       sendMessage: this.actions.sendMessage,
       setUserList: this.actions.setUserList,
-      setFullName: this.actions.setFullName
+      setFullName: this.actions.setFullName,
+      joinGroup: this.actions.joinGroup
     }
     return (
       <Group {...props} />

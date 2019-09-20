@@ -39,11 +39,6 @@ export const ConversationList = ({
           disabled={conversation.id === current.id}
           onClick={e => joinConversation(conversation)}
         >
-          {conversation.name.match(user.id) && firstUser ? (
-            <img src={firstUser.avatarURL} alt={firstUser.id} />
-          ) : (
-            Icon(conversation.isPrivate ? 'lock' : 'public')
-          )}
           <col->
             <p>{conversation.name.replace(user.id, '')}</p>
             <span>{latestMessage && latestMessage.text}</span>
