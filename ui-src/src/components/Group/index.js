@@ -32,7 +32,8 @@ export const Group = ({
   userListOpen,
   setFullName,
   connected,
-  registerUser
+  registerUser,
+  setUserList
 }) => (
   <main>
     <aside data-open={sidebarOpen}>
@@ -57,7 +58,7 @@ export const Group = ({
         sidebarOpen={sidebarOpen}
         userListOpen={false}
         setSidebar={setSidebar}
-        setUserList={false}
+        setUserList={setUserList}
        />
        {conversation.id ? (
             <row->
@@ -70,7 +71,7 @@ export const Group = ({
                 <CreateMessageForm user={user} conversation={conversation} message={''} runCommand={runCommand} sendMessage={sendMessage} getMessages={getMessages}/>
               </col->
               {userListOpen && (
-                <UserList users={users} setFullName={setFullName} />
+                <UserList conversation={conversation} users={users} setFullName={setFullName} />
               )}
             </row->
           ) : connected ? (

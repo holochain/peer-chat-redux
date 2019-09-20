@@ -3,8 +3,9 @@ import style from './index.module.css'
 
 export const UserList = (
   {
-    state: { conversation = {}, users =[] },
-    actions: { setFullName }
+    conversation = {},
+    users =[],
+    setFullName
   }) => (
   <ul className={style.component}>
     {conversation.users.map(user => (

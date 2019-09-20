@@ -22,7 +22,7 @@ export const GroupList = ({
           onClick={e => joinGroup(group)}
         >
           <row->
-            {Icon('public')}
+            {Icon(group.icon)}
           </row->
         </li>
       )

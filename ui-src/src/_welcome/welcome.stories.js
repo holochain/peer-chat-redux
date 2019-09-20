@@ -42,16 +42,15 @@ let props = {
   }],
   sidebarOpen: true,
   messages: [{
-    id: 'message1',
-    conversationId: 
+    id: 'conversation_address',
     sender: 'QmAgentAddress',
     text: 'Peer Chat - Ghost Mode. Send p2p messages that aren\'t saved anywhere.',
     createdAt: Math.floor(Date.now() / 1000)
   },
   {
-    id: 'message2',
-    sender: 'QmAgentAddress2',
-    text: 'Peer Chat - Ghost Mode. Send p2p messages that aren\'t saved anywhere.',
+    id: 'conversation_address',
+    sender: 'QmAgentAddress',
+    text: 'Peer Chat - Ghost Mode',
     createdAt: Math.floor(Date.now() / 1000)
   }],
   conversation: {

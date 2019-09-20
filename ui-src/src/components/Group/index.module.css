@@ -39,7 +39,7 @@ svg {
 }
 
 #root {
-  width: 100%;
+  width: 900px;
 }
 
 flex_container {
@@ -50,7 +50,7 @@ flex_container {
 main {
   display: flex;
   margin: auto;
-  width: 100%;
+  width: 900px;
   height: 100%;
   background: #fff;
   overflow: hidden;

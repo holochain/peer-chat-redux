@@ -125,7 +125,7 @@ export class View extends React.Component {
         })
       },
 
-      createConversation: options => {
+      startConversation: options => {
         console.log(options)
         const conversationSpec = {
           name: options.name,
@@ -253,10 +253,29 @@ export class View extends React.Component {
       sidebarOpen: this.state.sidebarOpen,
       messages: this.state.messages,
       conversation: this.state.conversation,
+      userListOpen: this.state.userListOpen,
+      groups: [{
+        id: "group-address-1",
+        name: "Public",
+        icon: 'public'
+      },
+      {
+        id: "group-address-2",
+        name: "Private",
+        icon: 'lock'
+      },
+      {
+        id: "group-address-3",
+        name: "Public",
+        icon: 'public'
+      }],
       getConversations: this.actions.getConversations,
       startConversation: this.actions.startConversation,
       joinConversation: this.actions.joinConversation,
-      setSidebar: this.actions.setSidebar
+      setSidebar: this.actions.setSidebar,
+      sendMessage: this.actions.sendMessage,
+      setUserList: this.actions.setUserList,
+      setFullName: this.actions.setFullName
     }
     return (
       <Group {...props} />
