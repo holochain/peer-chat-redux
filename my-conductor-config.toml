@@ -53,6 +53,7 @@ dna_interface = "websocket_interface"
 # -----------  Networking  -----------
 
 [network]
+type = "n3h"
 n3h_path = ""
 n3h_persistence_path = "/tmp"
 bootstrap_nodes = []
