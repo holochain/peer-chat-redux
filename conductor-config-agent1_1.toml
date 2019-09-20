@@ -3,7 +3,7 @@
 [[agents]]
 id = "test_agent1_1"
 name = "Agent 3"
-public_address = "HcScjTnefoi6c79eunbqfFNYEYovwaygbPkWEk95xVPd7vemvoB9Qwbjxf458ii"
+public_address = "HcSCj3IY876TgX988Uw65kSdg7PTFtjijjQ97vs9W6qV9gtnaiyWRfEDe3ouprr"
 keystore_file = "./agent1_1.keystore"
 
 # -----------  DNAs  -----------
@@ -11,21 +11,21 @@ keystore_file = "./agent1_1.keystore"
   id = "personas_profiles"
   file = "../identity-manager/dna/personas-profiles.dna.json"
   hash = "QmdJqnjMWismskN3vfkaAGaWzwEZegFWDTfR1U7ikrcqeN"
-[[dnas]]
-  id = "deep_key"
-  file = "../DeepKey/dna/deepkey.dna.json"
-  hash = "QmbdxX9VaX1XYyaDgM36ob3ta96umUifaKJ4ySExxo7ckH"
+# [[dnas]]
+#   id = "deep_key"
+#   file = "../DeepKey/dna/deepkey.dna.json"
+#   hash = "QmbdxX9VaX1XYyaDgM36ob3ta96umUifaKJ4ySExxo7ckH"
 [[dnas]]
   id = "chat_dna"
   file = "./dna/holochain-basic-chat.dna.json"
   hash = "Qmf7mbu7B898UBtLte1y3AB8c6MskpsrV8yWjvyNsXxxSj"
 
-[[instances]]
-  id = "dpki_happ"
-  dna = "deep_key"
-  agent = "test_agent1_1"
-[instances.storage]
-  type = "memory"
+# [[instances]]
+#   id = "dpki_happ"
+#   dna = "deep_key"
+#   agent = "test_agent1_1"
+# [instances.storage]
+#   type = "memory"
 [[instances]]
   id = "personas-profiles"
   dna = "personas_profiles"
@@ -49,24 +49,24 @@ keystore_file = "./agent1_1.keystore"
 [interfaces.driver]
   type = "websocket"
   port = 3403
-[[interfaces.instances]]
-  id = "dpki_happ"
+# [[interfaces.instances]]
+#   id = "dpki_happ"
 [[interfaces.instances]]
   id = "holo-chat"
 [[interfaces.instances]]
   id = "personas-profiles"
 
-  # -----------  dpki  -----------
-
-[dpki]
-  instance_id = "dpki_happ"
-  init_params = "{\"revocation_key\": \"HcScIXuxtWI6ttc5gngvQTsDnHtynb5dzyDujh37mNo43nf7ZRB5UZKmR9953pc\"}"
+  # # -----------  dpki  -----------
+  #
+  # [dpki]
+  #   instance_id = "dpki_happ"
+  #   init_params = "{\"revocation_key\": \"HcScIXuxtWI6ttc5gngvQTsDnHtynb5dzyDujh37mNo43nf7ZRB5UZKmR9953pb\"}"
 
 # -----------  Networking  -----------
 
 [network]
 type = "n3h"
 n3h_mode = "REAL"
-n3h_persistence_path = "./n3h-test_agent1_1"
+n3h_persistence_path = "./n3h-agent1_1"
 n3h_log_level = "i"
 bootstrap_nodes = []
