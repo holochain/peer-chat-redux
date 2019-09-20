@@ -18,7 +18,7 @@ describe('Create a conversation via UI and API', function() {
       "params": {
           "instance_id": "peer-chat",
           "zome": "chat",
-          "function": "create_conversation",
+          "function": "start_conversation",
           "params": { "name": "Conversation 3 Created by Agent 2", "description": "Another conversation", "initial_members": [] }
       }
     }

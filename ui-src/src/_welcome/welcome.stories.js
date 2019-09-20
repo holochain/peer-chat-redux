@@ -4,6 +4,19 @@ import { action } from '@storybook/addon-actions'
 import { StateDecorator, Store } from '@sambego/storybook-state'
 import { Group } from '../components/Group'
 
+
+{"Ok":[
+  {"entry":{
+    "timestamp":1568941474,
+    "author":"HcScjTnefoi6c79eunbqfFNYEYovwaygbPkWEk95xVPd7vemvoB9Qwbjxf458ii",
+    "message_type":"text",
+    "payload":"dddd",
+    "meta":""
+  },
+  "address":"QmYgEY1UqntPsn14vxHiEqW5Xw99YajpRNhPwxEdaVXSdz"
+},{"entry":{"timestamp":1568941493,"author":"HcScjTnefoi6c79eunbqfFNYEYovwaygbPkWEk95xVPd7vemvoB9Qwbjxf458ii","message_type":"text","payload":"gggg","meta":""},"address":"QmNqZT3QK69S7naqzjz9HzSAsuCS4RuGrHnRGFpL6KVXrd"},{"entry":{"timestamp":1568942213,"author":"HcScjTnefoi6c79eunbqfFNYEYovwaygbPkWEk95xVPd7vemvoB9Qwbjxf458ii","message_type":"text","payload":"ffff","meta":""},
+"address":"QmbBR5wvLoXdbEdX7GvU8diBHbbojehtbNMWCvsPprb1iE"}]}
+
 let props = {
   connected: true,
   groups: [{

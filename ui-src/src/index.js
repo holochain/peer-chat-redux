@@ -132,7 +132,7 @@ export class View extends React.Component {
           description: '',
           initial_members: []
         }
-        this.makeHolochainCall('peer-chat/chat/create_conversation', conversationSpec, (result) => {
+        this.makeHolochainCall('peer-chat/chat/start_conversation', conversationSpec, (result) => {
           console.log('created conversation', result)
           this.actions.setConversation({
             id: result.Ok,
