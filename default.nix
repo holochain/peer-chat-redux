@@ -1,4 +1,4 @@
-# This is an example of what downstream consumers of holonix should do
+# This is an example of what downconversation consumers of holonix should do
 # This is also used to dogfood as many commands as possible for holonix
 # For example the release process for holonix uses this file
 let

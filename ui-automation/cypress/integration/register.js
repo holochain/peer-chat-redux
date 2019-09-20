@@ -6,7 +6,7 @@ describe('Register 2 agents in 2 instances', function() {
       "id": 2,
       "method": "call",
       "params": {
-          "instance_id": "holo-chat",
+          "instance_id": "peer-chat",
           "zome": "chat",
           "function": "register",
           "params": { "name": "philip", "avatar_url": "" }
@@ -23,7 +23,7 @@ describe('Register 2 agents in 2 instances', function() {
       "id": 2,
       "method": "call",
       "params": {
-          "instance_id": "holo-chat",
+          "instance_id": "peer-chat",
           "zome": "chat",
           "function": "register",
           "params": { "name": "willem", "avatar_url": "" }

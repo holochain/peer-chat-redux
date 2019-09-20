@@ -11,13 +11,13 @@ process.on('unhandledRejection', error => {
 const chat_dnaPath = "./dist/dna-src.dna.json"
 const personas_dnaPath = "../../identity-manager/dna/personas-profiles.dna.json"
 
-const chat_dna_1 = Diorama.dna(chat_dnaPath, 'chat_1')
+const peer_chat_dna_1 = Diorama.dna(peer_chat_dnaPath, 'chat_1')
 const personas_dna_1 = Diorama.dna(personas_dnaPath, 'personas_1', {uuid: 'agent1'})
-const chat_dna_2 = Diorama.dna(chat_dnaPath, 'chat_2')
+const peer_chat_dna_2 = Diorama.dna(peer_chat_dnaPath, 'chat_2')
 
 const diorama_1 = new Diorama({
   instances: {
-    chat_instance_1: chat_dna_1,
+    chat_instance_1: peer_chat_dna_1,
     personas_instance_1: personas_dna_1
   },
   bridges: [
@@ -30,9 +30,9 @@ const diorama_1 = new Diorama({
 
 const diorama_2 = new Diorama({
   instances: {
-    chat_instance_1: chat_dna_1,
+    chat_instance_1: peer_chat_dna_1,
     personas_instance_1: personas_dna_1,
-    chat_instance_2: chat_dna_2
+    chat_instance_2: peer_chat_dna_2
   },
   bridges: [
     Diorama.bridge('p-p-bridge', 'chat_instance_1', 'personas_instance_1')

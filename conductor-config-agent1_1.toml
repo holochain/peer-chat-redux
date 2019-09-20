@@ -16,9 +16,9 @@ keystore_file = "./agent1_1.keystore"
 #   file = "../DeepKey/dna/deepkey.dna.json"
 #   hash = "QmbdxX9VaX1XYyaDgM36ob3ta96umUifaKJ4ySExxo7ckH"
 [[dnas]]
-  id = "chat_dna"
-  file = "./dna/holochain-basic-chat.dna.json"
-  hash = "QmWhzXTDfyyxaTRs7iwz9FycQUWMeiavkKdPrM963Spihj"
+  id = "peer_chat_dna"
+  file = "./dna/peer-chat.dna.json"
+  hash = "Qmf7mbu7B898UBtLte1y3AB8c6MskpsrV8yWjvyNsXxxSj"
 
 # [[instances]]
 #   id = "dpki_happ"
@@ -33,14 +33,14 @@ keystore_file = "./agent1_1.keystore"
 [instances.storage]
   type = "memory"
 [[instances]]
-  id = "holo-chat"
-  dna = "chat_dna"
+  id = "peer-chat"
+  dna = "peer_chat_dna"
   agent = "test_agent1_1"
 [instances.storage]
   type = "memory"
 
 [[bridges]]
-  caller_id = "holo-chat"
+  caller_id = "peer-chat"
   callee_id = "personas-profiles"
   handle = "p-p-bridge"
 
@@ -52,7 +52,7 @@ keystore_file = "./agent1_1.keystore"
 # [[interfaces.instances]]
 #   id = "dpki_happ"
 [[interfaces.instances]]
-  id = "holo-chat"
+  id = "peer-chat"
 [[interfaces.instances]]
   id = "personas-profiles"
 

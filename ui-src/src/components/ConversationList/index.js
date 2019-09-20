@@ -7,19 +7,20 @@ const Icon = id => (
   </svg>
 )
 
-export const RoomList = ({
-  rooms = [],
+export const ConversationList = ({
+  conversations = [],
   user,
   messages,
   current,
-  actions
+  getConversations,
+  joinConversation
 }) => {
 
   let refresh
 
   if(user.id) {
     refresh = (
-    <li onClick={actions.getRooms}>
+    <li onClick={getConversations}>
       <input id='refresh' type='image' alt='refresh' src={`refresh.svg`} />
     </li>)
   } else {
@@ -27,24 +28,24 @@ export const RoomList = ({
   }
 
   return (<ul className={style.component}>
-    {rooms.map(room => {
-      const messageKeys = Object.keys(messages[room.id] || {})
+    {conversations.map(conversation => {
+      const messageKeys = Object.keys(messages[conversation.id] || {})
       const latestMessage =
-        messageKeys.length > 0 && messages[room.id][messageKeys.pop()]
-      const firstUser = room.users.find(x => x.id !== user.id)
+        messageKeys.length > 0 && messages[conversation.id][messageKeys.pop()]
+      const firstUser = conversation.users.find(x => x.id !== user.id)
       return (
         <li
-          key={room.id}
-          disabled={room.id === current.id}
-          onClick={e => actions.joinRoom(room)}
+          key={conversation.id}
+          disabled={conversation.id === current.id}
+          onClick={e => joinConversation(conversation)}
         >
-          {room.name.match(user.id) && firstUser ? (
+          {conversation.name.match(user.id) && firstUser ? (
             <img src={firstUser.avatarURL} alt={firstUser.id} />
           ) : (
-            Icon(room.isPrivate ? 'lock' : 'public')
+            Icon(conversation.isPrivate ? 'lock' : 'public')
           )}
           <col->
-            <p>{room.name.replace(user.id, '')}</p>
+            <p>{conversation.name.replace(user.id, '')}</p>
             <span>{latestMessage && latestMessage.text}</span>
           </col->
         </li>

@@ -4,7 +4,7 @@ before(function(){
     "id": 2,
     "method": "call",
     "params": {
-        "instance_id": "holo-chat",
+        "instance_id": "peer-chat",
         "zome": "chat",
         "function": "register",
         "params": { "name": "philip", "avatar_url": "" }
@@ -17,7 +17,7 @@ before(function(){
     "id": 2,
     "method": "call",
     "params": {
-        "instance_id": "holo-chat",
+        "instance_id": "peer-chat",
         "zome": "chat",
         "function": "register",
         "params": { "name": "willem", "avatar_url": "" }

@@ -8,7 +8,7 @@ const emptyList = (
       📝
     </span>
     <h2>No Messages Yet</h2>
-    <p>Be the first to post in this room!</p>
+    <p>Be the first to post in this conversation!</p>
   </div>
 )
 

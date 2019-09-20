@@ -5,7 +5,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 {{ version-heading }}
 
 ### Added
-Added in unit tests that run in Jest  (CI) and Storybook [#65](!https://github.com/holochain/holochain-basic-chat/pull/65)
+Added in unit tests that run in Jest  (CI) and Storybook [#65](!https://github.com/holochain/peer-chat/pull/65)
 ### Changed
 
 ### Deprecated

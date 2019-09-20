@@ -93,10 +93,10 @@ See:
    owner = "holochain";
 
    # repository name on github that release are deployed to
-   repo = "holochain-basic-chat";
+   repo = "peer-chat";
 
-   # canonical local upstream name as per `git remote -v`
-   upstream = "origin";
+   # canonical local upconversation name as per `git remote -v`
+   upconversation = "origin";
   };
  };
 }

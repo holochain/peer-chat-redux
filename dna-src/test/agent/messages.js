@@ -39,13 +39,13 @@ module.exports = scenario => {
 
 
   const testNewChannelParams = {
-    name: "test new stream",
+    name: "test new conversation",
     description: "for testing...",
     initial_members: [],
     public: true
   }
 
-  scenario('Can post a message to the stream and retrieve', async (s, t, {chat_instance_1}) => {
+  scenario('Can post a message to the conversation and retrieve', async (s, t, {chat_instance_1}) => {
 
     const register_result = await chat_instance_1.call('chat', 'register', {name: 'chat_instance_1', avatar_url: ''})
     // console.log(register_result)
