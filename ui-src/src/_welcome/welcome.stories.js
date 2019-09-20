@@ -5,9 +5,21 @@ import { StateDecorator, Store } from '@sambego/storybook-state'
 import { Group } from '../components/Group'
 
 let props = {
+  connected: true,
   groups: [{
-    id: "group-address",
-    name: "Public"
+    id: "group-address-1",
+    name: "Public",
+    icon: 'public'
+  },
+  {
+    id: "group-address-2",
+    name: "Private",
+    icon: 'lock'
+  },
+  {
+    id: "group-address-3",
+    name: "Public",
+    icon: 'public'
   }],
   user: {
     avatarURL: 'https://avatars3.githubusercontent.com/u/5264862?s=40&v=4',
@@ -17,9 +29,9 @@ let props = {
     lastName: ''
   },
   conversations: [{
-    id: 'address',
+    id: 'conversation_address',
     private: true,
-    name: 'Story 123',
+    name: 'Ghost Mode',
     users: [{
       avatarURL: 'https://avatars3.githubusercontent.com/u/5264862?s=40&v=4',
       name: '@philt3r',
@@ -29,8 +41,38 @@ let props = {
     }]
   }],
   sidebarOpen: true,
-  messages: [],
-  conversation: {},
+  messages: [{
+    id: 'message1',
+    conversationId: 
+    sender: 'QmAgentAddress',
+    text: 'Peer Chat - Ghost Mode. Send p2p messages that aren\'t saved anywhere.',
+    createdAt: Math.floor(Date.now() / 1000)
+  },
+  {
+    id: 'message2',
+    sender: 'QmAgentAddress2',
+    text: 'Peer Chat - Ghost Mode. Send p2p messages that aren\'t saved anywhere.',
+    createdAt: Math.floor(Date.now() / 1000)
+  }],
+  conversation: {
+    id: 'conversation_address',
+    private: true,
+    name: 'Ghost Mode',
+    users: [{
+      avatarURL: 'https://avatars3.githubusercontent.com/u/5264862?s=40&v=4',
+      name: '@philt3r',
+      id: 'QmAgentAddress',
+      firstName: '',
+      lastName: ''
+    },
+    {
+      avatarURL: 'https://avatars3.githubusercontent.com/u/5264862?s=40&v=4',
+      name: 'Jarod',
+      id: 'QmAgentAddress2',
+      firstName: '',
+      lastName: ''
+    }]
+  },
   joinGroup: action('Join Group'),
   getConversations: action('Get Conversations'),
   startConversation: action('Start Conversation'),
@@ -54,7 +96,7 @@ const store = new Store({
 storiesOf('Welcome', module)
   .addDecorator(StateDecorator(store))
   .add('Home Page', (() => {
-    console.log(props.sidebarOpen)
+    console.log(props.connected)
     store.set({
       props: {...props }
     })

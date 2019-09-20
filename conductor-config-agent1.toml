@@ -2,19 +2,20 @@
 [[agents]]
   id = "test_agent1"
   name = "Agent 1"
-  public_address = "HcSCj3IY876TgX988Uw65kSdg7PTFtjijjQ97vs9W6qV9gtnaiyWRfEDe3ouprr"
-  keystore_file = "./agent1.key"
+  public_address = "HcScjTnefoi6c79eunbqfFNYEYovwaygbPkWEk95xVPd7vemvoB9Qwbjxf458ii"
+  keystore_file = "./agent1.keystore"
 
 # -----------  DNAs  -----------
 [[dnas]]
   id = "personas_profiles"
   file = "../identity-manager/dna/personas-profiles.dna.json"
-  hash = "QmdJqnjMWismskN3vfkaAGaWzwEZegFWDTfR1U7ikrcqeN"
+  hash = "QmdGmzCjd4oJUhagboEAqP8855Y4jKMCbmY8kSBM26VX3U"
+# [[dnas]]
+#   id = "deep_key"
+#   file = "../DeepKey/dna/deepkey.dna.json"
+#   hash = "QmbdxX9VaX1XYyaDgM36ob3ta96umUifaKJ4ySExxo7ckH"
 [[dnas]]
-  id = "deep_key"
-  file = "../DeepKey/dna/deepkey.dna.json"
-  hash = "QmbdxX9VaX1XYyaDgM36ob3ta96umUifaKJ4ySExxo7ckH"
-[[dnas]]
+<<<<<<< HEAD
   id = "peer_chat_dna"
   file = "./dna/peer-chat.dna.json"
   hash = "Qmf7mbu7B898UBtLte1y3AB8c6MskpsrV8yWjvyNsXxxSj"
@@ -25,6 +26,21 @@
   agent = "test_agent1"
 [instances.storage]
   type = "memory"
+=======
+  id = "chat_dna"
+  file = "./dna/holochain-basic-chat.dna.json"
+  hash = "QmVASzM5iMFMn3FQx3N5dWC2uRkJM3viC4jEX5BMeQ2oRR"
+[[dnas]]
+  id = "chat_dna_private"
+  file = "./dna/holochain-basic-chat-private.dna.json"
+  hash = "QmRU79dQ4x7uhqjP4kirFv9PiTWrJteBKUg2L6wj3QmJgB"
+# [[instances]]
+#   id = "dpki_happ"
+#   dna = "deep_key"
+#   agent = "test_agent1"
+# [instances.storage]
+#   type = "memory"
+>>>>>>> 87d6c11fbd85eb1bcafea20833a64d310f589bfb
 [[instances]]
   id = "personas-profiles"
   dna = "personas_profiles"
@@ -37,9 +53,20 @@
   agent = "test_agent1"
 [instances.storage]
   type = "memory"
+  [[instances]]
+    id = "holo-chat-private"
+    dna = "chat_dna_private"
+    agent = "test_agent1"
+  [instances.storage]
+    type = "memory"
 
 [[bridges]]
   caller_id = "peer-chat"
+  callee_id = "personas-profiles"
+  handle = "p-p-bridge"
+
+[[bridges]]
+  caller_id = "holo-chat-private"
   callee_id = "personas-profiles"
   handle = "p-p-bridge"
 
@@ -48,24 +75,26 @@
 [interfaces.driver]
   type = "websocket"
   port = 3401
-[[interfaces.instances]]
-  id = "dpki_happ"
+# [[interfaces.instances]]
+#   id = "dpki_happ"
 [[interfaces.instances]]
   id = "peer-chat"
 [[interfaces.instances]]
+  id = "holo-chat-private"
+[[interfaces.instances]]
   id = "personas-profiles"
-
-# -----------  dpki  -----------
-
-[dpki]
-  instance_id = "dpki_happ"
-  init_params = "{\"revocation_key\": \"HcScIXuxtWI6ttc5gngvQTsDnHtynb5dzyDujh37mNo43nf7ZRB5UZKmR9953pa\"}"
+#
+# # -----------  dpki  -----------
+#
+# [dpki]
+#   instance_id = "dpki_happ"
+#   init_params = "{\"revocation_key\": \"HcScIXuxtWI6ttc5gngvQTsDnHtynb5dzyDujh37mNo43nf7ZRB5UZKmR9953pa\"}"
 
 # -----------  Networking  -----------
 
-[network]
-  type = "n3h"
-  n3h_mode = "REAL"
-  n3h_persistence_path = "./n3h-agent1"
-  n3h_log_level = "i"
-  bootstrap_nodes = []
+# [network]
+#   type = "n3h"
+#   n3h_mode = "REAL"
+#   n3h_persistence_path = "./n3h-agent1"
+#   n3h_log_level = "i"
+#   bootstrap_nodes = []

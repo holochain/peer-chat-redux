@@ -9,8 +9,8 @@ script:
 - cd peer-chat
 - cd ..
 - ls
-- git clone https://github.com/holochain/personas-profiles.git
-- cd personas-profiles
+- git clone https://github.com/holochain/identity-manager.git
+- cd identity-manager
 - nix-shell --run 'npm run hc:build'
 - cd ..
 - cd peer-chat
