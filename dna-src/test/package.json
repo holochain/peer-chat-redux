@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "@holochain/diorama": "0.2.0-rc.1",
+    "@holochain/try-o-rama": "holochain/quadrama",
     "faucet": "0.0.1",
     "json3": "*",
     "sleep": "^5.2.3",

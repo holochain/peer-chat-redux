@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { connect } from '@holochain/hc-web-client'
 import { Group } from './components/Group'
+import './index.css'
 // --------------------------------------
 // Application
 // --------------------------------------
