@@ -1,7 +1,9 @@
 module.exports = scenario => {
 
+  const { config1, config2 } = require('../config') 
+
   scenario.only('Agent 2 requests full_name from Agent 1', async (s, t) => {
-    const {player1, player1, player2} = await s.players({player1: config1, player2: config2}, true)
+    const {player1, player2} = await s.players({player1: config1, player2: config2}, true)
     const get_profile_result_1 = await player1.call('chat', 'chat', 'get_my_member_profile', {})
     let sourceDna = get_profile_result_1.Err.Internal
     // console.log('sourceDna ' + JSON.stringify(sourceDna))

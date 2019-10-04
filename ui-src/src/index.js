@@ -68,7 +68,6 @@ export class View extends React.Component {
             })
             this.setState({ groups: groups})
             console.log(this.state.groups)
-
           })
         })
       },
