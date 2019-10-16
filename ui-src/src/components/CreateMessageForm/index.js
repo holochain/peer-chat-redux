@@ -2,10 +2,14 @@ import React from 'react'
 import style from './index.module.css'
 
 export const CreateMessageForm = ({
-  state: { user = {}, room = {}, message = '' },
-  actions: { sendMessage, runCommand, getMessages }
+  user = {},
+  conversation = {},
+  message = '',
+  sendMessage,
+  runCommand,
+  getMessages
 }) =>
-  room.id ? (
+  conversation.id ? (
     <form
       className={style.component}
       onSubmit={e => {
@@ -23,7 +27,7 @@ export const CreateMessageForm = ({
           ? runCommand(message.slice(1))
           : sendMessage({
             text: message,
-            roomId: room.id
+            conversationId: conversation.id
           })
       }}
     >
@@ -35,7 +39,7 @@ export const CreateMessageForm = ({
           <use xlinkHref='index.svg#send' />
         </svg>
       </button>
-      <button type='submit' onClick={() => getMessages(room.id)}>
+      <button type='submit' onClick={() => getMessages(conversation.id)}>
         <img src='refresh.svg' alt=''/>
       </button>
     </form>

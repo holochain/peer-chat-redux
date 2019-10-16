@@ -14,14 +14,14 @@
 
    # can be any github ref
    # branch, tag, commit, etc.
-   ref = "0.0.22";
+   ref = "v0.0.36";
 
    # the sha of what is downloaded from the above ref
    # note: even if you change the above ref it will not be redownloaded until
    #       the sha here changes (the sha is the cache key for downloads)
    # note: to get a new sha, get nix to try and download a bad sha
    #       it will complain and tell you the right sha
-   sha256 = "0f373k3c6318qgya6mhk199ins2a4g4rkbqy3v382nix990iq2va";
+   sha256 = "10wslqp5h8fypjp9f4bwqv0qgx9kzwk2092nkn3s3dcivlyjgav4";
 
    # the github owner of the holonix repo
    owner = "holochain";
@@ -62,14 +62,14 @@ echo "All finished!!!"
   # the commit hash that the release process should target
   # this will always be behind what ends up being deployed
   # the release process needs to add some commits for changelog etc.
-  commit = "05c4a8853250f6cbb2b0eda9601c819bf99fd9c4";
+  commit = "3908632dc490edc7fdf5cad0114a8383f8737bfc";
 
   # the semver for prev and current releases
   # the previous version will be scanned/bumped by release scripts
   # the current version is what the release scripts bump *to*
   version = {
-   current = "0.0.14";
-   previous = "0.0.13";
+   current = "0.0.16";
+   previous = "0.0.15";
   };
 
   github = {
@@ -93,10 +93,10 @@ See:
    owner = "holochain";
 
    # repository name on github that release are deployed to
-   repo = "holochain-basic-chat";
+   repo = "peer-chat";
 
-   # canonical local upstream name as per `git remote -v`
-   upstream = "origin";
+   # canonical local upconversation name as per `git remote -v`
+   upconversation = "origin";
   };
  };
 }

@@ -13,7 +13,7 @@ use hdk::{
 pub mod handlers;
 
 #[derive(Serialize, Deserialize, Debug, Clone, DefaultJson)]
-pub struct Stream {
+pub struct Conversation {
     pub name: String,
     pub description: String
 }
@@ -25,17 +25,17 @@ use crate::{
     MESSAGE_LINK_TYPE_TO
 };
 
-pub fn public_stream_definition() -> ValidatingEntryType {
+pub fn public_conversation_definition() -> ValidatingEntryType {
     entry!(
         name: PUBLIC_STREAM_ENTRY,
-        description: "A stream of which anyone can become a member and post",
+        description: "A conversation of which anyone can become a member and post",
         sharing: Sharing::Public,
 
         validation_package: || {
             hdk::ValidationPackageDefinition::Entry
         },
 
-        validation: |_validation_data: hdk::EntryValidationData<Stream>| {
+        validation: |_validation_data: hdk::EntryValidationData<Conversation>| {
             Ok(())
         },
 

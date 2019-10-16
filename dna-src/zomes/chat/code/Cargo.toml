@@ -1,6 +1,6 @@
 [package]
-  name = "holochain_basic_chat"
-version = "0.0.15"
+  name = "peer_chat"
+  version = "0.0.16"
   authors = ["willem <willemolding@gmail.com>, Philip Beadle <philip.beadle@holo.host>"]
   edition = "2018"
 [dependencies]
@@ -10,10 +10,12 @@ version = "0.0.15"
   juniper = "0.11.1"
   derive_more = "0.9.0"
   utils = { path ="../../../utils" }
+  validator = "0.9.0"
+  validator_derive = "0.9.0"
 
-  hdk = { git = "https://github.com/holochain/holochain-rust" , tag = "0.0.25-alpha1" }
-  holochain_wasm_utils = { git = "https://github.com/holochain/holochain-rust" , tag = "0.0.25-alpha1" }
-  hdk-proc-macros = { git = "https://github.com/holochain/holochain-rust" , tag = "0.0.25-alpha1" }
+  hdk = { git = "https://github.com/holochain/holochain-rust" , tag = "v0.0.32-alpha2" }
+  holochain_wasm_utils = { git = "https://github.com/holochain/holochain-rust" , tag = "v0.0.32-alpha2" }
+  hdk-proc-macros = { git = "https://github.com/holochain/holochain-rust" , tag = "v0.0.32-alpha2" }
   holochain_json_derive = "=0.0.15"
 
 [lib]

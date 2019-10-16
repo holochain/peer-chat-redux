@@ -42,6 +42,13 @@ svg {
   width: 100%;
 }
 
+menu {
+  display: flex;
+  margin-top: 0px;
+  width: 320px;
+  height: 100%;
+}
+
 main {
   display: flex;
   margin: auto;
@@ -56,7 +63,6 @@ aside {
   width: 320px;
   display: flex;
   flex-direction: column;
-  border-right: 1px solid rgba(0, 0, 0, 0.1);
   background: #fcfcfc;
   z-index: 2;
   transform: rotateY(360deg);

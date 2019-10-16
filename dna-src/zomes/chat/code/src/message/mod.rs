@@ -3,6 +3,8 @@ use hdk::{
     entry_definition::ValidatingEntryType,
     holochain_core_types::{
         dna::entry_types::Sharing,
+        validation::EntryValidationData,
+        // entry::Entry,
     },
     holochain_json_api::{
         json::JsonString,
@@ -10,11 +12,14 @@ use hdk::{
     },
 };
 
-#[derive(Serialize, Deserialize, Debug, Clone, DefaultJson)]
+use validator::{Validate};
+
+#[derive(Serialize, Deserialize, Debug, Clone, DefaultJson, Validate)]
 pub struct Message {
     pub timestamp: u32,
     pub author: String,
     pub message_type: String,
+    #[validate(length(min = 1, max = 1024))]
     pub payload: String,
     pub meta: String,
 }
@@ -52,9 +57,19 @@ pub fn message_definition() -> ValidatingEntryType {
         validation_package: || {
             hdk::ValidationPackageDefinition::Entry
         },
-
-        validation: |_validation_data: hdk::EntryValidationData<Message>| {
-            Ok(())
+        validation: | validation_data: hdk::EntryValidationData<Message>| {
+            match validation_data {
+                EntryValidationData::Create{entry, ..} => {
+                    let new_message = Message::from(entry);
+                    match new_message.validate() {
+                      Ok(_) => Ok(()),
+                      Err(e) => Err(e.to_string())
+                    }
+                },
+                _ => {
+                    Err("Cannot modify or delete a message".into())
+                }
+            }
         }
     )
 }

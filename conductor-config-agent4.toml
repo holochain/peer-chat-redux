@@ -6,90 +6,55 @@ name = "Agent 4"
 public_address = "HcSCjhqYOqc7u3uwybCm3f8ze934wzQywhYfjnbyWfuyp6xnqk58VTbM5obhujr"
 keystore_file = "./agent4.keystore"
 
-# -----------  DNA  -----------
-
+# -----------  DNAs  -----------
 [[dnas]]
-id = "personas_profiles"
-file = "../personas-profiles/dna/personas-profiles-agent4.dna.json"
-hash = "QmNMwZisbTiMrhdMPqXtWXTfjHHoNcq5DbfVBb4FZH4YWM"
+  id = "personas_profiles"
+  file = "../personas-profiles/dna/personas-profiles-agent4.dna.json"
+  hash = "Qmdt8yw5py8x2q7CZ5NsLuj61NjfLGjQiYz55LNjCTtCzs"
+[[dnas]]
+  id = "deep_key"
+  file = "../DeepKey/dna/deepkey.dna.json"
+  hash = "Qmavj2zmA2EyWyq9RS11Zz3FGcxiWXrcLd8onYiCHPpXoL"
+[[dnas]]
+  id = "peer_chat_dna"
+  file = "./dna/peer-chat.dna.json"
+  hash = "Qmat3Lk9Fb1x4pGMZRcm9vGcWQtFn6YcWUoYEr7VRk4cTz"
 
 [[instances]]
-id = "personas-profiles"
-dna = "personas_profiles"
-agent = "test_agent4"
+  id = "dpki_happ"
+  dna = "deep_key"
+  agent = "test_agent4"
 [instances.storage]
-type = "memory"
-path = "tmp-storage"
-
-[[dnas]]
-id = "chat_dna"
-file = "./dna/holochain-basic-chat.dna.json"
-hash = "QmbA6WyhkCGrorEWtKhQnsDgJhSopepNi1ViKx78PkCe3V"
-
+  type = "memory"
 [[instances]]
-id = "holo-chat"
-dna = "chat_dna"
-agent = "test_agent4"
-[instances.logger]
-type = "simple"
-file = "app_spec.log"
+  id = "personas-profiles"
+  dna = "personas_profiles"
+  agent = "test_agent4"
 [instances.storage]
-type = "memory"
-path = "tmp-storage-agent4"
+  type = "memory"
+[[instances]]
+  id = "peer-chat"
+  dna = "peer_chat_dna"
+  agent = "test_agent4"
+[instances.storage]
+  type = "memory"
 
 [[bridges]]
-caller_id = "holo-chat"
-callee_id = "personas-profiles"
-handle = "p-p-bridge"
+  caller_id = "peer-chat"
+  callee_id = "personas-profiles"
+  handle = "p-p-bridge"
 
 [[interfaces]]
-id = "chat_websocket_interface"
-admin = true
+  id = "websocket_interface"
 [interfaces.driver]
-type = "websocket"
-port = 3404
+  type = "websocket"
+  port = 3404
 [[interfaces.instances]]
-id = "holo-chat"
-
-[[interfaces]]
-id = "chat_http_interface"
-[interfaces.driver]
-type = "http"
-port = 4404
+  id = "dpki_happ"
 [[interfaces.instances]]
-id = "holo-chat"
-
-[[interfaces]]
-id = "p_p_websocket_interface"
-[interfaces.driver]
-type = "websocket"
-port = 5404
+  id = "peer-chat"
 [[interfaces.instances]]
-id = "personas-profiles"
-
-# -----------  UI  -----------
-
-# [[ui_bundles]]
-# id = "main"
-# root_dir = "./ui"
-# hash = "Qm000"
-#
-# [[ui_interfaces]]
-# id = "ui-interface"
-# bundle = "main"
-# port = 3004
-# dna_interface = "chat_websocket_interface"
-
-[[ui_bundles]]
-id = "persona_profiles_ui_bundle"
-root_dir = "../personas-profiles/ui"
-hash = "Qm000"
-
-[[ui_interfaces]]
-id = "persona_profiles_ui_interface"
-bundle = "persona_profiles_ui_bundle"
-port = 4004
-dna_interface = "p_p_websocket_interface"
+  id = "personas-profiles"
 
 # -----------  Networking  -----------
 

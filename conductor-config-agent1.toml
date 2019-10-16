@@ -1,103 +1,88 @@
 # -----------  Agents  -----------
-
-
 [[agents]]
-id = "test_agent1"
-name = "Agent 1"
-public_address = "HcSCJbpm8CZparb6f5iEKKRv4Te4op93q6ESMRuDtwp9abbzV8zYTF7EKqqw9ei"
-keystore_file = "./agent1.keystore"
+  id = "test_agent1"
+  name = "Agent 1"
+  public_address = "HcScjTnefoi6c79eunbqfFNYEYovwaygbPkWEk95xVPd7vemvoB9Qwbjxf458ii"
+  keystore_file = "./agent1.keystore"
 
-# -----------  DNA  -----------
-
+# -----------  DNAs  -----------
 [[dnas]]
-id = "personas_profiles"
-file = "../personas-profiles/dna/personas-profiles-agent1.dna.json"
-hash = "QmUaGUyu7dv1YcCAFDvacTHh9eeuK6mZnYgmBUSoyWB86R"
-
+  id = "personas_profiles"
+  file = "../identity-manager/dna/personas-profiles.dna.json"
+  hash = "QmTnymrEAtfzV2tTv2kRixNzUTYFurA4NEQ8gtMRmsy9bW"
+# [[dnas]]
+#   id = "deep_key"
+#   file = "../DeepKey/dna/deepkey.dna.json"
+#   hash = "QmbdxX9VaX1XYyaDgM36ob3ta96umUifaKJ4ySExxo7ckH"
+[[dnas]]
+  id = "peer_chat_dna_public"
+  file = "./dna/peer-chat.dna.json"
+  hash = "QmSDkLm394rXfxLN1tu1cd8BtdFAMTgT5iWAXsMKQ8sMvu"
+[[dnas]]
+  id = "peer_chat_dna_phil_nico"
+  file = "./dna/peer-chat-1.dna.json"
+  hash = "QmfYFPeFpcCR8RLdPKphf8RvxK17cHx3vm5XvKs9q2SRVF"
+# [[instances]]
+#   id = "dpki_happ"
+#   dna = "deep_key"
+#   agent = "test_agent1"
+# [instances.storage]
+#   type = "memory"
 
 [[instances]]
-id = "personas-profiles"
-dna = "personas_profiles"
-agent = "test_agent1"
+  id = "personas-profiles"
+  dna = "personas_profiles"
+  agent = "test_agent1"
 [instances.storage]
-type = "memory"
-path = "tmp-storage"
-
-[[dnas]]
-id = "chat_dna"
-file = "./dna/holochain-basic-chat.dna.json"
-hash = "QmbA6WyhkCGrorEWtKhQnsDgJhSopepNi1ViKx78PkCe3V"
-
+  type = "memory"
 [[instances]]
-id = "holo-chat"
-dna = "chat_dna"
-agent = "test_agent1"
-[instances.logger]
-type = "simple"
-file = "app_spec.log"
+  id = "peer-chat-public"
+  dna = "peer_chat_dna_public"
+  agent = "test_agent1"
 [instances.storage]
-type = "memory"
-path = "tmp-storage-agent1"
+  type = "memory"
+[[instances]]
+  id = "peer-chat-phil-nico"
+  dna = "peer_chat_dna_phil_nico"
+  agent = "test_agent1"
+[instances.storage]
+  type = "memory"
 
 [[bridges]]
-caller_id = "holo-chat"
-callee_id = "personas-profiles"
-handle = "p-p-bridge"
+  caller_id = "peer-chat-public"
+  callee_id = "personas-profiles"
+  handle = "p-p-bridge"
+[[bridges]]
+  caller_id = "peer-chat-phil-nico"
+  callee_id = "personas-profiles"
+  handle = "p-p-bridge"
 
 [[interfaces]]
-id = "chat_websocket_interface"
-admin = true
+  id = "websocket_interface"
+  admin = true
 [interfaces.driver]
-type = "websocket"
-port = 3401
+  type = "websocket"
+  port = 3401
+# [[interfaces.instances]]
+#   id = "dpki_happ"
 [[interfaces.instances]]
-id = "holo-chat"
-
-[[interfaces]]
-id = "chat_http_interface"
-[interfaces.driver]
-type = "http"
-port = 4401
+  id = "peer-chat-public"
 [[interfaces.instances]]
-id = "holo-chat"
-
-[[interfaces]]
-id = "p_p_websocket_interface"
-[interfaces.driver]
-type = "websocket"
-port = 5401
+  id = "peer-chat-phil-nico"
 [[interfaces.instances]]
-id = "personas-profiles"
-
-# -----------  UI  -----------
-
-# [[ui_bundles]]
-# id = "main"
-# root_dir = "./ui"
-# hash = "Qm000"
+  id = "personas-profiles"
 #
-# [[ui_interfaces]]
-# id = "ui-interface"
-# bundle = "main"
-# port = 3001
-# dna_interface = "chat_websocket_interface"
-
-# [[ui_bundles]]
-# id = "persona_profiles_ui_bundle"
-# root_dir = "../personas-profiles/ui"
-# hash = "Qm000"
+# # -----------  dpki  -----------
 #
-# [[ui_interfaces]]
-# id = "persona_profiles_ui_interface"
-# bundle = "persona_profiles_ui_bundle"
-# port = 4001
-# dna_interface = "p_p_websocket_interface"
+# [dpki]
+#   instance_id = "dpki_happ"
+#   init_params = "{\"revocation_key\": \"HcScIXuxtWI6ttc5gngvQTsDnHtynb5dzyDujh37mNo43nf7ZRB5UZKmR9953pa\"}"
 
 # -----------  Networking  -----------
 
-[network]
-type = "n3h"
-n3h_mode = "REAL"
-n3h_persistence_path = "./n3h-agent1"
-n3h_log_level = "i"
-bootstrap_nodes = []
+# [network]
+#   type = "n3h"
+#   n3h_mode = "REAL"
+#   n3h_persistence_path = "./n3h-agent1"
+#   n3h_log_level = "i"
+#   bootstrap_nodes = []

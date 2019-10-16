@@ -6,96 +6,67 @@ name = "Agent 2"
 public_address = "HcSCIUKodbWktcbmwyAaVrYnsbadi6b9sOV9D4ZoE8i333ZtcGw38Jn3U6u63qi"
 keystore_file = "./agent2.keystore"
 
-# -----------  DNA  -----------
-
+# -----------  DNAs  -----------
 [[dnas]]
-id = "personas_profiles"
-file = "../personas-profiles/dna/personas-profiles-agent2.dna.json"
-hash = "QmXX6vx3VYi71bJsxzCs1TRn6v5q9HUmfkqWR66mnYiBEx"
+  id = "personas_profiles"
+  file = "../personas-profiles/dna/personas-profiles-agent2.dna.json"
+  hash = "QmYDp1iXZUibuVBKsvooF3Npy3ZnNAKM4SrqM9wTZ7iQ7Z"
+[[dnas]]
+  id = "deep_key"
+  file = "../DeepKey/dna/deepkey.dna.json"
+  hash = "QmbdxX9VaX1XYyaDgM36ob3ta96umUifaKJ4ySExxo7ckH"
+[[dnas]]
+  id = "peer_chat_dna"
+  file = "./dna/peer-chat.dna.json"
+  hash = "Qmf7mbu7B898UBtLte1y3AB8c6MskpsrV8yWjvyNsXxxSj"
 
 [[instances]]
-id = "personas-profiles"
-dna = "personas_profiles"
-agent = "test_agent2"
+  id = "dpki_happ"
+  dna = "deep_key"
+  agent = "test_agent2"
 [instances.storage]
-type = "memory"
-path = "tmp-storage"
-
-[[dnas]]
-id = "chat_dna"
-file = "./dna/holochain-basic-chat.dna.json"
-hash = "QmbA6WyhkCGrorEWtKhQnsDgJhSopepNi1ViKx78PkCe3V"
-
+  type = "memory"
 [[instances]]
-id = "holo-chat"
-dna = "chat_dna"
-agent = "test_agent2"
-[instances.logger]
-type = "simple"
-file = "app_spec.log"
+  id = "personas-profiles"
+  dna = "personas_profiles"
+  agent = "test_agent2"
 [instances.storage]
-type = "memory"
-path = "tmp-storage-agent2"
+  type = "memory"
+[[instances]]
+  id = "peer-chat"
+  dna = "peer_chat_dna"
+  agent = "test_agent2"
+[instances.storage]
+  type = "memory"
 
 [[bridges]]
-caller_id = "holo-chat"
-callee_id = "personas-profiles"
-handle = "p-p-bridge"
+  caller_id = "peer-chat"
+  callee_id = "personas-profiles"
+  handle = "p-p-bridge"
 
 [[interfaces]]
-id = "chat_websocket_interface"
-admin = true
+  id = "websocket_interface"
 [interfaces.driver]
-type = "websocket"
-port = 3402
+  type = "websocket"
+  port = 3402
 [[interfaces.instances]]
-id = "holo-chat"
-
-[[interfaces]]
-id = "chat_http_interface"
-[interfaces.driver]
-type = "http"
-port = 4402
+  id = "dpki_happ"
 [[interfaces.instances]]
-id = "holo-chat"
-
-[[interfaces]]
-id = "p_p_websocket_interface"
-[interfaces.driver]
-type = "websocket"
-port = 5402
+  id = "peer-chat"
 [[interfaces.instances]]
-id = "personas-profiles"
+  id = "personas-profiles"
 
-# -----------  UI  -----------
+  # -----------  dpki  -----------
 
-# [[ui_bundles]]
-# id = "main"
-# root_dir = "./ui"
-# hash = "Qm000"
-#
-# [[ui_interfaces]]
-# id = "ui-interface"
-# bundle = "main"
-# port = 3002
-# dna_interface = "chat_websocket_interface"
-
-[[ui_bundles]]
-id = "persona_profiles_ui_bundle"
-root_dir = "../personas-profiles/ui"
-hash = "Qm000"
-
-[[ui_interfaces]]
-id = "persona_profiles_ui_interface"
-bundle = "persona_profiles_ui_bundle"
-port = 4002
-dna_interface = "p_p_websocket_interface"
+[dpki]
+  instance_id = "dpki_happ"
+  init_params = "{\"revocation_key\": \"HcScIXuxtWI6ttc5gngvQTsDnHtynb5dzyDujh37mNo43nf7ZRB5UZKmR9953pb\"}"
 
 # -----------  Networking  -----------
 
 [network]
-type = "n3h"
-n3h_mode = "REAL"
-n3h_persistence_path = "./n3h-agent2"
-n3h_log_level = "i"
-bootstrap_nodes = []
+  type = "n3h"
+  n3h_mode = "REAL"
+  n3h_persistence_path = "./n3h-agent2"
+  n3h_log_level = "i"
+  bootstrap_nodes = []

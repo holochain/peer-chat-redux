@@ -1,11 +1,11 @@
 .component {
+  width:70px;
   padding: 0;
-  margin: 0;
+  margin-left: -40px;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  display: flex;
-  flex-direction: column;
   height: 100%;
+  border-right: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .component li {

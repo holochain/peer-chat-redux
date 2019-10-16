@@ -10,11 +10,18 @@ extern crate serde;
 extern crate serde_derive;
 #[macro_use]
 extern crate serde_json;
+#[macro_use]
+extern crate validator_derive;
+extern crate validator;
 use std::convert::TryInto;
 use hdk::{
 	api::DNA_ADDRESS,
     error::ZomeApiResult,
     entry_definition::ValidatingEntryType,
+	// holochain_core_types::{
+	// 	validation::EntryValidationData,
+	// 	agent::AgentId,
+	// },
 	holochain_persistence_api::{
 		cas::content::Address,
 	},
@@ -29,12 +36,13 @@ use utils::GetLinksLoadResult;
 
 pub mod anchor;
 pub mod message;
-pub mod stream;
+pub mod conversation;
 pub mod member;
 
+pub static DEEPKEY_ADDRESS: &str = "QmDeepKeyHash";
 pub static MESSAGE_ENTRY: &str = "message";
 pub static MESSAGE_LINK_TYPE_TO: &str = "message_in";
-pub static PUBLIC_STREAM_ENTRY: &str = "public_stream";
+pub static PUBLIC_STREAM_ENTRY: &str = "public_conversation";
 pub static PUBLIC_STREAM_LINK_TYPE_TO: &str = "has_member";
 pub static PUBLIC_STREAM_LINK_TYPE_FROM: &str = "member_of";
 
@@ -47,7 +55,7 @@ struct Message {
 #[derive(Debug, Serialize, Deserialize, DefaultJson)]
 #[serde(rename_all = "camelCase")]
 struct SignalPayload {
-	room_id: String
+	conversation_id: String
 }
 
 #[derive(Debug, Serialize, Deserialize, DefaultJson)]
@@ -55,6 +63,8 @@ struct SignalPayload {
 struct NamePayload {
 	name: String
 }
+
+
 
 #[zome]
 pub mod chat {
@@ -66,7 +76,28 @@ pub mod chat {
 
     #[validate_agent]
     pub fn validate_agent(validation_data: EntryValidationData<AgentId>) {
-        Ok(())
+		// if let EntryValidationData::Create{entry, ..} = validation_data {
+		// 	let properties = hdk::api::property("allowed_members");
+		// 	if let Ok(members) = properties {
+		// 		let member_list: Vec<String> = serde_json::from_str(&members.to_string()).unwrap();
+		// 		hdk::debug(format!("PROPERTIES: {:?}", member_list)).ok();
+		// 		let agent = entry as AgentId;
+		// 		hdk::debug(format!("AgentId: {:?}", agent)).ok();
+		// 		if member_list.contains(&agent.pub_sign_key) {
+		// 			Ok(())
+		// 		} else if member_list.contains(&"public".to_string()) {
+		// 			Ok(())
+		// 		} else {
+		// 			Err("This agent is not in the allowed members list".into())
+		// 		}
+		// 	} else {
+		// 		Err("Issue reading members from dna.json".into())
+		// 	}
+	    // } else {
+		// 	hdk::debug(format!("Cannot update or delete an agent at this time")).ok();
+	    //     Err("Cannot update or delete an agent at this time".into())
+	    // }
+		Ok(())
     }
 
 	#[receive]
@@ -76,9 +107,9 @@ pub mod chat {
 		match maybe_message {
 			Err(err) => format!("error: {}", err),
 			Ok(message) => match message.msg_type.as_str() {
-				"new_room_member" | "new_message" => {
-					let room_id = message.id;
-					let _ = hdk::emit_signal(message.msg_type.as_str(), SignalPayload{room_id});
+				"new_conversation_member" | "new_message" => {
+					let conversation_id = message.id;
+					let _ = hdk::emit_signal(message.msg_type.as_str(), SignalPayload{conversation_id});
 					json!({
 						"msg_type": message.msg_type.as_str(),
 						"body": format!("Emit: {}", message.msg_type.as_str())
@@ -110,13 +141,18 @@ pub mod chat {
     }
 
 	#[entry_def]
-    pub fn public_stream_entry_def() -> ValidatingEntryType {
-        stream::public_stream_definition()
+    pub fn public_conversation_entry_def() -> ValidatingEntryType {
+        conversation::public_conversation_definition()
     }
 
 	#[entry_def]
     pub fn member_entry_def() -> ValidatingEntryType {
 		member::profile_definition()
+    }
+
+	#[entry_def]
+    pub fn allowed_members_entry_def() -> ValidatingEntryType {
+		member::allowed_members_definition()
     }
 
 	#[entry_def]
@@ -130,23 +166,23 @@ pub mod chat {
     }
 
 	#[zome_fn("hc_public")]
-    pub fn create_stream(name: String, description: String, initial_members: Vec<Address>) -> ZomeApiResult<Address> {
-        stream::handlers::handle_create_stream(name, description, initial_members)
+    pub fn start_conversation(name: String, description: String, initial_members: Vec<Address>) -> ZomeApiResult<Address> {
+        conversation::handlers::handle_start_conversation(name, description, initial_members)
     }
 
 	#[zome_fn("hc_public")]
-	pub fn join_stream(stream_address: Address) -> ZomeApiResult<()> {
-		stream::handlers::handle_join_stream(stream_address)
+	pub fn join_conversation(conversation_address: Address) -> ZomeApiResult<()> {
+		conversation::handlers::handle_join_conversation(conversation_address)
 	}
 
 	#[zome_fn("hc_public")]
-	pub fn get_all_public_streams() -> ZomeApiResult<Vec<GetLinksLoadResult<stream::Stream>>> {
-		stream::handlers::handle_get_all_public_streams()
+	pub fn get_all_public_conversations() -> ZomeApiResult<Vec<GetLinksLoadResult<conversation::Conversation>>> {
+		conversation::handlers::handle_get_all_public_conversations()
 	}
 
 	#[zome_fn("hc_public")]
-	pub fn get_members(stream_address: Address) -> ZomeApiResult<Vec<Address>> {
-		stream::handlers::handle_get_members(stream_address)
+	pub fn get_members(conversation_address: Address) -> ZomeApiResult<Vec<Address>> {
+		conversation::handlers::handle_get_members(conversation_address)
 	}
 
 	#[zome_fn("hc_public")]
@@ -165,13 +201,13 @@ pub mod chat {
 	}
 
 	#[zome_fn("hc_public")]
-	pub fn post_message(stream_address: Address, message: message::MessageSpec) -> ZomeApiResult<()> {
-		stream::handlers::handle_post_message(stream_address, message)
+	pub fn post_message(conversation_address: Address, message: message::MessageSpec) -> ZomeApiResult<()> {
+		conversation::handlers::handle_post_message(conversation_address, message)
 	}
 
 	#[zome_fn("hc_public")]
 	pub fn get_messages(address: Address) -> ZomeApiResult<Vec<GetLinksLoadResult<message::Message>>> {
-		stream::handlers::handle_get_messages(address)
+		conversation::handlers::handle_get_messages(address)
 	}
  }
 

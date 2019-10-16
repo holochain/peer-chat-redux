@@ -1,57 +1,35 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import './index.css'
 import { connect } from '@holochain/hc-web-client'
-
-import { UserHeader } from './components/UserHeader'
-import { UserList } from './components/UserList'
-import { MessageList } from './components/MessageList'
-import { CreateMessageForm } from './components/CreateMessageForm'
-import { RoomList } from './components/RoomList'
-import { RoomHeader } from './components/RoomHeader'
-import { CreateRoomForm } from './components/CreateRoomForm'
-import { WelcomeScreen } from './components/WelcomeScreen'
-import { JoinRoomScreen } from './components/JoinRoomScreen'
-import { RegisterScreen } from './components/RegisterScreen'
-
-// const PERSONA_PROFILES_UI_INTERFACE_ID = "persona_profiles_ui_interface"
-
+import { Group } from './components/Group'
+import './index.css'
 // --------------------------------------
 // Application
 // --------------------------------------
-const REACT_APP_CHAT_WEBSOCKET_INTERFACE = process.env.REACT_APP_CHAT_WEBSOCKET_INTERFACE
+const REACT_APP_WEBSOCKET_INTERFACE = process.env.REACT_APP_WEBSOCKET_INTERFACE
 const REACT_APP_PERSONAS_URL = process.env.REACT_APP_PERSONAS_URL
 
-
-console.log(REACT_APP_CHAT_WEBSOCKET_INTERFACE)
 export class View extends React.Component {
   constructor (props) {
     super(props)
-    if(REACT_APP_CHAT_WEBSOCKET_INTERFACE){
+    if(REACT_APP_WEBSOCKET_INTERFACE){
       this.state = {
-        holochainConnection: connect({ url: REACT_APP_CHAT_WEBSOCKET_INTERFACE }), // Use for debug
+        holochainConnection: connect({ url: REACT_APP_WEBSOCKET_INTERFACE }), // Use for debug
         connected: false,
         user: {},
         users: {},
-        room: {},
-        rooms: [],
+        conversation: {},
+        conversations: [],
         messages: {},
         sidebarOpen: false,
         userListOpen: window.innerWidth > 1000,
-        profileSpecSourceDna: ''
-      }
-    } else {
-      this.state = {
-        holochainConnection: connect(), // use when letting the conductor auto-select. Allows for multiple agents
-        connected: false,
-        user: {},
-        users: {},
-        room: {},
-        rooms: [],
-        messages: {},
-        sidebarOpen: false,
-        userListOpen: window.innerWidth > 1000,
-        profileSpecSourceDna: ''
+        profileSpecSourceDna: '',
+        group: {
+          id: "peer-chat-public",
+          name: "Public",
+          icon: 'public'
+        },
+        groups: []
       }
     }
 
@@ -70,31 +48,76 @@ export class View extends React.Component {
 
       setUser: user => {
         this.setState({ user })
-        this.actions.getRooms()
+        this.actions.getGroups()
+        this.actions.getConversations()
       },
 
-      // --------------------------------------
-      // Room
-      // --------------------------------------
-
-      setRoom: room => {
-        this.setState({ room, sidebarOpen: false })
-        this.actions.getMessages(room.id)
-        this.actions.getRoomMembers(room.id)
-        this.actions.scrollToEnd()
-      },
-
-      joinRoom: room => {
-        console.log('joining room')
-        this.actions.setRoom(room)
-        this.makeHolochainCall('holo-chat/chat/join_stream', { stream_address: room.id }, (result) => {
-          console.log('joined room', result)
+      getGroups: () => {
+        this.state.holochainConnection.then(({ call }) => {
+          call('admin/interface/list')({}).then(result => {
+            console.log(result[0].instances)
+            let groups = []
+            result[0].instances.map(instance => {
+              if (instance.id.startsWith('peer-chat')) {
+                groups.push({
+                  id: instance.id,
+                  name: instance.name,
+                  icon: 'public'
+                })
+              }
+            })
+            this.setState({ groups: groups})
+            console.log(this.state.groups)
+          })
         })
       },
 
-      getRoomMembers: roomId => {
-        this.makeHolochainCall('holo-chat/chat/get_members', {
-          stream_address: roomId
+      setGroup: group => {
+        this.setState({ group: group })
+        this.actions.getConversations()
+        this.actions.scrollToEnd()
+      },
+
+      joinGroup: group => {
+        console.log('joining group')
+        console.log(group)
+        this.makeHolochainCall(group.id + '/chat/get_my_member_profile', {}, (result) => {
+          console.log(result)
+          const profile = result.Ok
+          if (profile) {
+            console.log('registration user found with profile:', profile)
+            this.actions.setUser({ id: profile.address, name: profile.name, avatarURL: profile.avatar_url })
+          }
+          else {
+            const profileSpecSourceDna = result.Err.Internal
+            console.log('User has not registered a profile. redirecting to p&p ' + JSON.stringify(profileSpecSourceDna))
+            window.location.replace(`${REACT_APP_PERSONAS_URL}/profile/${profileSpecSourceDna}/${encodeURIComponent(window.location.href)}`)
+          }
+        })
+        this.actions.setGroup(group)
+      },
+      // --------------------------------------
+      // Conversation
+      // --------------------------------------
+
+      setConversation: conversation => {
+        this.setState({ conversation, sidebarOpen: false })
+        this.actions.getMessages(conversation.id)
+        this.actions.getConversationMembers(conversation.id)
+        this.actions.scrollToEnd()
+      },
+
+      joinConversation: conversation => {
+        console.log('joining conversation')
+        this.actions.setConversation(conversation)
+        this.makeHolochainCall(this.state.group.id + '/chat/join_conversation', { conversation_address: conversation.id }, (result) => {
+          console.log('joined conversation', result)
+        })
+      },
+
+      getConversationMembers: conversationId => {
+        this.makeHolochainCall(this.state.group.id + '/chat/get_members', {
+          conversation_address: conversationId
         }, (result) => {
           console.log('retrieved members', result)
           const users = result.Ok
@@ -102,33 +125,33 @@ export class View extends React.Component {
             this.actions.getUserProfile(address)
           })
           this.setState({
-            room: { ...this.state.room, users }
+            conversation: { ...this.state.conversation, users }
           })
         })
       },
 
-      sendMessage: ({ text, roomId }) => {
+      sendMessage: ({ text, conversationId }) => {
         const message = {
           message_type: 'text',
           timestamp: Math.floor(Date.now() / 1000),
           payload: text,
           meta: ''
         }
-        this.makeHolochainCall('holo-chat/chat/post_message', {
-          stream_address: roomId,
+        this.makeHolochainCall(this.state.group.id + '/chat/post_message', {
+          conversation_address: conversationId,
           message
         }, (result) => {
           console.log('message posted', result)
-          this.actions.getMessages(roomId) // hack for now
+          this.actions.getMessages(conversationId) // hack for now
           this.actions.scrollToEnd()
         })
       },
 
-      getMessages: (roomId) => {
-        this.makeHolochainCall('holo-chat/chat/get_messages', { address: roomId }, (result) => {
+      getMessages: (conversationId) => {
+        this.makeHolochainCall(this.state.group.id + '/chat/get_messages', { address: conversationId }, (result) => {
           console.log('retrieved messages', result)
 
-          const roomMessages = result.Ok.map(({ address, entry }) => ({
+          const conversationMessages = result.Ok.map(({ address, entry }) => ({
             text: entry.payload,
             sender: entry.author,
             createdAt: entry.timestamp,
@@ -136,31 +159,31 @@ export class View extends React.Component {
           }))
 
           this.setState({
-            messages: { ...this.state.messages, [roomId]: roomMessages }
+            messages: { ...this.state.messages, [conversationId]: conversationMessages }
           })
         })
       },
 
-      createRoom: options => {
-        console.log(options)
-        const roomSpec = {
+      startConversation: options => {
+        console.log(this.state.group)
+        const conversationSpec = {
           name: options.name,
           description: '',
           initial_members: []
         }
-        this.makeHolochainCall('holo-chat/chat/create_stream', roomSpec, (result) => {
-          console.log('created room', result)
-          this.actions.setRoom({
+        this.makeHolochainCall(this.state.group.id + '/chat/start_conversation', conversationSpec, (result) => {
+          console.log('created conversation', result)
+          this.actions.setConversation({
             id: result.Ok,
             name: options.name,
             users: []
           })
-          this.actions.getRooms()
+          this.actions.getConversations()
         })
       },
 
       getUserProfile: userId => {
-        this.makeHolochainCall('holo-chat/chat/get_member_profile', { agent_address: userId }, (result) => {
+        this.makeHolochainCall(this.state.group.id + '/chat/get_member_profile', { agent_address: userId }, (result) => {
           console.log('retrieved profile', result)
           this.setState({
             users: { ...this.state.users, [userId]: result.Ok }
@@ -168,9 +191,9 @@ export class View extends React.Component {
         })
       },
 
-      setFirstName: userId => {
+      setFullName: userId => {
         console.log('Asked for First Name')
-        this.makeHolochainCall('holo-chat/chat/get_full_name', { agent_address: userId }, (result) => {
+        this.makeHolochainCall(this.state.group.id + '/chat/get_full_name', { agent_address: userId }, (result) => {
           let name = result.Ok.body
           let user = this.state.users[userId]
           user.full_name = name
@@ -183,10 +206,10 @@ export class View extends React.Component {
         })
       },
 
-      getRooms: () => {
-        this.makeHolochainCall('holo-chat/chat/get_all_public_streams', {}, (result) => {
-          console.log('retrieved public rooms', result)
-          let rooms = result.Ok.map(({ address, entry }) => {
+      getConversations: () => {
+        this.makeHolochainCall(this.state.group.id + '/chat/get_all_public_conversations', {}, (result) => {
+          console.log('retrieved public conversations', result)
+          let conversations = result.Ok.map(({ address, entry }) => {
             return {
               id: address,
               private: !entry.public,
@@ -195,13 +218,13 @@ export class View extends React.Component {
             }
           })
           this.setState({
-            rooms
+            conversations
           })
         })
       },
 
       registerUser: ({ name, avatarURL }) => {
-        this.makeHolochainCall('holo-chat/chat/register', { name, avatar_url: avatarURL }, result => {
+        this.makeHolochainCall(this.state.group.id + '/chat/register', { name, avatar_url: avatarURL }, result => {
           console.log('registered user', result)
           this.actions.setUser({ id: result.Ok, name, avatarURL })
         })
@@ -217,35 +240,57 @@ export class View extends React.Component {
   }
 
   componentDidMount () {
-    this.state.holochainConnection.then(({ callZome, call, onSignal }) => {
-      this.setState({ connected: true })
-      onSignal((signal) => {
-        console.log(JSON.stringify(signal.signal))
-        if (signal.signal.name === 'new_message') {
-          console.log(JSON.stringify(signal.signal.name))
-          const {roomId} = JSON.parse(signal.signal.arguments)
-          console.log(JSON.parse(signal.signal.arguments))
-          console.log(roomId)
-          this.actions.getMessages(roomId)
-        } else if (signal.signal.name === 'new_room_member') {
-          console.log(JSON.stringify(signal.signal.name))
-          const {roomId} = JSON.parse(signal.signal.arguments)
-          this.actions.getRoomMembers(roomId)
-        }
-      })
-      call('admin/interface/list')({}).then(result => {
-        console.log(result)
-      })
-      callZome('holo-chat', 'chat', 'get_my_member_profile')({}).then((result) => {
-        const profile = JSON.parse(result).Ok
-        if (profile) {
-          console.log('registration user found with profile:', profile)
-          this.actions.setUser({ id: profile.address, name: profile.name, avatarURL: profile.avatar_url })
-        } else {
-          const profileSpecSourceDna = JSON.parse(result).Err.Internal
-          console.log('User has not registered a profile. redirecting to p&p ' + JSON.stringify(profileSpecSourceDna))
-          window.location.replace(`${REACT_APP_PERSONAS_URL}/profile/${profileSpecSourceDna}/${encodeURIComponent(window.location.href)}`)
-        }
+      console.log('this.state.group.id ' + this.state.group.id)
+      this.state.holochainConnection.then(({ call }) => {
+        call('admin/interface/list')({}).then(result => {
+          console.log(result[0].instances)
+          let groups = []
+          result[0].instances.map(instance => {
+            if (instance.id.startsWith('peer-chat')) {
+              groups.push({
+                id: instance.id,
+                name: instance.name,
+                icon: 'public'
+              })
+            }
+          })
+          this.setState({ groups: groups})
+          console.log(this.state.groups)
+          this.state.holochainConnection.then(({ callZome, call, onSignal }) => {
+          console.log('holochainConnection')
+          this.setState({ connected: true })
+          onSignal((signal) => {
+            console.log(JSON.stringify(signal.signal))
+            if (signal.signal.name === 'new_message') {
+              console.log(JSON.stringify(signal.signal.name))
+              const {conversationId} = JSON.parse(signal.signal.arguments)
+              console.log(JSON.parse(signal.signal.arguments))
+              console.log(conversationId)
+              this.actions.getMessages(conversationId)
+            } else if (signal.signal.name === 'new_conversation_member') {
+              console.log(JSON.stringify(signal.signal.name))
+              const {conversationId} = JSON.parse(signal.signal.arguments)
+              this.actions.getConversationMembers(conversationId)
+            }
+          })
+          callZome(this.state.group.id, 'chat', 'get_my_member_profile')({}).then((result) => {
+            const profile = JSON.parse(result).Ok
+            console.log('result:', result)
+            if (profile) {
+              console.log('registration user found with profile:', profile)
+              this.actions.setUser({ id: profile.address, name: profile.name, avatarURL: profile.avatar_url })
+            }
+            else {
+              const profileSpecSourceDna = JSON.parse(result).Err.Internal
+              console.log('User has not registered a profile. redirecting to p&p ' + JSON.stringify(profileSpecSourceDna))
+              // if(!window.activateHappWindow) {
+              //   window.activateHappWindow('personas-ui', `/profile/${profileSpecSourceDna}/peer-chat-ui`)
+              // } else {
+                window.location.replace(`${REACT_APP_PERSONAS_URL}/profile/${profileSpecSourceDna}/${encodeURIComponent(window.location.href)}`)
+              // }
+            }
+          })
+        })
       })
     })
   }
@@ -258,54 +303,26 @@ export class View extends React.Component {
   }
 
   render () {
-    const {
-      user,
-      users,
-      room,
-      rooms,
-      messages,
-      sidebarOpen,
-      userListOpen,
-      connected
-    } = this.state
-    const { createRoom, registerUser } = this.actions
-
+    let props = {
+      user: this.state.user,
+      users: this.state.users,
+      conversations: this.state.conversations,
+      sidebarOpen: this.state.sidebarOpen,
+      messages: this.state.messages,
+      conversation: this.state.conversation,
+      userListOpen: this.state.userListOpen,
+      groups: this.state.groups,
+      getConversations: this.actions.getConversations,
+      startConversation: this.actions.startConversation,
+      joinConversation: this.actions.joinConversation,
+      setSidebar: this.actions.setSidebar,
+      sendMessage: this.actions.sendMessage,
+      setUserList: this.actions.setUserList,
+      setFullName: this.actions.setFullName,
+      joinGroup: this.actions.joinGroup
+    }
     return (
-      <main>
-        <aside data-open={sidebarOpen}>
-          <UserHeader state={this.state} actions={this.actions} />
-          <RoomList
-            user={user}
-            rooms={rooms}
-            messages={messages}
-            current={room}
-            actions={this.actions}
-          />
-          {user.id && <CreateRoomForm submit={createRoom} />}
-        </aside>
-        <section>
-          <RoomHeader state={this.state} actions={this.actions} />
-          {room.id ? (
-            <row->
-              <col->
-                <MessageList
-                  user={user}
-                  users={users}
-                  messages={messages[room.id]}
-                />
-                <CreateMessageForm state={this.state} actions={this.actions} />
-              </col->
-              {userListOpen && (
-                <UserList state={this.state} actions={this.actions} />
-              )}
-            </row->
-          ) : connected ? (
-            user.id ? <JoinRoomScreen /> : <RegisterScreen registerUser={registerUser} />
-          ) : (
-            <WelcomeScreen message='Connecting to Holochain... Make sure the conductor is running and try refreshing the page' />
-          )}
-        </section>
-      </main>
+      <Group {...props} />
     )
   }
 }

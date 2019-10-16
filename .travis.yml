@@ -2,19 +2,19 @@ dist: trusty
 language: nix
 script:
 - ls
-- mkdir holochain-basic-chat
+- mkdir peer-chat
 - shopt -s extglob
-- mv !(holochain-basic-chat) holochain-basic-chat
+- mv !(peer-chat) peer-chat
 - ls
-- cd holochain-basic-chat
+- cd peer-chat
 - cd ..
 - ls
-- git clone https://github.com/holochain/personas-profiles.git
-- cd personas-profiles
+- git clone https://github.com/holochain/identity-manager.git
+- cd identity-manager
 - nix-shell --run 'npm run hc:build'
 - cd ..
-- cd holochain-basic-chat
-- nix-shell --run 'cd ui-src && npm install && cd .. && npm run prerelease'
+- cd peer-chat
+- nix-shell --run 'cd ui-src && npm install && npm run test && cd .. && npm run prerelease'
 - PACKAGE_NAME=$(node -p -e "require('./package.json').name")
 - PACKAGE_VERSION=$(node -p -e "require('./package.json').version")
 - cd release/ui
@@ -27,8 +27,8 @@ deploy:
     secure: aGVJa0b6qCYKdrACDbUwoizQxPGiLjElyLsbiXmCOOazBanbixQKdTIZHehigW2DHGXLXJTf6yNGUiEagQm9OJE3ijRZ2Rwebqfx+3OwQNbXv0FJSZEp9rZIBe2nv4tKko3yrwBDXG8EIioP3CGHmDH4kmkYxQ2rMrc2MRMtz70jqEi1cyPWJ1K7qjOVT91qpfcAD8DL4hO8yhULnxfoBHdsDmV2xXL+z2ILKL5EU95KTnpnuYwJDZdqul+oHY3aOLMX38tOupxGSYrJZCIQyB8n4HgHEZiIO8BdyxD0Dh9PShbigTARYwUJtU5U0mQo0DOJi6ipDeXOoaxZqmUGLJ8ysfOVqba/7VHZiDSwDhYgU4/rRkH4VJTRP8rP/uw6CpNYjcUM7Kz9CQChwHdmYWxnavPbtEQ0Wx6AbgFcIZ0rVii9y15MaFtKHzAmk4oqP4rUOzrsmRIltX1ZWfKA3hoW9Be5clnpPXDKvW0dtedw3WGRINd8g0zPGE1UxJEaefPvfd4OB0NfWJb2LHxRlxe2fijaEzLGoM9OpNULhMEqi7wecwPICJwRrsGHTHV3eufqwNTCBH0pqKfqJjlf4yESnIZkuixL5l5epQJpBL3r75X50wfwUbr49630ji5PBNvs73Oq9qzConldn+zTWNglJcjg5gpMy1sNOTg0H1g=
   file:
     - "ui/$PACKAGE_NAME-$PACKAGE_VERSION.zip"
-    - "dna/holochain-basic-chat.dna.json"
-    - "../personas-profiles/dna/personas-profiles.dna.json"
+    - "dna/peer-chat.dna.json"
+    - "../identity-manager/dna/personas-profiles.dna.json"
   skip_cleanup: true
   on:
     tags: true

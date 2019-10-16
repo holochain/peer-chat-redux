@@ -39,8 +39,8 @@ pub fn anchor_definition() -> ValidatingEntryType {
                 }
             ),
             to!(
-                "public_stream",
-                link_type: "public_stream",
+                "public_conversation",
+                link_type: "public_conversation",
 
                 validation_package: || {
                     hdk::ValidationPackageDefinition::Entry
