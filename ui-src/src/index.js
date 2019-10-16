@@ -56,14 +56,13 @@ export class View extends React.Component {
         this.state.holochainConnection.then(({ call }) => {
           call('admin/interface/list')({}).then(result => {
             console.log(result[0].instances)
-            let groups = []
-            result[0].instances.map(instance => {
-              if (instance.id.startsWith('peer-chat')) {
-                groups.push({
-                  id: instance.id,
-                  name: instance.name,
-                  icon: 'public'
-                })
+            let groups = result[0].instances.filter(function(instance) {
+              return instance.id.startsWith('peer-chat');
+            }).map(function(instance) {
+              return {
+                id: instance.id,
+                name: instance.name,
+                icon: 'public'
               }
             })
             this.setState({ groups: groups})
@@ -244,14 +243,13 @@ export class View extends React.Component {
       this.state.holochainConnection.then(({ call }) => {
         call('admin/interface/list')({}).then(result => {
           console.log(result[0].instances)
-          let groups = []
-          result[0].instances.map(instance => {
-            if (instance.id.startsWith('peer-chat')) {
-              groups.push({
-                id: instance.id,
-                name: instance.name,
-                icon: 'public'
-              })
+          let groups = result[0].instances.filter(function(instance) {
+            return instance.id.startsWith('peer-chat');
+          }).map(function(instance) {
+            return {
+              id: instance.id,
+              name: instance.name,
+              icon: 'public'
             }
           })
           this.setState({ groups: groups})
@@ -284,9 +282,9 @@ export class View extends React.Component {
               const profileSpecSourceDna = JSON.parse(result).Err.Internal
               console.log('User has not registered a profile. redirecting to p&p ' + JSON.stringify(profileSpecSourceDna))
               // if(!window.activateHappWindow) {
-              //   window.activateHappWindow('personas-ui', `/profile/${profileSpecSourceDna}/peer-chat-ui`)
+              window.activateHappWindow('Identity Manager', `/profile/${profileSpecSourceDna}/Peer Chat`)
               // } else {
-                window.location.replace(`${REACT_APP_PERSONAS_URL}/profile/${profileSpecSourceDna}/${encodeURIComponent(window.location.href)}`)
+                // window.location.replace(`${REACT_APP_PERSONAS_URL}/profile/${profileSpecSourceDna}/${encodeURIComponent(window.location.href)}`)
               // }
             }
           })

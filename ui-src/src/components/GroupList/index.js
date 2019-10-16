@@ -22,7 +22,7 @@ export const GroupList = ({
           onClick={e => joinGroup(group)}
         >
           <row->
-            {group.id.replace('peer-chat-', '').replace('-', ' ')}
+            {Icon(group.icon)}
           </row->
         </li>
       )
