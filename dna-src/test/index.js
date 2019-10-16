@@ -2,7 +2,11 @@ const path = require('path')
 const tape = require('tape')
 const { Orchestrator, combine, callSync, singleConductor, tapeExecutor } = require('@holochain/try-o-rama')
 const orchestrator = new Orchestrator({
-  globalConfig: {logger: false, network: 'memory'},
+  globalConfig: {logger: true,  network: {
+      type: 'sim1h',
+      dynamo_url: "http://localhost:8000",
+    }
+  },
   middleware: combine(callSync, singleConductor, tapeExecutor(tape))
 })
 process.on('unhandledRejection', error => {
