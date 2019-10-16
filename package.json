@@ -1,6 +1,6 @@
 {
   "name": "peer-chat",
-  "version": "0.0.6",
+  "version": "0.0.16",
   "description": "A chat demo for holochain",
   "scripts": {
     "fetch": "download-github-release holochain peer-chat",
@@ -15,7 +15,7 @@
     "hc:start:agent4": "rm -rf n3h-agent4 && mkdir -p ./n3h-agent4 && holochain -c ./conductor-config-agent4.toml",
     "kill-all-agents": "lsof -ti tcp:3401 | xargs kill && lsof -ti tcp:3402 | xargs kill && lsof -ti tcp:3403 | xargs kill && lsof -ti tcp:3404 | xargs kill",
     "hc:test": "cd dna-src && hc test",
-    "prerelease": "rm -rf ./release && cd ui-src && npm run clean && npm run build && cd .. && npm run hc:test && npm run hc:build && mkdir -p ./release && mv ./ui ./release/ui && mv ./dna ./release/dna && cp ./my-conductor-config.toml ./release/my-conductor-config.toml"
+    "prerelease": "rm -rf ./release && cd ui-src && npm run clean && npm run build && cd .. && npm run hc:build && mkdir -p ./release && mv ./ui ./release/ui && mv ./dna ./release/dna && cp ./my-conductor-config.toml ./release/my-conductor-config.toml"
   },
   "author": "",
   "license": "GPL-3",

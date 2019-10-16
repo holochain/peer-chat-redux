@@ -12,7 +12,7 @@ module.exports = {
       personas: personas_dna_1
     },
     bridges: [
-      Config.bridge('p-p-bridge', 'chat_instance_1', 'personas_instance_1')
+      Config.bridge('p-p-bridge', 'chat', 'personas')
     ]
   },
   config2: {

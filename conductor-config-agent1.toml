@@ -9,19 +9,19 @@
 [[dnas]]
   id = "personas_profiles"
   file = "../identity-manager/dna/personas-profiles.dna.json"
-  hash = "QmdGmzCjd4oJUhagboEAqP8855Y4jKMCbmY8kSBM26VX3U"
+  hash = "QmTnymrEAtfzV2tTv2kRixNzUTYFurA4NEQ8gtMRmsy9bW"
 # [[dnas]]
 #   id = "deep_key"
 #   file = "../DeepKey/dna/deepkey.dna.json"
 #   hash = "QmbdxX9VaX1XYyaDgM36ob3ta96umUifaKJ4ySExxo7ckH"
 [[dnas]]
-  id = "peer_chat_dna"
+  id = "peer_chat_dna_public"
   file = "./dna/peer-chat.dna.json"
-  hash = "QmcheBCVdq8ySV6EiBP2fNXq6pJyJTTsRsK6voGZrjour4"
+  hash = "QmSDkLm394rXfxLN1tu1cd8BtdFAMTgT5iWAXsMKQ8sMvu"
 [[dnas]]
-  id = "peer_chat_dna_1"
+  id = "peer_chat_dna_phil_nico"
   file = "./dna/peer-chat-1.dna.json"
-  hash = "QmXmzBwfsFHWyUQZ9TWTkS88bzf7WPzxesytuMYqBURpLf"
+  hash = "QmfYFPeFpcCR8RLdPKphf8RvxK17cHx3vm5XvKs9q2SRVF"
 # [[instances]]
 #   id = "dpki_happ"
 #   dna = "deep_key"
@@ -36,24 +36,24 @@
 [instances.storage]
   type = "memory"
 [[instances]]
-  id = "peer-chat"
-  dna = "peer_chat_dna"
+  id = "peer-chat-public"
+  dna = "peer_chat_dna_public"
   agent = "test_agent1"
 [instances.storage]
   type = "memory"
 [[instances]]
-  id = "peer-chat-1"
-  dna = "peer_chat_dna_1"
+  id = "peer-chat-phil-nico"
+  dna = "peer_chat_dna_phil_nico"
   agent = "test_agent1"
 [instances.storage]
   type = "memory"
 
 [[bridges]]
-  caller_id = "peer-chat"
+  caller_id = "peer-chat-public"
   callee_id = "personas-profiles"
   handle = "p-p-bridge"
 [[bridges]]
-  caller_id = "peer-chat-1"
+  caller_id = "peer-chat-phil-nico"
   callee_id = "personas-profiles"
   handle = "p-p-bridge"
 
@@ -66,9 +66,9 @@
 # [[interfaces.instances]]
 #   id = "dpki_happ"
 [[interfaces.instances]]
-  id = "peer-chat"
+  id = "peer-chat-public"
 [[interfaces.instances]]
-  id = "peer-chat-1"
+  id = "peer-chat-phil-nico"
 [[interfaces.instances]]
   id = "personas-profiles"
 #

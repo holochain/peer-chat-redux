@@ -25,7 +25,7 @@ export class View extends React.Component {
         userListOpen: window.innerWidth > 1000,
         profileSpecSourceDna: '',
         group: {
-          id: "peer-chat",
+          id: "peer-chat-public",
           name: "Public",
           icon: 'public'
         },
@@ -275,6 +275,7 @@ export class View extends React.Component {
           })
           callZome(this.state.group.id, 'chat', 'get_my_member_profile')({}).then((result) => {
             const profile = JSON.parse(result).Ok
+            console.log('result:', result)
             if (profile) {
               console.log('registration user found with profile:', profile)
               this.actions.setUser({ id: profile.address, name: profile.name, avatarURL: profile.avatar_url })

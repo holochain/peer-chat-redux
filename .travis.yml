@@ -28,7 +28,7 @@ deploy:
   file:
     - "ui/$PACKAGE_NAME-$PACKAGE_VERSION.zip"
     - "dna/peer-chat.dna.json"
-    - "../personas-profiles/dna/personas-profiles.dna.json"
+    - "../identity-manager/dna/personas-profiles.dna.json"
   skip_cleanup: true
   on:
     tags: true

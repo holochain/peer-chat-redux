@@ -11,32 +11,32 @@
     },
     {
       "command": "wasm-gc",
-      "arguments": ["/tmp/holochain/target/wasm32-unknown-unknown/release/holochain_basic_chat.wasm"]
+      "arguments": ["/tmp/holochain/target/wasm32-unknown-unknown/release/peer_chat.wasm"]
     },
     {
       "command": "wasm-opt",
       "arguments": [
         "-Oz",
         "--vacuum",
-        "/tmp/holochain/target/wasm32-unknown-unknown/release/holochain_basic_chat.wasm"
+        "/tmp/holochain/target/wasm32-unknown-unknown/release/peer_chat.wasm"
       ]
     },
     {
       "command": "wasm2wat",
       "arguments": [
-        "/tmp/holochain/target/wasm32-unknown-unknown/release/holochain_basic_chat.wasm",
+        "/tmp/holochain/target/wasm32-unknown-unknown/release/peer_chat.wasm",
         "-o",
-        "/tmp/holochain/target/wasm32-unknown-unknown/release/holochain_basic_chat.wat"
+        "/tmp/holochain/target/wasm32-unknown-unknown/release/peer_chat.wat"
       ]
     },
     {
       "command": "wat2wasm",
       "arguments": [
-        "/tmp/holochain/target/wasm32-unknown-unknown/release/holochain_basic_chat.wat",
+        "/tmp/holochain/target/wasm32-unknown-unknown/release/peer_chat.wat",
         "-o",
-        "/tmp/holochain/target/wasm32-unknown-unknown/release/holochain_basic_chat.wasm"
+        "/tmp/holochain/target/wasm32-unknown-unknown/release/peer_chat.wasm"
       ]
     }
   ],
-  "artifact": "/tmp/holochain/target/wasm32-unknown-unknown/release/holochain_basic_chat.wasm"
+  "artifact": "/tmp/holochain/target/wasm32-unknown-unknown/release/peer_chat.wasm"
 }
