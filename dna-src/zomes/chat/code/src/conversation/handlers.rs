@@ -38,7 +38,7 @@ fn notify_conversation(conversation_address: Address, msg_type: String) -> ZomeA
     Ok(())
 }
 
-pub fn handle_create_conversation(
+pub fn handle_start_conversation(
     name: String,
     description: String,
     initial_members: Vec<Address>,
@@ -94,12 +94,6 @@ pub fn handle_get_messages(address: Address) -> ZomeApiResult<Vec<GetLinksLoadRe
 }
 
 pub fn handle_post_message(conversation_address: Address, message_spec: message::MessageSpec) -> ZomeApiResult<()> {
-
-
-    // Check DeepKey hash
-    // Check Agent Key via bridge
-    // Put validation into the message_entry
-
     let message = message::Message::from_spec(
         &message_spec,
         &AGENT_ADDRESS.to_string());

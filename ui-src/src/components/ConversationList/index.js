@@ -1,12 +1,6 @@
 import React from 'react'
 import style from './index.module.css'
 
-const Icon = id => (
-  <svg>
-    <use xlinkHref={`index.svg#${id}`} />
-  </svg>
-)
-
 export const ConversationList = ({
   conversations = [],
   user,
@@ -32,18 +26,12 @@ export const ConversationList = ({
       const messageKeys = Object.keys(messages[conversation.id] || {})
       const latestMessage =
         messageKeys.length > 0 && messages[conversation.id][messageKeys.pop()]
-      const firstUser = conversation.users.find(x => x.id !== user.id)
       return (
         <li
           key={conversation.id}
           disabled={conversation.id === current.id}
           onClick={e => joinConversation(conversation)}
         >
-          {conversation.name.match(user.id) && firstUser ? (
-            <img src={firstUser.avatarURL} alt={firstUser.id} />
-          ) : (
-            Icon(conversation.isPrivate ? 'lock' : 'public')
-          )}
           <col->
             <p>{conversation.name.replace(user.id, '')}</p>
             <span>{latestMessage && latestMessage.text}</span>

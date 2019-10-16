@@ -24,7 +24,7 @@ let props = {
   user: {
     avatarURL: 'https://avatars3.githubusercontent.com/u/5264862?s=40&v=4',
     name: '@philt3r',
-    id: 'hash address from holochain',
+    id: 'HcScjTnefoi6c79eunbqfFNYEYovwaygbPkWEk95xVPd7vemvoB9Qwbjxf458ii',
     firstName: '',
     lastName: ''
   },
@@ -35,20 +35,20 @@ let props = {
     users: [{
       avatarURL: 'https://avatars3.githubusercontent.com/u/5264862?s=40&v=4',
       name: '@philt3r',
-      id: 'hash address from holochain',
+      id: 'HcScjTnefoi6c79eunbqfFNYEYovwaygbPkWEk95xVPd7vemvoB9Qwbjxf458ii',
       firstName: '',
       lastName: ''
     }]
   }],
   sidebarOpen: true,
   messages: [{
-    id: 'conversation_address',
+    id: 'QmbBR5wvLoXdbEdX7GvU8diBHbbojehtbNMWCvsPprb1iE',
     sender: 'QmAgentAddress',
     text: 'Peer Chat - Ghost Mode. Send p2p messages that aren\'t saved anywhere.',
     createdAt: Math.floor(Date.now() / 1000)
   },
   {
-    id: 'conversation_address',
+    id: 'QmYgEY1UqntPsn14vxHiEqW5Xw99YajpRNhPwxEdaVXSdz',
     sender: 'QmAgentAddress',
     text: 'Peer Chat - Ghost Mode',
     createdAt: Math.floor(Date.now() / 1000)
@@ -60,14 +60,14 @@ let props = {
     users: [{
       avatarURL: 'https://avatars3.githubusercontent.com/u/5264862?s=40&v=4',
       name: '@philt3r',
-      id: 'QmAgentAddress',
+      id: 'HcScjTnefoi6c79eunbqfFNYEYovwaygbPkWEk95xVPd7vemvoB9Qwbjxf458ii',
       firstName: '',
       lastName: ''
     },
     {
       avatarURL: 'https://avatars3.githubusercontent.com/u/5264862?s=40&v=4',
       name: 'Jarod',
-      id: 'QmAgentAddress2',
+      id: 'HcScjTnefoi6c79eunbqfFNYEYovwaygbPkWEk95xVPd7vemvoB9Qwbjxf458i2',
       firstName: '',
       lastName: ''
     }]

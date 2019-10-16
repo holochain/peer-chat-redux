@@ -51,16 +51,16 @@ module.exports = scenario => {
     // console.log(register_result)
     t.equal(register_result.Ok.length, 63)
 
-    const create_result = await chat_instance_1.call('chat', 'create_stream', testNewChannelParams)
+    const create_result = await chat_instance_1.call('chat', 'start_conversation', testNewChannelParams)
     // console.log(create_result)
-    const stream_addr = create_result.Ok
-    t.deepEqual(stream_addr.length, 46)
+    const conversation_addr = create_result.Ok
+    t.deepEqual(conversation_addr.length, 46)
 
-    const post_result = await chat_instance_1.call('chat', 'post_message', {stream_address: stream_addr, message: testMessage})
+    const post_result = await chat_instance_1.call('chat', 'post_message', {conversation_address: conversation_addr, message: testMessage})
     // console.log(post_result)
     t.notEqual(post_result.Ok, undefined, 'post should return Ok')
 
-    const get_message_result = await chat_instance_1.call('chat', 'get_messages', {address: stream_addr})
+    const get_message_result = await chat_instance_1.call('chat', 'get_messages', {address: conversation_addr})
     // console.log(get_message_result)
     t.deepEqual(get_message_result.Ok[0].entry.payload, testMessage.payload, 'expected to receive the message back')
   })
@@ -71,20 +71,20 @@ module.exports = scenario => {
     // console.log(register_result)
     t.equal(register_result.Ok.length, 63)
 
-    const create_result = await chat_instance_1.call('chat', 'create_stream', testNewChannelParams)
+    const create_result = await chat_instance_1.call('chat', 'start_conversation', testNewChannelParams)
     // console.log(create_result)
-    const stream_addr = create_result.Ok
-    t.deepEqual(stream_addr.length, 46)
+    const conversation_addr = create_result.Ok
+    t.deepEqual(conversation_addr.length, 46)
 
-    const post_result = await chat_instance_1.call('chat', 'post_message', {stream_address: stream_addr, message: testMessage_empty})
+    const post_result = await chat_instance_1.call('chat', 'post_message', {conversation_address: conversation_addr, message: testMessage_empty})
     // console.log(post_res ult)
     t.notEqual(post_result.Err, undefined, 'Message must have 1-1024 characters')
 
-    const post_result_2 = await chat_instance_1.call('chat', 'post_message', {stream_address: stream_addr, message: testMessage_1024})
+    const post_result_2 = await chat_instance_1.call('chat', 'post_message', {conversation_address: conversation_addr, message: testMessage_1024})
     // console.log(post_result_2)
     t.notEqual(post_result.Err, undefined, 'Message must have 1-1024 characters')
 
-    const get_message_result = await chat_instance_1.call('chat', 'get_messages', {address: stream_addr})
+    const get_message_result = await chat_instance_1.call('chat', 'get_messages', {address: conversation_addr})
     // console.log(get_message_result)
     t.deepEqual(get_message_result.Ok.length, 0, 'Messages should not be stored.')
   })
