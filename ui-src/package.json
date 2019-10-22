@@ -19,6 +19,8 @@
     "ui:start:agent4": "REACT_APP_WEBSOCKET_INTERFACE='ws://localhost:3404' PORT=3004 REACT_APP_PERSONAS_URL='http://localhost:4004' react-scripts start",
     "kill-all-ui": "lsof -ti tcp:3001 | xargs kill && lsof -ti tcp:3002 | xargs kill && lsof -ti tcp:3003 | xargs kill && lsof -ti tcp:3004 | xargs kill",
     "build": "rm -rf ../ui && react-scripts build && mv ./build ../ui",
+    "build:holoscape-bundle": "rm -rf ../ui && react-scripts build && cd build && zip -r peer-chat-ui.zip * && mv peer-chat-ui.zip ../../../holoscape/example-bundles/identity-manager-peer-chat",
+    "build:holoscape": "rm -rf '/Users/philipbeadle/Library/Application Support/Holoscape-default/UIs/peer-chat' && react-scripts build && mv ./build '/Users/philipbeadle/Library/Application Support/Holoscape-default/UIs/peer-chat'",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "lint": "standard",

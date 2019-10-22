@@ -1,7 +1,7 @@
 import React from 'react'
 import style from './index.module.css'
 
-export const StartConversationForm = ({ submit }) => (
+export const StartConversationForm = ({ submit, currentGroup }) => (
   <form
     className={style.component}
     onSubmit={e => {
@@ -19,8 +19,10 @@ export const StartConversationForm = ({ submit }) => (
       e.target[0].value = ''
     }}
   >
-    <input id='conversation' placeholder='Start a Conversation' />
-    <button id='submit' type='submit'>
+  {currentGroup.id === 'peer-chat-public' ? <input id='conversation' placeholder='This channel is ghost only.' /> : <input id='conversation' placeholder='Start a Conversation' />}
+
+
+    <button id='submit' type='submit' disabled={currentGroup.id === 'peer-chat-public'}>
       <svg>
         <use xlinkHref='index.svg#add' />
       </svg>

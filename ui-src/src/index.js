@@ -6,7 +6,7 @@ import './index.css'
 // --------------------------------------
 // Application
 // --------------------------------------
-const REACT_APP_WEBSOCKET_INTERFACE = process.env.REACT_APP_WEBSOCKET_INTERFACE
+const REACT_APP_WEBSOCKET_INTERFACE = 'ws://localhost:10000' // process.env.REACT_APP_WEBSOCKET_INTERFACE
 const REACT_APP_PERSONAS_URL = process.env.REACT_APP_PERSONAS_URL
 
 export class View extends React.Component {
@@ -28,6 +28,25 @@ export class View extends React.Component {
           id: "peer-chat-public",
           name: "Public",
           icon: 'public'
+        },
+        groups: []
+      }
+    } else {
+      this.state = {
+        holochainConnection: connect(), // Use for debug
+        connected: false,
+        user: {},
+        users: {},
+        conversation: {},
+        conversations: [],
+        messages: {},
+        sidebarOpen: false,
+        userListOpen: window.innerWidth > 1000,
+        profileSpecSourceDna: '',
+        group: {
+          id: "peer-chat-public",
+          name: "Public",
+          icon: '128123'
         },
         groups: []
       }
@@ -55,15 +74,22 @@ export class View extends React.Component {
       getGroups: () => {
         this.state.holochainConnection.then(({ call }) => {
           call('admin/interface/list')({}).then(result => {
-            console.log(result[0].instances)
-            let groups = result[0].instances.filter(function(instance) {
+            console.log(JSON.stringify(result))
+
+            console.log(result[1].instances)
+            let groups = result[1].instances.filter(function(instance) {
               return instance.id.startsWith('peer-chat');
             }).map(function(instance) {
               return {
                 id: instance.id,
-                name: instance.name,
-                icon: 'public'
+                name: instance.id.replace('peer-chat-', ''),
+                icon: '128123'
               }
+            })
+            groups.push({
+              id: 'add',
+              name: 'Add',
+              icon: '10133'
             })
             this.setState({ groups: groups})
             console.log(this.state.groups)
@@ -249,8 +275,13 @@ export class View extends React.Component {
             return {
               id: instance.id,
               name: instance.name,
-              icon: 'public'
+              icon: '129302'
             }
+          })
+          groups.push({
+            id: 'add',
+            name: 'Add',
+            icon: '10133'
           })
           this.setState({ groups: groups})
           console.log(this.state.groups)
@@ -280,12 +311,7 @@ export class View extends React.Component {
             }
             else {
               const profileSpecSourceDna = JSON.parse(result).Err.Internal
-              console.log('User has not registered a profile. redirecting to p&p ' + JSON.stringify(profileSpecSourceDna))
-              // if(!window.activateHappWindow) {
-              window.activateHappWindow('Identity Manager', `/profile/${profileSpecSourceDna}/Peer Chat`)
-              // } else {
-                // window.location.replace(`${REACT_APP_PERSONAS_URL}/profile/${profileSpecSourceDna}/${encodeURIComponent(window.location.href)}`)
-              // }
+              console.log('User has not registered a profile. Activating p&p ' + JSON.stringify(profileSpecSourceDna))
             }
           })
         })

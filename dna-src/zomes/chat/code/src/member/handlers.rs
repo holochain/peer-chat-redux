@@ -10,6 +10,7 @@ use hdk::{
     holochain_json_api::{
         json::RawString,
         json::JsonString,
+        error::JsonError,
     },
     holochain_persistence_api::{
         cas::content::Address,
@@ -26,6 +27,13 @@ use utils::{
 use crate::member::Profile;
 use crate::profile_spec;
 use serde_json::json;
+
+
+#[derive(Debug, Serialize, Deserialize, DefaultJson)]
+#[serde(rename_all = "camelCase")]
+struct SignalPayload {
+	dna_address: String
+}
 
 pub fn handle_register(name: String, avatar_url: String) -> ZomeApiResult<Address> {
     let anchor_entry = Entry::App(
@@ -127,6 +135,7 @@ pub fn handle_get_my_member_profile() -> ZomeApiResult<Profile> {
                     // register the spec then trigger redirect
                     register_spec().unwrap();
                     hdk::debug("Spec registered").ok();
+                    let _ = hdk::emit_signal("new_profile_spec_registered", SignalPayload{dna_address: DNA_ADDRESS.to_string()});
                     Err(ZomeApiError::Internal(DNA_ADDRESS.to_string()))
                 }
             }

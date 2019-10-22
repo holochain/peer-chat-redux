@@ -49,7 +49,7 @@ export const Group = ({
           joinConversation={joinConversation}
         />
       </menu>
-      {user.id && <StartConversationForm submit={startConversation} />}
+      {user.id && <StartConversationForm submit={startConversation} currentGroup={currentGroup}/>}
     </aside>
     <section>
       <ConversationHeader
@@ -61,24 +61,24 @@ export const Group = ({
         setUserList={setUserList}
        />
        {conversation.id ? (
-            <row->
-              <col->
-                <MessageList
-                  user={user}
-                  users={users}
-                  messages={messages[conversation.id]}
-                />
-                <CreateMessageForm user={user} conversation={conversation} message={''} runCommand={runCommand} sendMessage={sendMessage} getMessages={getMessages}/>
-              </col->
-              {userListOpen && (
-                <UserList conversation={conversation} users={users} setFullName={setFullName} />
-              )}
-            </row->
-          ) : connected ? (
-            user.id ? <JoinConversationScreen /> : <RegisterScreen registerUser={registerUser} />
-          ) : (
-            <WelcomeScreen message='Connecting to Holochain... Make sure the conductor is running and try refreshing the page' />
-          )}
+          <row->
+            <col->
+              <MessageList
+                user={user}
+                users={users}
+                messages={messages[conversation.id]}
+              />
+              <CreateMessageForm user={user} conversation={conversation} message={''} runCommand={runCommand} sendMessage={sendMessage} getMessages={getMessages}/>
+            </col->
+            {userListOpen && (
+              <UserList conversation={conversation} users={users} setFullName={setFullName} />
+            )}
+          </row->
+        ) : connected ? (
+          user.id ? <JoinConversationScreen /> : <RegisterScreen registerUser={registerUser} />
+        ) : (
+          <WelcomeScreen message='You need to create a profile for each chat group you are part of. Please use Identity Manager to set your handle, avatar and optionally your full name.' />
+        )}
     </section>
   </main>
 )

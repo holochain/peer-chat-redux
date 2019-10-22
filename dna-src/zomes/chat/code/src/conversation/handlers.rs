@@ -118,5 +118,32 @@ pub fn handle_get_all_public_conversations() -> ZomeApiResult<Vec<GetLinksLoadRe
         RawString::from("public_conversations").into(),
     );
     let anchor_address = hdk::entry_address(&anchor_entry)?;
-    get_links_and_load_type(&anchor_address, LinkMatch::Exactly("public_conversation"), LinkMatch::Any)
+    let conversations: Vec<GetLinksLoadResult<Conversation>> = get_links_and_load_type(&anchor_address, LinkMatch::Exactly("public_conversation"), LinkMatch::Any)?;
+    match conversations.len() {
+        0 => {
+            let conversation_address = create_ghost_conversation()?;
+            let default_result = GetLinksLoadResult{
+                entry: Conversation{name: "Ghost Chat".to_string(), description: "".to_string()},
+                address: conversation_address.clone()
+            };
+            Ok(vec![default_result])
+        },
+        _ => {
+            let result = conversations.iter().map(|elem| {
+                GetLinksLoadResult {
+                    entry: Conversation {
+                        name: elem.entry.name.to_owned(),
+                        description: elem.entry.description.to_owned()
+                    },
+                    address: elem.address.clone()
+                }
+            }).collect();
+            Ok(result)
+        }
+    }
+}
+
+fn create_ghost_conversation() -> ZomeApiResult<Address> {
+    hdk::debug("Create Default conversation")?;
+    handle_start_conversation("Ghost Chat".to_string(), "".to_string(), [].to_vec())
 }

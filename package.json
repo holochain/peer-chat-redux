@@ -5,17 +5,19 @@
   "scripts": {
     "fetch": "download-github-release holochain peer-chat",
     "hc:dna:public": "echo $(cat dna/holochain-basic-chat.dna.json | jq --argjson properties [\"HcScjTnefoi6c79eunbqfFNYEYovwaygbPkWEk95xVPd7vemvoB9Qwbjxf458ii\",\"HcSCIUKodbWktcbmwyAaVrYnsbadi6b9sOV9D4ZoE8i333ZtcGw38Jn3U6u63qi\"]  '. + {properties: $properties}' | jq --arg id private-chat '. + {id: $id}') > dna/holochain-basic-chat-private.dna.json",
-    "hc:build": "rm -rf tmp-storage && mkdir -p ./dna && cd dna-src && hc package --strip-meta -o ../dna/peer-chat.dna.json",
+    "hc:build": "rm -rf tmp-storage && mkdir -p ./dna && cd dna-src && /Users/philipbeadle/holochain/Holochain/holochain-rust/.cargo/bin/hc package --strip-meta -o ../dna/peer-chat.dna.json",
+    "hc:build:holoscape": "echo `pwd` && rm -rf tmp-storage && mkdir -p dna && cd dna-src && hc package --strip-meta -o ../../holoscape/example-bundles/identity-manager-peer-chat/peer-chat.dna.json",
     "hc:start": "holochain -c ./conductor-config.toml",
     "hc:start:agents": "npm run hc:start:agent1",
-    "hc:start:agent1": "rm -rf n3h-agent1 && mkdir -p ./n3h-agent1 && holochain -c ./conductor-config-agent1.toml",
+    "hc:start:agent1": "rm -rf n3h-agent1 && mkdir -p ./n3h-agent1 && /Users/philipbeadle/holochain/Holochain/holochain-rust/.cargo/bin/holochain -c ./conductor-config-agent1.toml",
     "hc:start:agent1_1": "rm -rf n3h-agent1_1 && mkdir -p ./n3h-agent1_1 && holochain -c ./conductor-config-agent1_1.toml",
     "hc:start:agent2": "rm -rf n3h-agent2 && mkdir -p ./n3h-agent2 && holochain -c ./conductor-config-agent2.toml",
     "hc:start:agent3": "rm -rf n3h-agent3 && mkdir -p ./n3h-agent3 && holochain -c ./conductor-config-agent3.toml",
     "hc:start:agent4": "rm -rf n3h-agent4 && mkdir -p ./n3h-agent4 && holochain -c ./conductor-config-agent4.toml",
     "kill-all-agents": "lsof -ti tcp:3401 | xargs kill && lsof -ti tcp:3402 | xargs kill && lsof -ti tcp:3403 | xargs kill && lsof -ti tcp:3404 | xargs kill",
-    "hc:test": "cd dna-src && hc test",
-    "prerelease": "rm -rf ./release && cd ui-src && npm run clean && npm run build && cd .. && npm run hc:build && mkdir -p ./release && mv ./ui ./release/ui && mv ./dna ./release/dna && cp ./my-conductor-config.toml ./release/my-conductor-config.toml"
+    "hc:test": "cd dna-src && TRYORAMA_HOLOCHAIN_PATH=/Users/philipbeadle/holochain/Holochain/holochain-rust/.cargo/bin/holochain /Users/philipbeadle/holochain/Holochain/holochain-rust/.cargo/bin/hc test",
+    "prerelease": "rm -rf ./release && cd ui-src && npm run clean && npm run build && cd .. && npm run hc:build && mkdir -p ./release && mv ./ui ./release/ui && mv ./dna ./release/dna && cp ./my-conductor-config.toml ./release/my-conductor-config.toml",
+    "holoscape:build": "npm run hc:build:holoscape && cd ui-src && npm run build:holoscape-bundle"
   },
   "author": "",
   "license": "GPL-3",

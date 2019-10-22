@@ -8,9 +8,8 @@ let props = {
   user: {
     avatarURL: 'https://avatars3.githubusercontent.com/u/5264862?s=40&v=4',
     name: '@philt3r',
-    id: 'https://avatars3.githubusercontent.com/u/5264862?s=40&v=4',
-    firstName: '',
-    lastName: ''
+    id: 'QmAgentAddress',
+    fullName: ''
   }
 }
 
