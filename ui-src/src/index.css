@@ -60,7 +60,7 @@ main {
 
 aside {
   flex: none;
-  width: 320px;
+  width: 250px;
   display: flex;
   flex-direction: column;
   background: #fcfcfc;

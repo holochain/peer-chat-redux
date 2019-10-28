@@ -16,6 +16,7 @@ extern crate validator;
 use std::convert::TryInto;
 use hdk::{
 	api::DNA_ADDRESS,
+	api::DNA_NAME,
     error::ZomeApiResult,
     entry_definition::ValidatingEntryType,
 	// holochain_core_types::{
@@ -215,7 +216,7 @@ pub fn profile_spec() -> JsonString{
 	json!(
 	{
 		"spec": {
-		  "name": "Holochain Peer Chat",
+		  "name": DNA_NAME.to_string(),
 		  "sourceDna": DNA_ADDRESS.to_string(),
 		  "fields": [
 		  		{

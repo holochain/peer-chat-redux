@@ -123,7 +123,7 @@ pub fn handle_get_all_public_conversations() -> ZomeApiResult<Vec<GetLinksLoadRe
         0 => {
             let conversation_address = create_ghost_conversation()?;
             let default_result = GetLinksLoadResult{
-                entry: Conversation{name: "Ghost Chat".to_string(), description: "".to_string()},
+                entry: Conversation{name: "General Chat".to_string(), description: "".to_string()},
                 address: conversation_address.clone()
             };
             Ok(vec![default_result])
@@ -145,5 +145,5 @@ pub fn handle_get_all_public_conversations() -> ZomeApiResult<Vec<GetLinksLoadRe
 
 fn create_ghost_conversation() -> ZomeApiResult<Address> {
     hdk::debug("Create Default conversation")?;
-    handle_start_conversation("Ghost Chat".to_string(), "".to_string(), [].to_vec())
+    handle_start_conversation("General Chat".to_string(), "".to_string(), [].to_vec())
 }

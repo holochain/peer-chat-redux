@@ -47,7 +47,7 @@ module.exports = scenario => {
 
   const { config1 } = require('../config')
 
-  scenario('Ghost Chat conversation created by default', async (s, t) => {
+  scenario('General Chat conversation created by default', async (s, t) => {
     const {player1} = await s.players({player1: config1}, true)
     const register_result = await player1.call('chat', 'chat', 'register', {name: 'player1', avatar_url: ''})
     await s.consistency()

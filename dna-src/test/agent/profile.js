@@ -46,7 +46,7 @@ const { config1 } = require('../config')
     // can then see the field is mapped
     const get_profiles = await player1.call("personas", "profiles", "get_profiles", {})
     // console.log(get_profiles)
-    t.deepEqual(get_profiles.Ok.filter(p => p.name === "Holochain Peer Chat")[0].fields[0].mapping, {personaAddress: persona_address, personaFieldName: 'handle'})
+    t.deepEqual(get_profiles.Ok.filter(p => p.name === "Peer Chat")[0].fields[0].mapping, {personaAddress: persona_address, personaFieldName: 'handle'})
   })
 
   scenario('Can register a profile and retrieve', async (s, t) => {
