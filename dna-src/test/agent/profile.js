@@ -18,35 +18,35 @@ const { config1 } = require('../config')
     let sourceDna = get_profile_result_1.Err.Internal
     // console.log('sourceDna ' + JSON.stringify(sourceDna))
 
-    const get_result = await player1.call("personas", 'profiles', 'get_profiles', {})
+    const get_result = await player1.call('personas', 'profiles', 'get_profiles', {})
     // console.log('Profiles' + JSON.stringify(get_result))
     t.deepEqual(get_result.Ok.length, 2)
 
     // create a persona to map to and add a field
-    const result = await player1.call("personas", "personas", "create_persona", {spec: {name: "test"}})
+    const result = await player1.call('personas', 'personas', 'create_persona', {spec: {name: 'test'}})
     const persona_address = result.Ok
-    const add_result = await player1.call("personas", "personas", "add_field", {personaAddress: persona_address, field: {name: "handle", data: "@philt3r"}})
+    const add_result = await player1.call('personas', 'personas', 'add_field', {personaAddress: persona_address, field: {name: 'handle', data: '@philt3r'}})
 
     // can call the function to create a mapping
-    const map_result2 = await player1.call("personas", "profiles", "create_mapping",
+    const map_result2 = await player1.call('personas', 'profiles', 'create_mapping',
       {
         mapping: {
           retrieverDna: sourceDna,
-          profileFieldName: "handle",
+          profileFieldName: 'handle',
           personaAddress: persona_address,
-          personaFieldName: "handle"
+          personaFieldName: 'handle'
         }
       })
     await s.consistency()
     // console.log(map_result2)
 
     // should map a single field
-    t.deepEqual(map_result2.Ok, { mappingsCreated: 1 }, "a single mapping should be created");
+    t.deepEqual(map_result2.Ok, { mappingsCreated: 1 }, 'a single mapping should be created');
 
     // can then see the field is mapped
-    const get_profiles = await player1.call("personas", "profiles", "get_profiles", {})
+    const get_profiles = await player1.call('personas', 'profiles', 'get_profiles', {})
     // console.log(get_profiles)
-    t.deepEqual(get_profiles.Ok.filter(p => p.name === "Peer Chat")[0].fields[0].mapping, {personaAddress: persona_address, personaFieldName: 'handle'})
+    t.deepEqual(get_profiles.Ok.filter(p => p.name === 'Peer Chat')[0].fields[0].mapping, {personaAddress: persona_address, personaFieldName: 'handle'})
   })
 
   scenario('Can register a profile and retrieve', async (s, t) => {
