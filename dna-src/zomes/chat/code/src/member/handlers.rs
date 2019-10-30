@@ -32,6 +32,7 @@ use serde_json::json;
 #[derive(Debug, Serialize, Deserialize, DefaultJson)]
 #[serde(rename_all = "camelCase")]
 struct SignalPayload {
+    view: String,
 	location: String
 }
 
@@ -135,7 +136,7 @@ pub fn handle_get_my_member_profile() -> ZomeApiResult<Profile> {
                     // register the spec then trigger redirect
                     register_spec().unwrap();
                     hdk::debug("Spec registered").ok();
-                    let _ = hdk::emit_signal("new_profile_spec_registered", SignalPayload{location: format!("profile/{}", DNA_ADDRESS.to_string())});
+                    let _ = hdk::emit_signal("switch_view", SignalPayload{view: "Identity Manager".to_string(), location: format!("profile/{}/Peer Chat", DNA_ADDRESS.to_string())});
                     Err(ZomeApiError::Internal(DNA_ADDRESS.to_string()))
                 }
             }
