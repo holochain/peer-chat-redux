@@ -63,10 +63,10 @@ keystore_file = "./agent1_1.keystore"
   #   init_params = "{\"revocation_key\": \"HcScIXuxtWI6ttc5gngvQTsDnHtynb5dzyDujh37mNo43nf7ZRB5UZKmR9953pb\"}"
 
 # -----------  Networking  -----------
-
-[network]
-type = "n3h"
-n3h_mode = "REAL"
-n3h_persistence_path = "./n3h-agent1_1"
-n3h_log_level = "i"
-bootstrap_nodes = []
+# 
+# [network]
+# type = "n3h"
+# n3h_mode = "REAL"
+# n3h_persistence_path = "./n3h-agent1_1"
+# n3h_log_level = "i"
+# bootstrap_nodes = []

@@ -15,7 +15,7 @@ export const ConversationHeader = ({
         <use xlinkHref='index.svg#menu' />
       </svg>
     </button>
-    <h1>{conversation.name && conversation.name.replace(user.id, '')}</h1>
+    {conversation.id ? (<h1>{conversation.name.replace(user.id, '')}</h1>) : (<h1>Set your profile</h1>)}
     {conversation.users && (
       <div onClick={e => setUserList(!userListOpen)}>
         <span>{conversation.users.length}</span>

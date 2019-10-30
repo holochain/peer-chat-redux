@@ -4,23 +4,46 @@ import { action } from '@storybook/addon-actions'
 import { StateDecorator, Store } from '@sambego/storybook-state'
 import { Group } from '../components/Group'
 
+let conversation = {
+  id: 'public_conversation',
+  private: true,
+  group: 'Public',
+  name: 'Ghost Chat',
+  users: [{
+    avatarURL: 'https://avatars3.githubusercontent.com/u/5264862?s=40&v=4',
+    name: '@philt3r',
+    id: 'HcScjTnefoi6c79eunbqfFNYEYovwaygbPkWEk95xVPd7vemvoB9Qwbjxf458ii',
+    fullName: ''
+  }]
+}
+
 let props = {
   connected: true,
   groups: [{
-    id: "group-address-1",
+    id: "peer-chat-public",
     name: "Public",
-    icon: 'public'
+    icon: '0x1F4E2'
   },
   {
     id: "group-address-2",
     name: "Private",
-    icon: 'lock'
+    icon: '129302'
   },
   {
     id: "group-address-3",
     name: "Public",
-    icon: 'public'
+    icon: '0x1F354'
+  },
+  {
+    id: 'add',
+    name: 'Add',
+    icon: '10133'
   }],
+  currentGroup: {
+    id: "peer-chat-public",
+    name: "Public",
+    icon: 'public'
+  },
   user: {
     avatarURL: 'https://avatars3.githubusercontent.com/u/5264862?s=40&v=4',
     name: '@philt3r',
@@ -28,18 +51,7 @@ let props = {
     firstName: '',
     lastName: ''
   },
-  conversations: [{
-    id: 'conversation_address',
-    private: true,
-    name: 'Ghost Mode',
-    users: [{
-      avatarURL: 'https://avatars3.githubusercontent.com/u/5264862?s=40&v=4',
-      name: '@philt3r',
-      id: 'HcScjTnefoi6c79eunbqfFNYEYovwaygbPkWEk95xVPd7vemvoB9Qwbjxf458ii',
-      firstName: '',
-      lastName: ''
-    }]
-  }],
+  conversations: [conversation],
   sidebarOpen: true,
   messages: [{
     id: 'QmbBR5wvLoXdbEdX7GvU8diBHbbojehtbNMWCvsPprb1iE',
@@ -53,25 +65,7 @@ let props = {
     text: 'Peer Chat - Ghost Mode',
     createdAt: Math.floor(Date.now() / 1000)
   }],
-  conversation: {
-    id: 'conversation_address',
-    private: true,
-    name: 'Ghost Mode',
-    users: [{
-      avatarURL: 'https://avatars3.githubusercontent.com/u/5264862?s=40&v=4',
-      name: '@philt3r',
-      id: 'HcScjTnefoi6c79eunbqfFNYEYovwaygbPkWEk95xVPd7vemvoB9Qwbjxf458ii',
-      firstName: '',
-      lastName: ''
-    },
-    {
-      avatarURL: 'https://avatars3.githubusercontent.com/u/5264862?s=40&v=4',
-      name: 'Jarod',
-      id: 'HcScjTnefoi6c79eunbqfFNYEYovwaygbPkWEk95xVPd7vemvoB9Qwbjxf458i2',
-      firstName: '',
-      lastName: ''
-    }]
-  },
+  conversation: conversation,
   joinGroup: action('Join Group'),
   getConversations: action('Get Conversations'),
   startConversation: action('Start Conversation'),
@@ -95,7 +89,6 @@ const store = new Store({
 storiesOf('Welcome', module)
   .addDecorator(StateDecorator(store))
   .add('Home Page', (() => {
-    console.log(props.connected)
     store.set({
       props: {...props }
     })

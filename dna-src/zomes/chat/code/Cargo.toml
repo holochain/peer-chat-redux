@@ -13,9 +13,9 @@
   validator = "0.9.0"
   validator_derive = "0.9.0"
 
-  hdk = { git = "https://github.com/holochain/holochain-rust" , tag = "v0.0.32-alpha2" }
-  holochain_wasm_utils = { git = "https://github.com/holochain/holochain-rust" , tag = "v0.0.32-alpha2" }
-  hdk-proc-macros = { git = "https://github.com/holochain/holochain-rust" , tag = "v0.0.32-alpha2" }
+  hdk = { git = "https://github.com/holochain/holochain-rust" , tag = "v0.0.34-alpha1" }
+  holochain_wasm_utils = { git = "https://github.com/holochain/holochain-rust" , tag = "v0.0.34-alpha1" }
+  hdk-proc-macros = { git = "https://github.com/holochain/holochain-rust" , tag = "v0.0.34-alpha1" }
   holochain_json_derive = "=0.0.15"
 
 [lib]

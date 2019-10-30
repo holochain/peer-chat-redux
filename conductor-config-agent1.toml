@@ -17,10 +17,11 @@
 [[dnas]]
   id = "peer_chat_dna_public"
   file = "./dna/peer-chat.dna.json"
-  hash = "QmSDkLm394rXfxLN1tu1cd8BtdFAMTgT5iWAXsMKQ8sMvu"
+  hash = "QmdjzwPcaFDQW5dyPnxxq8HAtxSpEfjpFn1fgUXHjE3dBD"
 [[dnas]]
   id = "peer_chat_dna_phil_nico"
-  file = "./dna/peer-chat-1.dna.json"
+  file = "./dna/peer-chat.dna.json"
+  uuid = "phil-nico"
   hash = "QmfYFPeFpcCR8RLdPKphf8RvxK17cHx3vm5XvKs9q2SRVF"
 # [[instances]]
 #   id = "dpki_happ"
@@ -80,9 +81,6 @@
 
 # -----------  Networking  -----------
 
-# [network]
-#   type = "n3h"
-#   n3h_mode = "REAL"
-#   n3h_persistence_path = "./n3h-agent1"
-#   n3h_log_level = "i"
-#   bootstrap_nodes = []
+[network]
+  type = "sim2h"
+  sim2h_url = 'https://18.185.42.215'

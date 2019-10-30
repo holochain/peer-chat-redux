@@ -1,10 +1,14 @@
 import React from 'react'
 import style from './index.module.css'
 
-const Icon = id => (
-  <svg>
-    <use xlinkHref={`index.svg#${id}`} />
-  </svg>
+// const Icon = id => (
+//   <svg>
+//     <use xlinkHref={`index.svg#${id}`} />
+//   </svg>
+// )
+
+const Emoji = code => (
+  String.fromCodePoint(code)
 )
 
 export const GroupList = ({
@@ -22,7 +26,7 @@ export const GroupList = ({
           onClick={e => joinGroup(group)}
         >
           <row->
-            {Icon(group.icon)}
+            {Emoji(group.icon)}
           </row->
         </li>
       )

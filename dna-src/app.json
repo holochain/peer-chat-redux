@@ -1,0 +1,14 @@
+{
+  "name": "Peer Chat",
+  "description": "Private secure p2p chat with conversations.",
+  "authors": [
+    {
+      "indentifier": "Philip Beadle <philip.beadle@holo.host>",
+      "public_key_source": "",
+      "signature": ""
+    }
+  ],
+  "version": "0.1.0",
+  "dht": {},
+  "properties": null
+}

@@ -120,3 +120,8 @@ pub fn handle_get_all_public_conversations() -> ZomeApiResult<Vec<GetLinksLoadRe
     let anchor_address = hdk::entry_address(&anchor_entry)?;
     get_links_and_load_type(&anchor_address, LinkMatch::Exactly("public_conversation"), LinkMatch::Any)
 }
+
+// fn create_ghost_conversation() -> ZomeApiResult<Address> {
+//     hdk::debug("Create Default conversation")?;
+//     handle_start_conversation("General Chat".to_string(), "".to_string(), [].to_vec())
+// }
