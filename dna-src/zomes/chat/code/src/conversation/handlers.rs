@@ -11,9 +11,10 @@ use hdk::{
         json::RawString,
     },
     holochain_persistence_api::{
-        cas::content::Address,
+        cas::content::{Address, AddressableContent},
     },
 };
+use std::collections::HashSet;
 
 use crate::conversation::{
     Conversation,
@@ -43,43 +44,44 @@ pub fn handle_start_conversation(
     description: String,
     initial_members: Vec<Address>,
 ) -> ZomeApiResult<Address> {
-
     let conversation = Conversation{name, description};
-
     let entry = Entry::App(
         "public_conversation".into(),
         conversation.into()
     );
 
-    let conversation_address = hdk::commit_entry(&entry)?;
-    hdk::utils::link_entries_bidir(&AGENT_ADDRESS, &conversation_address, "member_of", "has_member", "", "")?;
-
-    for member in initial_members {
-        hdk::utils::link_entries_bidir(&member, &conversation_address, "member_of", "has_member", "", "")?;
+    // first see if this converstion already exists.
+    // while the entry will de-dup, the links will not adding useless data to the DHT.
+    // There is also the possibility this chat has already been created but we just don't see it.
+    // In this case there is nothing we can do except add it again and de-dup
+    // in the get_channels zome function
+    let conversation_address = entry.address();
+    if hdk::get_entry(&conversation_address)?.is_none() {
+        hdk::commit_entry(&entry)?;
+        let anchor_entry = Entry::App(
+            "anchor".into(),
+            RawString::from("public_conversations").into(),
+        );
+        let anchor_address = hdk::commit_entry(&anchor_entry)?;
+        hdk::link_entries(&anchor_address, &conversation_address, "public_conversation", "")?;
     }
+    let existing_members = handle_get_members(conversation_address.clone())?;
 
-    let anchor_entry = Entry::App(
-        "anchor".into(),
-        RawString::from("public_conversations").into(),
-    );
-    let anchor_address = hdk::commit_entry(&anchor_entry)?;
-    hdk::link_entries(&anchor_address, &conversation_address, "public_conversation", "")?;
-
+    // add the new members (including the creator)
+    let mut members_to_add = vec![Address::from(AGENT_ADDRESS.to_string())];
+    members_to_add.extend(initial_members);
+    for member in members_to_add {
+        if !existing_members.contains(&member) {
+            hdk::utils::link_entries_bidir(&member, &conversation_address, "member_of", "has_member", "", "")?;
+        }
+    }
     Ok(conversation_address)
 }
 
 pub fn handle_join_conversation(conversation_address: Address) -> ZomeApiResult<()> {
-    let mut all_member_ids = hdk::get_links(&conversation_address, LinkMatch::Exactly("has_member"), LinkMatch::Any)?.addresses().to_owned();
-    let mut join_conversation = true;
-    while let Some(member_id) = all_member_ids.pop() {
-        if &AGENT_ADDRESS.to_string() == &member_id.to_string() {
-            hdk::debug(format!("No need to rejoin conversationMessages: {:?}", &member_id.to_string())).ok();
-            join_conversation = false;
-        }
-    }
-    if join_conversation {
+    let existing_members = handle_get_members(conversation_address.clone())?;
+    if !existing_members.contains(&AGENT_ADDRESS) {
         hdk::utils::link_entries_bidir(&AGENT_ADDRESS, &conversation_address, "member_of", "has_member", "", "")?;
-        notify_conversation(conversation_address, "new_conversation_member".to_string())?;
     }
     Ok(())
 }
@@ -118,10 +120,10 @@ pub fn handle_get_all_public_conversations() -> ZomeApiResult<Vec<GetLinksLoadRe
         RawString::from("public_conversations").into(),
     );
     let anchor_address = hdk::entry_address(&anchor_entry)?;
-    get_links_and_load_type(&anchor_address, LinkMatch::Exactly("public_conversation"), LinkMatch::Any)
+    let mut result = get_links_and_load_type(&anchor_address, LinkMatch::Exactly("public_conversation"), LinkMatch::Any)?;
+    // dedup any channels that managed to slip through the dedup on write check
+    // perhaps because we couldn't see them at the time of creation
+    let mut uniques = HashSet::new();
+    result.retain(|e| uniques.insert(e.address.clone()));
+    Ok(result)
 }
-
-// fn create_ghost_conversation() -> ZomeApiResult<Address> {
-//     hdk::debug("Create Default conversation")?;
-//     handle_start_conversation("General Chat".to_string(), "".to_string(), [].to_vec())
-// }
