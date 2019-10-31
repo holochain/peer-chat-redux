@@ -121,7 +121,7 @@ module.exports = scenario => {
     const {player2} = await s.players({player2: config2}, false)
     await player2.spawn()
     await create_persona_profile(s, t, player2, '@wollum', 'avatar', 'Willem Olding')
-    const public_conversations_result = await player2.call('chat', 'chat', 'get_all_public_conversations', {})
+    let public_conversations_result = await player2.call('chat', 'chat', 'get_all_public_conversations', {})
     console.log(public_conversations_result.Ok)
     const holoscape_convo_address = public_conversations_result.Ok[0].address
     await player2.call('chat', 'chat', 'join_conversation', {conversation_address: holoscape_convo_address})
@@ -176,20 +176,35 @@ module.exports = scenario => {
     await s.consistency()
     const player4_get_message_result = await player4.call('chat', 'chat', 'get_messages', {address: player4_holoscape_convo_address})
     await s.consistency()
+    console.log('player4_get_message_result')
     console.log(player4_get_message_result)
     t.deepEqual(player4_get_message_result.Ok.length, 3, 'Player 4 sees 2 messages from player1 and 1 from player2')
     const player4_post_result = await player4.call('chat', 'chat', 'post_message', {conversation_address: player4_holoscape_convo_address, message: convoHoloscapeMessage4})
     await s.consistency()
+    console.log('player4_post_result')
+    console.log(player4_post_result)
     await player4.kill()
 
     //Bring player 1 back online
     await player1.spawn()
     await s.consistency()
+
+    // Comment next 4 lines and test behaves differently
+    // get members bit fails.
+    // public_conversations_result = await player1.call('chat', 'chat', 'get_all_public_conversations', {})
+    // console.log('public_conversations_result')
+    // console.log(public_conversations_result)
+    // t.deepEqual(public_conversations_result.Ok.length, 1, '1 Conversation')
+
     await player1.call('chat', 'chat', 'join_conversation', {conversation_address: holoscape_convo_address})
     await s.consistency()
     members_in_conversation_result = await player1.call('chat', 'chat', 'get_members', {conversation_address: holoscape_convo_address})
+    console.log('members_in_conversation_result')
+    console.log(members_in_conversation_result)
     await s.consistency()
-    t.deepEqual(members_in_conversation_result.Ok.length, 4, 'player1,2,3 & 4 members')
+    t.deepEqual(members_in_conversation_result.Ok.length, 4, 'player1,2,3 & 4 members') // fails when its 5 as the logic in teh hApp looks for existing links
+    // however because     let all_member_ids = hdk::get_links(&address, LinkMatch::Exactly("has_member"), LinkMatch::Any)?.addresses().to_owned(); is coming back empty
+    // the agent is added again.
     members_in_conversation_result.Ok.forEach(async (address) => {
       let member_profile = await player1.call('chat', 'chat', 'get_member_profile', {agent_address: address})
       console.log('*member_profile*')
