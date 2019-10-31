@@ -1,6 +1,6 @@
 {
   "name": "peer-chat",
-  "version": "0.0.16",
+  "version": "0.0.18",
   "dependencies": {
     "@holochain/hc-web-client": "^0.5.0",
     "object-path-immutable": "^1.0.1",

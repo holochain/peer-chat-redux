@@ -1,7 +1,7 @@
 {
   "name": "peer-chat",
-  "version": "0.0.16",
-  "description": "A chat demo for holochain",
+  "version": "0.0.18",
+  "description": "A Peer Chat for holochain",
   "scripts": {
     "fetch": "download-github-release holochain peer-chat",
     "hc:dna:public": "echo $(cat dna/holochain-basic-chat.dna.json | jq --argjson properties [\"HcScjTnefoi6c79eunbqfFNYEYovwaygbPkWEk95xVPd7vemvoB9Qwbjxf458ii\",\"HcSCIUKodbWktcbmwyAaVrYnsbadi6b9sOV9D4ZoE8i333ZtcGw38Jn3U6u63qi\"]  '. + {properties: $properties}' | jq --arg id private-chat '. + {id: $id}') > dna/holochain-basic-chat-private.dna.json",
