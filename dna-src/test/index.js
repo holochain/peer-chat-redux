@@ -1,6 +1,8 @@
 const path = require('path')
 const tape = require('tape')
 const { Orchestrator, combine, callSync, tapeExecutor } = require('@holochain/try-o-rama')
+//hc-sim2h-server-install
+//sim2h_server -p 9001
 const orchestrator = new Orchestrator({
   globalConfig: {logger: true,  network: {
       type: 'sim2h',

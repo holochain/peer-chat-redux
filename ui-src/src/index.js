@@ -113,11 +113,6 @@ export class View extends React.Component {
             console.log('registration user found with profile:', profile)
             this.actions.setUser({ id: profile.address, name: profile.name, avatarURL: profile.avatar_url })
           }
-          else {
-            const profileSpecSourceDna = result.Err.Internal
-            console.log('User has not registered a profile. redirecting to p&p ' + JSON.stringify(profileSpecSourceDna))
-            window.location.replace(`${REACT_APP_PERSONAS_URL}/profile/${profileSpecSourceDna}/${encodeURIComponent(window.location.href)}`)
-          }
         })
         this.actions.setGroup(group)
       },
@@ -134,9 +129,9 @@ export class View extends React.Component {
 
       joinConversation: conversation => {
         console.log('joining conversation')
-        this.actions.setConversation(conversation)
         this.makeHolochainCall(this.state.group.id + '/chat/join_conversation', { conversation_address: conversation.id }, (result) => {
           console.log('joined conversation', result)
+          this.actions.setConversation(conversation)
         })
       },
 

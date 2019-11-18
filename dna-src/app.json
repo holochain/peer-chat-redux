@@ -3,12 +3,12 @@
   "description": "Private secure p2p chat with conversations.",
   "authors": [
     {
-      "indentifier": "Philip Beadle <philip.beadle@holo.host>",
+      "indentifier": "Philip Beadle <philip.beadle@holo.host>, Willem Olding <willem.olding@holo.host>",
       "public_key_source": "",
       "signature": ""
     }
   ],
-  "version": "0.1.0",
+  "version": "0.0.16",
   "dht": {},
   "properties": null
 }
