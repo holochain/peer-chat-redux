@@ -1,5 +1,8 @@
 # Holochain Basic Chat
 
+> NOTE: this chat is for the deprecated holochain-redux, for a more recent chat example on holochain-rsm please see [elemental-chat](https://github.com/holochain/elemental-chat/)
+
+
 A simple chat app designed to get new users up, running and developing on Holochain
 
 ![Alt text](doc/screen.png?raw=true)
